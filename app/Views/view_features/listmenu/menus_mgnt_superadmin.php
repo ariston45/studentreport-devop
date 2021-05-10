@@ -1,44 +1,35 @@
 <li>
-	<a href="<?=base_url("home")?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'home') {echo 'active';}?>">
-		<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
-	</a>
-</li>
-<li>
-	<a href="<?=base_url('customers')?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'customers') {echo 'active';}?>">
-		<span class="micon dw dw-calendar1"></span><span class="mtext">Customer</span>
+	<a href="<?=base_url("beranda")?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'beranda') {echo 'active';}?>">
+		<span class="micon dw dw-house1"></span><span class="mtext">Beranda</span>
 	</a>
 </li>
 
-<li class="dropdown">
-	<a href="javascript:;" class="dropdown-toggle <?php if ($segments[1] == 'users') {echo 'active';}?>">
-		<span class="micon dw dw-edit2"></span><span class="mtext">Customer Managing</span>
+<li>
+	<a href="<?=base_url('pusat-data')?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'pusat-data') {echo 'active';}?>">
+		<span class="micon dw dw-server"></span><span class="mtext">Pusat Data</span>
 	</a>
-	<ul class="submenu">
-	<li><a href="#">Schedules</a></li>
-	</ul>
 </li>
-<li class="dropdown">
-	<a href="javascript:;" class="dropdown-toggle <?php if ($segments[1] == 'users') {echo 'active';}?>">
-		<span class="micon dw dw-edit2"></span><span class="mtext">Students</span>
+
+<li>
+	<a href="<?=base_url('pusat-data')?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'akademik') {echo 'active';}?>">
+		<span class="micon dw dw-book"></span><span class="mtext">Akademik</span>
 	</a>
-	<ul class="submenu">
-		<li><a href="#">Users</a></li>
-	</ul>
 </li>
-<li class="dropdown">
-	<a href="javascript:;" class="dropdown-toggle <?php if ($segments[1] == 'users') {echo 'active';}?>">
-		<span class="micon dw dw-edit2"></span><span class="mtext">Users</span>
+
+<li>
+	<a href="<?=base_url('pusat-data')?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'rapor-siswa') {echo 'active';}?>">
+		<span class="micon dw dw-certificate"></span><span class="mtext">Rapor Siswa</span>
 	</a>
-	<ul class="submenu">
-	<li><a href="#">Schedules</a></li>
-	</ul>
 </li>
-<li class="dropdown">
-	<a href="javascript:;" class="dropdown-toggle <?php if ($segments[1] == 'users') {echo 'active';}?>">
-		<span class="micon dw dw-edit2"></span><span class="mtext">Settings</span>
+
+<li>
+	<a href="<?=base_url('pusat-data')?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'pengguna') {echo 'active';}?>">
+		<span class="micon dw dw-support-1"></span><span class="mtext">Pengguna</span>
 	</a>
-	<ul class="submenu">
-	<li><a href="#">Schedules</a></li>
-	</ul>
 </li>
-		
+
+<li>
+	<a href="<?=base_url('pusat-data')?>" class="dropdown-toggle no-arrow <?php if ($segments[1] == 'konfigurasi') {echo 'active';}?>">
+		<span class="micon dw dw-settings1"></span><span class="mtext">Konfigurasi</span>
+	</a>
+</li>

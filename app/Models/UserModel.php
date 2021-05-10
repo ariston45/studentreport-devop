@@ -6,63 +6,56 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-	protected $DBGroup              = 'default';
-	protected $table                = 'ext_user';
-	protected $primaryKey           = 'ID';
-	protected $useAutoIncrement     = true;
-	protected $insertID             = 0;
-	protected $returnType           = 'array';
-	protected $useSoftDelete        = false;
-	protected $protectFields        = true;
-	protected $allowedFields        = [];
-
-	public function StoreUser($data,$db)
-	{
-		$builder = $db->table('ext_user');
-		$builder->insert($data);
-		return TRUE;
+	function __construct(){
+		parent::__construct();
+		$this->db = \Config\Database::connect();
 	}
 
-	public function StoreUserMeta($data,$db)
+	public function StoreUser($data)
 	{
-		$builder = $db->table('ext_user_meta');
+		$builder = $this->db->table('user');
 		$builder->insertBatch($data);
 		return TRUE;
 	}
 
-	public function ListUser($stri,$db)
+	public function TenantUser($stri)
 	{
-		$builder = $db->table('ext_user');
-		$builder->select('ID,user_login,user_fullname,user_email,user_management_rules,created_at');
-		$builder->where('user_tenant_group',$stri);
-		$query  = $builder->get();
-		return $query->getResultArray();
-	}
-
-	public function ListUserDetail($stra,$db)
-	{
-		$builder = $db->table('ext_user');
-		$builder->select('user_login,user_email,user_fullname,user_status,user_management_rules,user_tenant_group,user_access_id,created_at');
-		$builder->where('ID',$stra);
-		$query  = $builder->get();
-		return $query->getResultArray();
-	}
-
-	public function ListUserMeta($stra,$db)
-	{
-		$builder = $db->table('ext_user_meta');
+		$builder = $this->db->table('user');
 		$builder->select('*');
-		$builder->where('id_user',$stra);
+		$builder->where('u_id_access',$stri);
 		$query  = $builder->get();
 		return $query->getResultArray();
 	}
 
-	public function Maxid($db)
+	public function MaxIdUser()
 	{
-		$builder = $db->table('ext_user');
-		$builder->select('MAX(ID) as id');
+		$builder = $this->db->table('user');
+		$builder->select('MAX(u_id) as id');
 		$query  = $builder->get();
 		return $query->getResultArray();
+	}
+
+	public function UserChekId($data,$stri)
+	{
+		$builder = $this->db->table('user');
+		$builder->where('u_id_access',$stri);
+		$builder->whereIn('u_email', $data);
+		$query  = $builder->get();
+		return $query->getResultArray();
+	}
+
+	public function StoreUserWali($data)
+	{
+		$builder = $this->db->table('user');
+		$builder->ignore(true)->insertBatch($data);
+		return TRUE;
+	}
+
+	public function StoreUserWaliMeta($data)
+	{
+		$builder = $this->db->table('user_meta');
+		$builder->ignore(true)->insertBatch($data);
+		return TRUE;
 	}
 
 }

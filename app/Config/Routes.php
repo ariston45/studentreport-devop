@@ -18,11 +18,11 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Auth');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
-$routes->setAutoRoute(false);
+$routes->setAutoRoute(true);
 
 /*
  * --------------------------------------------------------------------
@@ -34,16 +34,15 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 // ====================================================================
 // default
-$routes->get('/', 'Home::index');
+
 // Example
 $routes->get('/base', 'General\Base::index');
 // Developer
 $routes->get('exp', 'Home::exp');
 $routes->get('home', 'General\Mainpage::index');
-$routes->get('login', 'General\Authentification::Loginpage');
-$routes->add('auth', 'General\Authentification::index');
+
 $routes->get('logout', 'General\Authentification::Logout');
-$routes->get('callconnection', 'General\CallConnection::index');
+
 
 $routes->group('exams', function($routes)
 {
@@ -61,8 +60,35 @@ $routes->group('exams', function($routes)
 $routes->group('customers', function($routes)
 {
 	$routes->get('/', 'Customers\Customers::index');
+	$routes->get('(:any)/overview', 'Customers\Customers::CustomerOverview');
+	$routes->get('(:any)/students', 'Customers\Customers::CustomerStudent/$1');
+	$routes->get('(:any)/user-manager', 'Customers\Customers::CustomerUsrMgnt/$1');
 });
 
+$routes->get('/', 'Home::index');
+$routes->get('login', 'Auth::Loginpage');
+$routes->add('auth', 'Auth::index');
+$routes->get('beranda', 'Beranda::index');
+$routes->group('pusat-data', function($routes){
+	$routes->get('/', 'PusatData::index');
+	$routes->get('(:any)/profil-sekolah', 'PusatData::ProfilSekolah/$1');
+	$routes->get('(:any)/siswa', 'PusatData::Siswa/$1');
+	$routes->get('(:any)/tambah-data-siswa', 'PusatData::TambahSiswa/$1');
+	$routes->get('(:any)/guru', 'PusatData::Guru/$1');
+	$routes->get('(:any)/guru/(:num)', 'PusatData::GuruDetail/$1/$2');
+	$routes->get('(:any)/tambah-data-guru', 'PusatData::TambahGuru');
+	$routes->get('(:any)/wali-murid', 'PusatData::WaliMurid');
+	$routes->get('(:any)/kelas-jurusan', 'PusatData::Kelas');
+	$routes->get('(:any)/user-admin', 'PusatData::UserAdmin');
+	$routes->add('(:any)/eksekusi-tambah-data-siswa', 'PusatData::EksekusiTambahSiswa/$1');
+});
+
+$routes->get('get-json-kelas', 'PusatData::Kelas_json');
+
+$routes->get('akademik', 'General\Mainpage::index');
+$routes->get('rapor-siswa', 'General\Mainpage::index');
+$routes->get('pengguna', 'General\Mainpage::index');
+$routes->get('konfigurasi', 'General\Mainpage::index');
 
 // ====================================================================
 

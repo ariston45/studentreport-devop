@@ -35,7 +35,7 @@ class Database extends Config
 		'hostname' => '127.0.0.1',
 		'username' => 'root',
 		'password' => '',
-		'database' => 'db_reports',
+		'database' => 'db_report',
 		'DBDriver' => 'MySQLi',
 		'DBPrefix' => '',
 		'pConnect' => false,
