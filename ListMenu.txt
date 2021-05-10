@@ -1,0 +1,98 @@
+Model Menu
+
+A.	Superadmin
+	1.	Beranda
+	2.	Pusat data
+		-	Profil Sekolah
+		-	Siswa
+		-	Guru
+		-	Wali murid
+		-	Kelas & Jurusan
+		-	User Administrasi
+	3.	Akademik
+		-	Tahun Akademik
+		-	Mata Pelajaran
+		-	Upload Nilai
+	4.	Rapor Siswa
+	5.	Pengguna
+	7.	Konfigurasi
+	
+B.	Admin
+	1.	Beranda
+	2.	Pusat data
+		-	Profil Sekolah
+		-	Siswa
+		-	Guru
+		-	Wali murid
+		-	Kelas & Jurusan
+		-	User Administrasi
+	3.	Akademik
+		-	Tahun Akademik
+		-	Mata Pelajaran
+		-	Upload Nilai
+	4.	Rapor Siswa
+
+c.	Marketing
+	1.	Beranda
+	2.	Pusat data
+		-	Profil Sekolah
+		-	Siswa
+		-	Guru
+		-	Wali murid
+		-	Kelas & Jurusan
+		-	User Administrasi
+	3.	Akademik
+		-	Tahun Akademik
+		-	Mata Pelajaran
+		-	Upload Nilai
+	4.	Rapor Siswa
+	
+D.	TNT_Superadmin
+	1.	Beranda
+	2.	Tahun Akademik
+	3.	Daftar Penilaian
+	4.	Pusat data
+		-	Profil Sekolah
+		-	Siswa
+		-	Guru
+		-	Wali murid
+	5.	Akademik
+		-	Mata Pelajaran
+		-	Upload Nilai
+		-	Peringkat Akademik
+	6.	Kelas & Jurusan
+	7.	Rapor Siswa
+	8.	User
+	
+E. TNT_Admin
+	1.	Beranda
+	2.	Tahun Akademik
+	3.	Daftar Penilaian
+	4.	Pusat data
+		-	Profil Sekolah
+		-	Siswa
+		-	Guru
+		-	Wali murid
+	5.	Akademik
+		-	Mata Pelajaran
+		-	Upload Nilai
+		-	Peringkat Akademik
+	6.	Kelas & Jurusan
+	7.	Rapor Siswa
+	
+F.	TNT_Teacher
+	1.	Beranda
+	2.	Akademik
+		-	Daftar Penilaian
+		-	Mata Pelajaran
+		-	Upload Nilai
+	3.	Kelas & Jurusan
+	4.	Rapor Siswa
+
+G.	TNT_Parent
+	1.	Beranda
+	2.	Profil Siswa
+	3.	Rapor
+	4.	Peringkat Akademik
+	5.	Statistik Akademik
+	
