@@ -129,15 +129,31 @@ class TenantModel extends Model
 
 	public function DataMapelGuru($ida,$ids)
 	{
-		$builder = $this->db->table('tnt_teacher');
-		$builder->select('*');
-		$builder->join('tnt_subject','tnt_teacher.tch_subject_id = tnt_subject.suc_subject_id');
-		$builder->where('tnt_teacher.u_id_access',$ida);
-		$builder->where('tnt_teacher.tch_id',$ids);
+		$builder = $this->db->table('tnt_teach_detail');
+		$builder->select('ted_id,suc_name,cls_name,mo_name');
+		$builder->join('tnt_subject','tnt_teach_detail.ted_subject_id = tnt_subject.suc_subject_id');
+		$builder->join('tnt_class','tnt_teach_detail.ted_class_id = tnt_class.cls_id');
+		$builder->join('tnt_majors','tnt_class.cls_id_major = tnt_majors.mo_id');
+		$builder->where('tnt_teach_detail.ted_tch_id',$ids);
+		$builder->where('tnt_subject.suc_tnt_id',$ida);
 		$query   = $builder->get();
 		return $query->getResultArray();
 	}
 
-	
+	public function DataTenantMapel($id)
+	{
+		$builder = $this->db->table('tnt_subject');
+		$builder->select('*');
+		$builder->where('suc_tnt_id',$id);
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
+
+	public function StoreMapelGuru($data)
+	{
+		$builder = $this->db->table('tnt_teach_detail');
+		$builder->insert($data);
+		return TRUE;
+	}
 
 }

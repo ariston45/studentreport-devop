@@ -22,6 +22,45 @@
 		</dd>
 	</dl>
 	<hr>
-	<p>Mata Pelajaran</p>
+	<p class="mb-10">Daftar mata pelajran</p>
+	<div class="pb-10">
+		<a href="<?=base_url($content['pg_tambah_mapel_url'].'/tambah-pelajaran')?>">
+			<button type="button" class="btn btn-link btn-sm">Tambah Pelajaran</button>
+		</a>
+	</div>
 	
+	<table class="data-table table stripe hover nowrap" id="dt">
+		<thead>
+			<tr>
+				<th class="table-plus">No</th>
+				<th>Mata Pelajaran</th>
+				<th>Kelas</th>
+				<th>Jurusan</th>
+				<th class="datatable-nosort">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php
+		$no = 1;
+		foreach ($data['mapel'] as $key => $value) { ?>
+			<tr>
+				<td class="table-plus"><?=$no?></td>
+				<td><?=$value['suc_name']?></td>
+				<td><?=$value['cls_name']?></td>
+				<td><?=$value['mo_name']?></td>
+				<td>
+					<div class="dropdown">
+						<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+							<i class="dw dw-more"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+							<a class="dropdown-item" href="<?=base_url($content['pg_tambah_mapel_url'].'/tambah-pelajaran')?>"><i class="dw dw-eye"></i> Edit</a>
+							<a class="dropdown-item" href="<?=base_url($content['pg_tambah_mapel_url'].'/tambah-pelajaran')?>"><i class="dw dw-eye"></i> Remove</a>
+						</div>
+					</div>
+				</td>
+			</tr>
+		<?php $no++; } ?>
+		</tbody>
+	</table>
 </div>
