@@ -695,7 +695,7 @@ class PusatData extends BaseController
 	#####
 	public function EksekusiTambahGuru($id)
 	{
-		$stri = strtoupper($id);
+		$stri = strtoupper($a);
 		$id = $this->NewUserIds();
 		if ($_POST['email'] != $_POST['konfirmasi_email']) {
 			session()->setFlashdata('notif_email_error', 'Konfirmasi data email tidak sama, harap masukan email dengan benar.');
@@ -705,7 +705,6 @@ class PusatData extends BaseController
 			session()->setFlashdata('notif_password_error', 'Konfirmasi password tidak sama, harap masukan email dengan benar.');
 			return redirect()->back()->withInput();
 		}
-
 		$user = [
 			'u_id' => $id,
 			'u_name' => $_POST['nama'],
@@ -732,7 +731,7 @@ class PusatData extends BaseController
 		session()->setFlashdata('success', 'Data guru telah berhasil ditambahkan.');
 		return redirect()->back()->withInput();
 	}
-
+	#####
 	public function WaliMurid($stri)
 	{
 		switch ($this->session->get('u_rules_access')) {
@@ -802,5 +801,4 @@ class PusatData extends BaseController
 				break;
 		}
 	}
-
 }
