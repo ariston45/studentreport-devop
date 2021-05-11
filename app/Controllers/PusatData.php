@@ -693,7 +693,7 @@ class PusatData extends BaseController
 		return view('layout/main_layout', $this->partial);
 	}
 	#####
-	public function EksekusiTambahGuru($id)
+	public function EksekusiTambahGuru($a)
 	{
 		$stri = strtoupper($a);
 		$id = $this->NewUserIds();
