@@ -80,4 +80,11 @@
 			<?php echo session()->getFlashdata('error');?>
 		</div>
 	<?php endif; ?>
+	<?php if (!empty(session()->getFlashdata('success'))) : ?>
+		<div class="alert alert-success" role="alert">
+			<b>Berhasil.</b>
+			<hr>
+			<?php echo session()->getFlashdata('success');?>
+		</div>
+	<?php endif; ?>
 </div>

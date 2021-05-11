@@ -79,7 +79,7 @@ $routes->group('pusat-data', function($routes){
 	$routes->get('(:any)/guru/(:num)/tambah-pelajaran', 'PusatData::GuruTambahpelajaran/$1/$2');
 	$routes->get('(:any)/tambah-data-guru', 'PusatData::TambahGuru/$1');
 	$routes->add('(:any)/eksekusi-tambah-data-guru', 'PusatData::EksekusiTambahGuru/$1');
-	$routes->get('(:any)/wali-murid', 'PusatData::WaliMurid');
+	$routes->get('(:any)/wali-murid', 'PusatData::WaliMurid/$1');
 	$routes->get('(:any)/kelas-jurusan', 'PusatData::Kelas');
 	$routes->get('(:any)/user-admin', 'PusatData::UserAdmin');
 	$routes->add('(:any)/eksekusi-tambah-data-siswa', 'PusatData::EksekusiTambahSiswa/$1');

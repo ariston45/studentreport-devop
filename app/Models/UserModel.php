@@ -18,6 +18,20 @@ class UserModel extends Model
 		return TRUE;
 	}
 
+	public function StoreUserv1($data)
+	{
+		$builder = $this->db->table('user');
+		$builder->insert($data);
+		return TRUE;
+	}
+
+	public function StoreUserMeta($data)
+	{
+		$builder = $this->db->table('user_meta');
+		$builder->insert($data);
+		return TRUE;
+	}
+
 	public function TenantUser($stri)
 	{
 		$builder = $this->db->table('user');

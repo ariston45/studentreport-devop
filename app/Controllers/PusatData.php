@@ -693,8 +693,9 @@ class PusatData extends BaseController
 		return view('layout/main_layout', $this->partial);
 	}
 	#####
-	public function EksekusiTambahGuru($stri)
+	public function EksekusiTambahGuru($id)
 	{
+		$stri = strtoupper($id);
 		$id = $this->NewUserIds();
 		if ($_POST['email'] != $_POST['konfirmasi_email']) {
 			session()->setFlashdata('notif_email_error', 'Konfirmasi data email tidak sama, harap masukan email dengan benar.');
@@ -719,16 +720,87 @@ class PusatData extends BaseController
 			'u_address' => $_POST['alamat'],
 			'u_phone' => $_POST['telepon'],
 			'u_scnd_email' => false,
-			'u_job_position' => false
+			'u_job_position' => 'Guru'
 		];
 		$tnt_teacher = [
 			'tch_id' => $id,
 			'tch_tnt_id' => $stri
 		];
-		$this->UserModel->StoreUser($user);
+		$this->UserModel->StoreUserv1($user);
 		$this->UserModel->StoreUserMeta($user_meta);
 		$this->TenantModel->StoreGuru($tnt_teacher);
-		print_r($user);
-
+		session()->setFlashdata('success', 'Data guru telah berhasil ditambahkan.');
+		return redirect()->back()->withInput();
 	}
+
+	public function WaliMurid($stri)
+	{
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$siswa = $this->StudentModel->SiswaTenant($stri);
+				$school = $this->TenantModel->DataTenant($stri);
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'pusat-data/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+						'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_siswa'
+					],
+					'data' => [
+						'siswa' => $siswa,
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				# code...
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+	}
+
 }
