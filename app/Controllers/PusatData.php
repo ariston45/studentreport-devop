@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\AuthModel;
 use App\Models\TenantModel;
 use App\Models\DbModel;
@@ -641,12 +639,14 @@ class PusatData extends BaseController
 			'ted_subject_id' => $_POST['mapel'],
 			'ted_class_id' => $_POST['kelas']
 		];
-		$exe = $this->TenantModel->StoreMapelGuru($data);
-		if ($exe == true) {
-			session()->setFlashdata('success', 'Data mata pelajaran telah berhasil ditabahkan.');
+		$cek_mapel_kelas = $this->TenantModel->CekMapelKelas($data);
+		if (!empty($cek_mapel_kelas)) {
+			print_r($cek_mapel_kelas);
+			session()->setFlashdata('error', 'Mata Pelajaran sudah di tambahkan di kelas tersebut.');
 			return redirect()->back()->withInput();
-		}else {
-			session()->setFlashdata('error', 'Data mata pelajaran tidak berhasil ditabahkan.');
+		}else{
+			$this->TenantModel->StoreMapelGuru($data);
+			session()->setFlashdata('success', 'Data mata pelajaran telah berhasil ditabahkan.');
 			return redirect()->back()->withInput();
 		}
 	}
@@ -734,10 +734,11 @@ class PusatData extends BaseController
 	#####
 	public function WaliMurid($stri)
 	{
+		$idi = strtoupper($stri); 
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
-				$siswa = $this->StudentModel->SiswaTenant($stri);
-				$school = $this->TenantModel->DataTenant($stri);
+				$wali = $this->StudentModel->ListWaliMurid($idi);
+				$school = $this->TenantModel->DataTenant($idi);
 				$this->partial = [
 					'title' => 'Trust Academyc Solution | ',
 					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -759,14 +760,15 @@ class PusatData extends BaseController
 						'customers' => 'Customers'
 					],
 					'content'	=> [
-						'pg_menu_url' => 'pusat-data/' . strtolower($stri),
+						'pg_menu_url' => 'pusat-data/'.strtolower($stri),
+						'pg_edit_url' =>  'pusat-data/'.strtolower($stri).'/wali-murid',
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
 						'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_siswa'
+						'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_walimurid'
 					],
 					'data' => [
-						'siswa' => $siswa,
+						'siswa' => $wali,
 					]
 				];
 				return view('layout/main_layout', $this->partial);
@@ -800,5 +802,438 @@ class PusatData extends BaseController
 				# code...
 				break;
 		}
+	}
+	######
+	public function EditWaliMurid($stri,$stra)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$wali = $this->StudentModel->WaliMurid($stra);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/'.strtolower($stri).'/',
+				'pg_exe_edit' => 'pusat-data/'.strtolower($stri).'/wali-murid'.'/'.$stra.'/edit-exe',
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_edit_walimurid'
+			],
+			'data' => [
+				'school' => $school,
+				'wali' => $wali
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function AksiEditWaliMurid($stri,$stra)
+	{
+		if ($_POST['password'] != '') {
+			$user = [
+				'u_name' => $_POST['nama'],
+				'u_email' => $_POST['email'],
+				'u_password' => $_POST['password']
+			];
+		}else {
+			$user = [
+				'u_name' => $_POST['nama'],
+				'u_email' => $_POST['email'],
+			];
+		}
+		$user_meta = [
+			'u_fullname' => $_POST['nama'],
+			'u_address' => $_POST['alamat'],
+			'u_phone' => $_POST['telepon']
+		];
+		$this->UserModel->UpdateUser($user,$stra);
+		$this->UserModel->UpdateuserMeta($user_meta,$stra);
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function Kelas($stri)
+	{
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$siswa = $this->StudentModel->SiswaTenant($stri);
+				$school = $this->TenantModel->DataTenant($stri);
+				$kelas = $this->TenantModel->KelasTenant($stri);
+				foreach ($kelas as $key => $value) {
+					$n = $this->TenantModel->JumlahSiswa($value['cls_id']);
+					$cls[$key]['id'] = $value['cls_id'];
+					$cls[$key]['kelas'] = $value['cls_name'];
+					$cls[$key]['jurusan'] = $value['mo_name'];
+					$cls[$key]['jml'] = $n[0]['jumlah'];
+				}
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'pusat-data/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+						'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_kelas'
+					],
+					'data' => [
+						'siswa' => $siswa,
+						'kelas' => $cls
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				# code...
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+	}
+	######
+	public function TambahKelas($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+				1 => 'plugins/uploadinput/scr_javascript',
+				2 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/'.strtolower($stri).'/',
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_tambah_kelas'
+			],
+			'data' => [
+				'school' => $school,
+				'semuamapel' => $semuamapel,
+				'jurusan' => $jurusan
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiTambahKelas($stri)
+	{
+		$id = $this->TenantModel->MaxIdClass();
+		$number = $id[0]['id'] + 1;
+		$new_id = 'cls.'.$number;
+		$data =[
+			'cls_id' => $new_id,
+			'cls_id_major' => $_POST['jurusan'],
+			'cls_name' => $_POST['nama']
+		];
+		$this->TenantModel->StoreKelas($data);
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function TambahJurusan($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+				1 => 'plugins/uploadinput/scr_javascript',
+				2 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/'.strtolower($stri).'/',
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_tambah_jurusan'
+			],
+			'data' => [
+				'school' => $school,
+				'semuamapel' => $semuamapel,
+				'jurusan' => $jurusan
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiTambahJurusan($stri)
+	{
+		$id = $this->TenantModel->MaxIdMajors();
+		$number = $id[0]['id'] + 1;
+		$new_id = 'cls.'.$number;
+		$data =[
+			'mo_id' => $new_id,
+			'mo_tnt_id' => strtoupper($stri), 
+			'mo_name' => $_POST['nama']
+		];
+		$this->TenantModel->StoreJurusan($data);
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function UserAdmin($stri)
+	{
+		$idi = strtoupper($stri);
+		$admin = $this->TenantModel->AdminSekolah($idi);
+		$school = $this->TenantModel->DataTenant($idi);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+				1 => 'plugins/uploadinput/scr_javascript',
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],                   
+			'heading' => 'view_features/listmenu/heading',
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/' . strtolower($stri),
+				'pg_edit_url' =>  'pusat-data/' . strtolower($stri) . '/user-admin',
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_useradmin'
+			],
+			'data' => [
+				'admin' => $admin,
+			]
+		];
+		return view('layout/main_layout', $this->partial);		
+	}
+	#####
+	public function EditUserAdmin($stri,$stra)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$admin = $this->TenantModel->IdentifikasiUser($stra);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/'.strtolower($stri).'/',
+				'pg_exe_edit' => 'pusat-data/'.strtolower($stri).'/user-admin'.'/'.$stra.'/edit-exe',
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_edit_useradmin'
+			],
+			'data' => [
+				'school' => $school,
+				'admin' => $admin
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function AksiEditUserAdmin($stri,$stra)
+	{
+		if($_POST['password'] != '') {
+			$user = [
+				'u_name' => $_POST['nama'],
+				'u_email' => $_POST['email'],
+				'u_password' => $_POST['password']
+			];
+		}else {
+			$user = [
+				'u_name' => $_POST['nama'],
+				'u_email' => $_POST['email'],
+			];
+		}
+		$user_meta = [
+			'u_fullname' => $_POST['nama'],
+			'u_address' => $_POST['alamat'],
+			'u_phone' => $_POST['telepon']
+		];
+		$this->UserModel->UpdateUser($user,$stra);
+		$this->UserModel->UpdateuserMeta($user_meta,$stra);
+		session()->setFlashdata('success', 'Data user telah berhasil diperbarui.');
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function TambahAdmin($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+				1 => 'plugins/uploadinput/scr_javascript',
+				2 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/'.strtolower($stri).'/',
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_tambah_admin'
+			],
+			'data' => [
+				'school' => $school,
+				'semuamapel' => $semuamapel,
+				'jurusan' => $jurusan
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiTambahAdmin($stri)
+	{
+		$stri = strtoupper($stri);
+		$id = $this->NewUserIds();
+		if ($_POST['akses'] == '') {
+			session()->setFlashdata('notif_akses_error', 'User Belum di beri hak akses.');
+			return redirect()->back()->withInput();
+		}
+
+		$user = [
+			'u_id' => $id,
+			'u_name' => $_POST['nama'],
+			'u_rules_access' => $_POST['akses'],
+			'u_id_access' => $stri,
+			'u_email' => $_POST['email'],
+			'u_password' => $_POST['password'],
+		];
+
+		$user_meta = [
+			'u_id' => $id,
+			'u_fullname' => $_POST['nama'],
+			'u_address' => $_POST['alamat'],
+			'u_phone' => $_POST['telepon'],
+			'u_scnd_email' => false,
+			'u_job_position' => $_POST['jabatan'],
+		];
+
+		$this->UserModel->StoreUserv1($user);
+		$this->UserModel->StoreUserMeta($user_meta);
+		session()->setFlashdata('success', 'Data user telah berhasil ditambahkan.');
+		return redirect()->back()->withInput();
 	}
 }

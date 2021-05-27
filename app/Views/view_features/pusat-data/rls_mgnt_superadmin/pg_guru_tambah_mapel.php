@@ -9,14 +9,14 @@
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<div class="mb-10">
-		<p style="font-size: 14px;">
-			Tambahkan mata pelajaran yang akan diajrkan guru.
-		</p>
-	</div>
 	<hr>
 	<div class="mb-20">
 		<p><b>Tambah Mata Pelajaran</b></p>
+		<div class="mb-10">
+			<p style="font-size: 14px;">
+				Tambahkan mata pelajaran yang akan diajrkan guru.
+			</p>
+		</div>
 		<form action="<?= base_url($content['pg_tambah_mapel_url'] . '/eksekusi-tambah-data-mapel-guru') ?>" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Mata Pelajaran</label>
@@ -24,7 +24,7 @@
 					<select class="custom-select col-12 fh-35" name='mapel' id='mapel'>
 						<option value="<?= false ?>">Pilih mata pelajaran...</option>
 						<?php foreach ($data['semuamapel'] as $key => $value) { ?>
-							<option value="<?php echo $value['suc_subject_id'];?>"><?php echo $value['suc_name'];?></option>
+							<option value="<?php echo $value['suc_subject_id']; ?>"><?php echo $value['suc_name']; ?></option>
 						<?php } ?>
 					</select>
 				</div>
@@ -60,14 +60,14 @@
 		<div class="alert alert-success" role="alert">
 			<b>Berhasil.</b>
 			<hr>
-			<?php echo session()->getFlashdata('success');?>
+			<?php echo session()->getFlashdata('success'); ?>
 		</div>
 	<?php endif; ?>
 	<?php if (!empty(session()->getFlashdata('error'))) : ?>
 		<div class="alert alert-danger" role="alert">
 			<b>Gagal.</b>
 			<hr>
-			<?php echo session()->getFlashdata('error');?>
+			<?php echo session()->getFlashdata('error'); ?>
 		</div>
 	<?php endif; ?>
 </div>

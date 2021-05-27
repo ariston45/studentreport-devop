@@ -38,6 +38,24 @@ class StudentModel extends Model
 		return $query->getResultArray();
 	}
 
+	public function WalimuridTenant($id)
+	{
+		$builder = $this->db->table('tnt_student');
+		$builder->select(
+			'user.u_id as id,
+			stu_email,
+			stu_fullname,
+			u_name,
+			u_email,
+			u_address,
+			u_phone');
+		$builder->join('user','user.u_id = tnt_student.stu_id_parents ','left');
+		$builder->join('user_meta','user.u_id = user_meta.u_id');
+		$builder->where('tnt_student.stu_tnt_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+
 	public function StudentChekId($data,$stri)
 	{
 		$builder = $this->db->table('tnt_student');
@@ -61,6 +79,27 @@ class StudentModel extends Model
 		$builder = $this->db->table('tnt_student');
 		$builder->insertBatch($data);
 		return TRUE;
+	}
+
+	public function WaliMurid($id)
+	{
+		$builder = $this->db->table('user');
+		$builder->select('*');
+		$builder->join('user_meta','user.u_id=user_meta.u_id');
+		$builder->where('user.u_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+
+	public function ListWaliMurid($id)
+	{
+		$builder = $this->db->table('user');
+		$builder->select('*');
+		$builder->join('user_meta','user.u_id=user_meta.u_id');
+		$builder->where('user.u_id_access',$id);
+		$builder->where('user.u_rules_access','TNT_PARENT');
+		$query   = $builder->get();
+		return $query->getResultArray();
 	}
 
 }

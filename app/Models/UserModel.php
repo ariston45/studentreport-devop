@@ -72,4 +72,20 @@ class UserModel extends Model
 		return TRUE;
 	}
 
+	public function UpdateUser($data,$id)
+	{
+		$builder = $this->db->table('user');
+		$builder->where('u_id',$id);
+		$builder->update($data);
+		return TRUE;
+	}
+
+	public function UpdateuserMeta($data,$id)
+	{
+		$builder = $this->db->table('user_meta');
+		$builder->where('u_id',$id);
+		$builder->update($data);
+		return TRUE;
+	}
+
 }

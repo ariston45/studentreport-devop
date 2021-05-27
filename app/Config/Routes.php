@@ -38,58 +38,71 @@ $routes->setAutoRoute(true);
 // Example
 $routes->get('/base', 'General\Base::index');
 // Developer
-$routes->get('exp', 'Home::exp');
-$routes->get('home', 'General\Mainpage::index');
-
-$routes->get('logout', 'General\Authentification::Logout');
-
-
-$routes->group('exams', function($routes)
-{
-	$routes->get('/', 'Examanager\Exacreator::index');
-  $routes->get('create-schedules', 'Examanager\Exacreator::index');
-	$routes->group('create-schedules', function($routes)
-	{
-		$routes->add('form-schedule/(:any)', 'Examanager\Exacreator::Formschedule/$1');
-	});
-	$routes->get('exam-on-campus', 'Examanager\Exaoncampus::index');
-	$routes->get('exam-on-home', 'Examanager\Exaonhome::index');
-	$routes->get('get-report', 'Examanager\Exacreator::index');
-});
-
-$routes->group('customers', function($routes)
-{
-	$routes->get('/', 'Customers\Customers::index');
-	$routes->get('(:any)/overview', 'Customers\Customers::CustomerOverview');
-	$routes->get('(:any)/students', 'Customers\Customers::CustomerStudent/$1');
-	$routes->get('(:any)/user-manager', 'Customers\Customers::CustomerUsrMgnt/$1');
-});
 
 $routes->get('/', 'Home::index');
 $routes->get('login', 'Auth::Loginpage');
+$routes->get('logout', 'General\Authentification::Logout');
 $routes->add('auth', 'Auth::index');
 $routes->get('beranda', 'Beranda::index');
+$routes->get('get-json-kelas', 'PusatData::Kelas_json');
+
 $routes->group('pusat-data', function($routes){
 	$routes->get('/', 'PusatData::index');
 	$routes->get('(:any)/profil-sekolah', 'PusatData::ProfilSekolah/$1');
 	$routes->get('(:any)/siswa', 'PusatData::Siswa/$1');
 	$routes->get('(:any)/tambah-data-siswa', 'PusatData::TambahSiswa/$1');
+	$routes->add('(:any)/eksekusi-tambah-data-siswa', 'PusatData::EksekusiTambahSiswa/$1');
+	// 
 	$routes->get('(:any)/guru', 'PusatData::Guru/$1');
 	$routes->get('(:any)/guru/(:num)', 'PusatData::GuruDetail/$1/$2');
 	$routes->get('(:any)/guru/(:num)/tambah-pelajaran', 'PusatData::GuruTambahpelajaran/$1/$2');
 	$routes->get('(:any)/tambah-data-guru', 'PusatData::TambahGuru/$1');
 	$routes->add('(:any)/eksekusi-tambah-data-guru', 'PusatData::EksekusiTambahGuru/$1');
-	$routes->get('(:any)/wali-murid', 'PusatData::WaliMurid/$1');
-	$routes->get('(:any)/kelas-jurusan', 'PusatData::Kelas');
-	$routes->get('(:any)/user-admin', 'PusatData::UserAdmin');
-	$routes->add('(:any)/eksekusi-tambah-data-siswa', 'PusatData::EksekusiTambahSiswa/$1');
 	$routes->add('(:any)/guru/(:num)/eksekusi-tambah-data-mapel-guru', 'PusatData::EksekusiTambahMapelGuru/$1/$2');
+	// 
+	$routes->get('(:any)/wali-murid', 'PusatData::WaliMurid/$1');
+	$routes->get('(:any)/wali-murid/(:num)/edit', 'PusatData::EditWaliMurid/$1/$2');
+	$routes->add('(:any)/wali-murid/(:num)/edit-exe', 'PusatData::AksiEditWaliMurid/$1/$2');
+	// 
+	$routes->get('(:any)/kelas', 'PusatData::Kelas/$1');
+	$routes->get('(:any)/tambah-kelas', 'PusatData::TambahKelas/$1');
+	$routes->add('(:any)/eksekusi-tambah-kelas', 'PusatData::EksekusiTambahKelas/$1');
+	// 
+	$routes->get('(:any)/jurusan', 'PusatData::Jurusan/$1');
+	$routes->get('(:any)/tambah-jurusan', 'PusatData::TambahJurusan/$1');
+	$routes->add('(:any)/eksekusi-tambah-jurusan', 'PusatData::EksekusiTambahJurusan/$1');
+	// 
+	$routes->get('(:any)/user-admin', 'PusatData::UserAdmin/$1');
+	$routes->get('(:any)/user-admin/(:num)/edit', 'PusatData::EditUserAdmin/$1/$2');
+	$routes->add('(:any)/user-admin/(:num)/edit-exe', 'PusatData::AksiEditUserAdmin/$1/$2');
+	$routes->get('(:any)/tambah-data-admin', 'PusatData::TambahAdmin/$1');
+	$routes->add('(:any)/eksekusi-tambah-admin', 'PusatData::EksekusiTambahAdmin/$1');
+	// 
+});
+
+$routes->group('akademik', function ($routes) {
+	$routes->get('/', 'Akademik::index');
+	// 
+	$routes->get('(:any)/tahun-akademik', 'Akademik::TahunAkademik/$1');
+	$routes->get('(:any)/th-set-active/(:any)', 'Akademik::ThSetAktive/$1/$2');
+	// 
+	$routes->get('(:any)/kategori-penilaian', 'Akademik::KategoriPenilaian/$1');
+	//
+	$routes->get('(:any)/variable-penilaian', 'Akademik::VariablePenilaian/$1');
+	$routes->add('(:any)/eksekusi-tambah-variable', 'Akademik::EksekusiTambahVar/$1');
+	$routes->get('(:any)/update-variable/(:any)', 'Akademik::UpdateVariable/$1/$2');
+	$routes->add('(:any)/eksekusi-update-variable/(:any)', 'Akademik::EksekusiUpdateVariable/$1/$2');
+	//
+	$routes->get('(:any)/membuat-rumus/(:num)', 'Akademik::MembuatRumus/$1/$2');
+	$routes->get('(:any)/rumus-penilaian', 'Akademik::RumusPenilaian/$1');
+	$routes->add('(:any)/eksekusi-rumus', 'Akademik::EksekusiRumus/$1');
+	// 
+	$routes->get('(:any)/mapel', 'Akademik::MataPelajaran/$1');
+	$routes->get('(:any)/tambah-mapel', 'Akademik::TambahMapel/$1');
+	$routes->add('(:any)/eksekusi-tambah-pelajaran', 'Akademik::EksekusiTambahMapel/$1');
 
 });
 
-$routes->get('get-json-kelas', 'PusatData::Kelas_json');
-
-$routes->get('akademik', 'General\Mainpage::index');
 $routes->get('rapor-siswa', 'General\Mainpage::index');
 $routes->get('pengguna', 'General\Mainpage::index');
 $routes->get('konfigurasi', 'General\Mainpage::index');

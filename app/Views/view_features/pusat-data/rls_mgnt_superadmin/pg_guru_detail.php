@@ -4,9 +4,17 @@
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
-	<p style="font-size: 14px;">
-		Berikut profil guru dari sekolah <?=$content['pg_title']?>.
+	<hr>
+	<p class="mb-10">
+		<b>Profil Guru</b>
 	</p>
+
+	<div class="pb-10">
+		<a href="<?=base_url($content['pg_tambah_mapel_url'].'/tambah-pelajaran')?>">
+			<button type="button" class="btn btn-secondary btn-sm">Edit Profil Guru</button>
+		</a>
+	</div>
+
 	<dl class="row mb-0" style="font-size: 14px;">
 		<dd class="col-sm-6 mb-0">
 			<dl class="row mb-0">
@@ -22,10 +30,12 @@
 		</dd>
 	</dl>
 	<hr>
-	<p class="mb-10">Daftar mata pelajran</p>
+	<p class="mb-10">
+		<b>Daftar Mata Pelajaran</b>
+	</p>
 	<div class="pb-10">
 		<a href="<?=base_url($content['pg_tambah_mapel_url'].'/tambah-pelajaran')?>">
-			<button type="button" class="btn btn-link btn-sm">Tambah Pelajaran</button>
+			<button type="button" class="btn btn-secondary btn-sm">Tambah Pelajaran</button>
 		</a>
 	</div>
 	

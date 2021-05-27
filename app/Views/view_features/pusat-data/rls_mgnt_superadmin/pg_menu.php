@@ -1,5 +1,5 @@
 <div class="row" >
-	<div class="col-sm-12 mb-20">
+	<div class="col-sm-12 mb-10">
 		<div class="btn-group">
 			<a href="<?=base_url($content['pg_menu_url'].'/profil-sekolah')?>" type="button"
 				<?php
@@ -66,9 +66,9 @@
 				?>
 				data-toggle="dropdown" aria-expanded="false"> Kelas & Jurusan <span class="caret"></span> </button>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">Data Kelas</a>
-					<a class="dropdown-item" href="#">Tambah Data Kelas</a>
-					<a class="dropdown-item" href="#">Tambah Data Jurusan</a>
+					<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'].'/kelas')?>">Data Kelas</a>
+					<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'].'/tambah-kelas')?>">Tambah Data Kelas</a>
+					<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'].'/tambah-jurusan')?>">Tambah Data Jurusan</a>
 				</div>
 			</div>
 			<!-- # -->
@@ -83,8 +83,8 @@
 				?>
 				data-toggle="dropdown" aria-expanded="false"> User Admin <span class="caret"></span> </button>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">Data User</a>
-					<a class="dropdown-item" href="#">Tambah Data User</a>
+					<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'].'/user-admin')?>">Data User</a>
+					<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'].'/tambah-data-admin')?>">Tambah Data User</a>
 				</div>
 			</div>
 			<!-- # -->
