@@ -160,7 +160,7 @@
 
   $("#divide").on("click", function() {
     display1.operation = display1.operation + "/";
-    $("#display1").val($("#display1").val() + "\u00f7");
+    $("#display1").val($("#display1").val() + "\u002F");
     evaluate();
     $("#display2").val(display1.evaluation);
   });
@@ -199,4 +199,3 @@
   }
   ?>
 </script>
-
