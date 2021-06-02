@@ -106,11 +106,14 @@ $routes->group('akademik', function ($routes) {
 	$routes->get('(:any)/mapel', 'Akademik::MataPelajaran/$1');
 	$routes->get('(:any)/tambah-mapel', 'Akademik::TambahMapel/$1');
 	$routes->add('(:any)/eksekusi-tambah-pelajaran', 'Akademik::EksekusiTambahMapel/$1');
-
 });
-
+// 
 $routes->get('rapor-siswa', 'General\Mainpage::index');
-$routes->get('pengguna', 'General\Mainpage::index');
+// 
+$routes->group('pengguna', function ($routes) {
+	$routes->get('/', 'Pengguna::index');
+});
+// 
 $routes->get('konfigurasi', 'General\Mainpage::index');
 
 // ====================================================================

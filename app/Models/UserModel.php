@@ -11,6 +11,15 @@ class UserModel extends Model
 		$this->db = \Config\Database::connect();
 	}
 
+	public function ListUserMGNT()
+	{
+		$builder = $this->db->table('user');
+		$builder->select('*');
+		$builder->where('u_id_access','MGNT');
+		$query  = $builder->get();
+		return $query->getResultArray();
+	}
+
 	public function StoreUser($data)
 	{
 		$builder = $this->db->table('user');
