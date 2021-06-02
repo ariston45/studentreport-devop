@@ -4,16 +4,18 @@
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
+	<hr>
 	<p style="font-size: 14px;">
-		Manajemen data Kelas.
+		Tahun akademik tidak dapat dihapus, apabila terjadi salah penamaan pada waktu penginputan anda dapat mengeditnya. Untuk mengaktifkan tahun akademik silakan klik pilihan di kolom opsi, kemudiak klik menu aktif. 
 	</p>
+	<hr>
 	<table class="data-table table stripe hover nowrap" id="dt">
 		<thead>
 			<tr>
 				<th class="table-plus">No</th>
 				<th>Tahun Akademik</th>
 				<th>Status</th>
-				<th class="datatable-nosort">Action</th>
+				<th class="datatable-nosort">Opsi</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,8 +39,7 @@
                 echo '<a class="dropdown-item" href="'.base_url($content['pg_menu_url'].'/'.'th-set-active/'.$value['aca_id']).'"><i class="dw dw-flag2"></i> Aktif</a>';
               }
               ?>
-							<a class="dropdown-item" href="<?=base_url()?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
-							<a class="dropdown-item" href="#"><i class="icon-copy dw dw-delete-3"></i> Delete</a>
+							<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'].'/update-th-akad'.'/'.$value['aca_id']) ?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
 						</div>
 					</div>
 				</td>

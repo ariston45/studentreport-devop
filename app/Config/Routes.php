@@ -85,8 +85,14 @@ $routes->group('akademik', function ($routes) {
 	// 
 	$routes->get('(:any)/tahun-akademik', 'Akademik::TahunAkademik/$1');
 	$routes->get('(:any)/th-set-active/(:any)', 'Akademik::ThSetAktive/$1/$2');
+	$routes->get('(:any)/update-th-akad/(:any)', 'Akademik::UpdateTahunAkad/$1/$2');
+	$routes->add('(:any)/eksekusi-update-thakad/(:any)', 'Akademik::EksekusiUpdateThakad/$1/$2');
 	// 
 	$routes->get('(:any)/kategori-penilaian', 'Akademik::KategoriPenilaian/$1');
+	$routes->add('(:any)/eksekusi-tambah-kategori', 'Akademik::EksekusiTambahKategori/$1');
+	$routes->add('(:any)/hapus-kategori', 'Akademik::HapusKategori/$1');
+	$routes->get('(:any)/update-kategori/(:any)', 'Akademik::UpdateKategori/$1/$2');
+	$routes->add('(:any)/eksekusi-update-kategori/(:any)', 'Akademik::EksekusiUpdateKategori/$1/$2');
 	//
 	$routes->get('(:any)/variable-penilaian', 'Akademik::VariablePenilaian/$1');
 	$routes->add('(:any)/eksekusi-tambah-variable', 'Akademik::EksekusiTambahVar/$1');

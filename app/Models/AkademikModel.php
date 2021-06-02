@@ -63,6 +63,23 @@ class AkademikModel extends Model
 		return $query->getResultArray();
 	}
 	// 
+	public function TahunAkademikDet($id_t,$id_aca)
+	{
+		$builder = $this->db->table('tnt_acad_years');
+		$builder->select('*');
+		$builder->where('aca_tnt_id',$id_t);
+		$builder->where('aca_id', $id_aca);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+	//
+	public function UpdateThAkad($data,$id)
+	{
+		$builder = $this->db->table('tnt_acad_years');
+		$builder->where('aca_id',$id);
+		$builder->update($data);
+	}
+	//  
 	public function KategoriNilai($id_aktif)
 	{
 		$builder = $this->db->table('tnt_assesment_category');
@@ -70,6 +87,36 @@ class AkademikModel extends Model
 		$builder->where('cat_acad_id',$id_aktif);
 		$query   = $builder->get();
 		return $query->getResultArray();
+	}
+	// 
+	public function DetailCategory($id)
+	{
+		$builder = $this->db->table('tnt_assesment_category');
+		$builder->select('*');
+		$builder->where('cat_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function StoreKategori($data)
+	{
+		$builder = $this->db->table('tnt_assesment_category');
+		$builder->insert($data);
+		return TRUE;
+	}
+	// 
+	public function DeleteKategori($id)
+	{
+		$builder = $this->db->table('tnt_assesment_category');
+		$builder->where('cat_id', $id);
+		$builder->delete();
+	}
+	// 
+	public function UpdateKategoriModel($data,$id)
+	{
+		$builder = $this->db->table('tnt_assesment_category');
+		$builder->where('cat_id',$id);
+		$builder->update($data);
 	}
 	// 
 	public function VariabelPenilaian($id)
@@ -138,6 +185,8 @@ class AkademikModel extends Model
 		$builder = $this->db->table('tnt_assesment_category');
 		$builder->where('cat_id',$data['cat_id']);
 		$builder->update($data);
-	} 
+	}
+	// 
+	 
 	
 }

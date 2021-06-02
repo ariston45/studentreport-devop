@@ -4,10 +4,12 @@
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
+	<hr>
 	<p style="font-size: 14px;">
-		Manajemen data kategori penilaian satu tahun ajaran.
+		Berikut ini adalah tabel rumus penilaian dari kategori penilaian (Tengah Semester Satu, Semester Satu, Tengah Semester Dua, Semester Dua). 
+		Untuk membuat rumus penilaian dari masing-masing kategori penilain, silakan klik tombol "Set Rumus" pada kolom Opsi.
 	</p>
-
+	<hr>
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
@@ -37,5 +39,4 @@
 			</tbody>
 		</table>
 	</div>
-
 </div>
