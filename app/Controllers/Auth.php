@@ -28,24 +28,16 @@ class Auth extends BaseController
 		];
 		$user_data = $this->AuthModel->AuthUser($data);
 		if (isset($user_data[0])) {
-			if ($user_data[0]['u_id_access'] === 'MGNT') {
-				$ses_data = [
-					'u_id' => $user_data[0]['u_id'],
-					'u_name' => $user_data[0]['u_name'],
-					'u_rules_access' => $user_data[0]['u_rules_access'],
-					'logged_in' => TRUE
-				];
-				$this->session->set($ses_data);
-			}else {
-				$ses_data = [
-					'u_id' => $user_data[0]['u_id'],
-					'u_name' => $user_data[0]['u_name'],
-					'u_rules_access' => $user_data[0]['u_rules_access'],
-					'u_id_access' => $user_data[0]['u_id_access'],
-					'logged_in' => TRUE
-				];
-				$this->session->set($ses_data);
-			}
+			$ses_data = [
+				'u_id' => $user_data[0]['u_id'],
+				'u_name' => $user_data[0]['u_name'],
+				'u_email' => $user_data[0]['u_email'],
+				'sch_name' => $user_data[0]['sch_name'],
+				'u_rules_access' => $user_data[0]['u_rules_access'],
+				'sch_id' => $user_data[0]['sch_id'],
+				'logged_in' => TRUE
+			];
+			$this->session->set($ses_data);
 			return redirect()->to(base_url('beranda'));
 		}else {
 			return redirect()->to(base_url('login'));

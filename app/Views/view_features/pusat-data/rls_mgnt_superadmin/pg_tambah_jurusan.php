@@ -4,19 +4,20 @@
 	}
 </style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
-	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
-	<!--  -->
-	<?= view($content['content_menu']) ?>
-	<!--  -->
-	<div class="mb-10">
-		<p style="font-size: 14px;">
-			Tambahkan data jurusan.
-		</p>
-	</div>
+	<!-- # -->
+	<h6>Pusat Data - <?=$content['pg_title']?></h6>
+	<p style="font-size: 13px;" class="mb-15"><?=$content['pg_subtitle']?></p>
 	<hr>
+	<!--  -->
+	<?=view($content['content_menu'])?>
+	<!--  -->
+	<p style="font-size: 13px;">
+		<b>Tambah Data Jurusan</b><br>
+		Tambahkan data jurusan.
+	</p>
+	<hr>
+	<!-- # -->
 	<div class="mb-20">
-		<p><b>Tambah Jurusan</b></p>
 		<form action="<?= base_url($content['pg_menu_url'].'/eksekusi-tambah-jurusan')?>" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Nama Kelas</label>

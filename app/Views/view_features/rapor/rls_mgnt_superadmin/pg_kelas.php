@@ -1,44 +1,31 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<!-- # -->
-	<h6>Pusat Data - <?=$content['pg_title']?></h6>
-	<p style="font-size: 13px;" class="mb-15"><?=$content['pg_subtitle']?></p>
-	<hr>
+	<h4 class="text-blue h4"><?=$content['pg_title']?></h4>
+	<p  style="font-size: 14px;" class="mb-20"><?=$content['pg_subtitle']?></p>
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
-	<p style="font-size: 13px;">
-		<b>Siswa</b><br>
-		Manajemen data siswa.
+	<p style="font-size: 14px;">
+		Manajemen data Kelas.
 	</p>
-	<hr>
-	<!-- # -->
 	<table class="data-table table stripe hover nowrap" id="dt">
 		<thead>
 			<tr>
 				<th class="table-plus">No</th>
-				<th>ID Siswa</th>
-				<th>Nama Siswa</th>
-				<th>Email Siswa</th>
-				<th>Nama Wali Siswa</th>
-				<th>Email Wali Siswa</th>
 				<th>Kelas</th>
 				<th>Jurusan</th>
+				<th>Jumlah Siswa</th>
 				<th class="datatable-nosort">Action</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php
 		$no = 1;
-		foreach ($data['siswa'] as $key => $value) { ?>
+		foreach ($data['kelas'] as $key => $value) { ?>
 			<tr>
 				<td class="table-plus"><?=$no?></td>
-				<td><?= $value['stu_id'] ?></td>
-				<td><?= $value['stu_fullname'] ?></td>
-				<td><?= $value['stu_email'] ?></td>
-				<td><?= $value['u_name'] ?></td>
-				<td><?= $value['u_email'] ?></td>
-				<td><?= $value['cls_name'] ?></td>
-				<td><?= $value['mo_name'] ?></td>
+				<td><?= $value['kelas'] ?></td>
+				<td><?= $value['jurusan'] ?></td>
+				<td><?= $value['jml']?></td>
 				<td>
 					<div class="dropdown">
 						<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

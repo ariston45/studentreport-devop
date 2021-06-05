@@ -14,8 +14,20 @@ class UserModel extends Model
 	public function ListUserMGNT()
 	{
 		$builder = $this->db->table('user');
-		$builder->select('*');
+		$builder->select('user.u_id,u_name,u_email,u_phone,SUBSTRING_INDEX(u_rules_access,"_",-1) as access');
+		$builder->join('user_meta','user.u_id=user_meta.u_id');
 		$builder->where('u_id_access','MGNT');
+		$query  = $builder->get();
+		return $query->getResultArray();
+	}
+
+	public function ListUserDetMGNT($id)
+	{
+		$builder = $this->db->table('user');
+		$builder->select('*');
+		$builder->join('user_meta','user.u_id=user_meta.u_id');
+		$builder->where('u_id_access','MGNT');
+		$builder->where('user.u_id',$id);
 		$query  = $builder->get();
 		return $query->getResultArray();
 	}

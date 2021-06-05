@@ -32,6 +32,7 @@ class Beranda extends BaseController
 						2 => $this->request->uri->getSegment(2)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'home' => 'Home'
 					],
@@ -40,7 +41,7 @@ class Beranda extends BaseController
 						'content_menu' => '',
 						'content_body' => 'view_features/dashboard/rls_mgnt_superadmin/main_content'
 					],
-					'data' => []
+					'data' => [					]
 				);
 				return view('layout/main_layout',$this->partial);
 				break;
@@ -59,6 +60,7 @@ class Beranda extends BaseController
 						2 => $this->request->uri->getSegment(2)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'home' => 'Home'
 					],
@@ -67,7 +69,9 @@ class Beranda extends BaseController
 						'content_menu' => '',
 						'content_body' => 'view_features/dashboard/rls_mgnt_admin/main_content'
 					],
-					'data' => []
+					'data' => [
+						'organisasi' => $this->session->get('sch_name'),
+					]
 				);
 				return view('layout/main_layout',$this->partial);
 				break;
@@ -82,6 +86,7 @@ class Beranda extends BaseController
 						2 => $this->request->uri->getSegment(2)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'home' => 'Home'
 					],

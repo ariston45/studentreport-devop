@@ -26,7 +26,7 @@
 								<i class="dw dw-more"></i>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-								<a class="dropdown-item" href="<?=base_url('akademik/'.strtolower($value['sch_id']).'/tahun-akademik')?>"><i class="dw dw-eye"></i> View</a>
+								<a class="dropdown-item" href="<?=base_url('pusat-data/'.strtolower($value['sch_id']).'/profil-sekolah')?>"><i class="dw dw-eye"></i> View</a>
 							</div>
 						</div>
 					</td>

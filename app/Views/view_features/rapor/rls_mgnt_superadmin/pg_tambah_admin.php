@@ -4,19 +4,17 @@
 	}
 </style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<!-- # -->
-	<h6>Pusat Data - <?=$content['pg_title']?></h6>
-	<p style="font-size: 13px;" class="mb-15"><?=$content['pg_subtitle']?></p>
-	<hr>
+	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
+	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
 	<!--  -->
-	<?=view($content['content_menu'])?>
+	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<p style="font-size: 13px;">
-		<b>Tambah User Admin</b><br>
-		Tambahkan data user administrasi sekolah.
-	</p>
+	<div class="mb-10">
+		<p style="font-size: 14px;">
+			Tambahkan data user administrasi sekolah.
+		</p>
+	</div>
 	<hr>
-	<!-- # -->
 	<div class="mb-20">
 		<p><b>Tambah User Administrasi</b></p>
 		<form autocomplete="off" action="<?= base_url($content['pg_menu_url'] . '/eksekusi-tambah-admin') ?>" method="post" enctype="multipart/form-data">

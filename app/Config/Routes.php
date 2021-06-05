@@ -106,12 +106,24 @@ $routes->group('akademik', function ($routes) {
 	$routes->get('(:any)/mapel', 'Akademik::MataPelajaran/$1');
 	$routes->get('(:any)/tambah-mapel', 'Akademik::TambahMapel/$1');
 	$routes->add('(:any)/eksekusi-tambah-pelajaran', 'Akademik::EksekusiTambahMapel/$1');
+	// 
+	$routes->get('(:any)/upload-nilai', 'Akademik::UploadNilai/$1');
+	$routes->add('(:any)/eksekusi-upload-nilai', 'Akademik::EksekusiUploadNilai/$1');
+}); 
+//
+$routes->group('rapor-siswa', function ($routes) {
+	$routes->get('/', 'RaporSiswa::index');
+	$routes->get('(:any)/cari-rapor-siswa', 'RaporSiswa::CariRapor/$1');
+	$routes->get('audit-kenaikan-kelas', 'RaporSiswa::index');
+	$routes->get('peringkatisasi-siswa', 'RaporSiswa::index');
 });
 // 
-$routes->get('rapor-siswa', 'General\Mainpage::index');
-// 
 $routes->group('pengguna', function ($routes) {
-	$routes->get('/', 'Pengguna::index');
+	$routes->get('/', 'Pengguna_ctrl::index');
+	$routes->get('tambah-pengguna', 'Pengguna_ctrl::TambahUserMgnt');
+	$routes->add('eksekusi-tambah-pengguna', 'Pengguna_ctrl::EksekusiTambahUserMgnt');
+	$routes->get('update-pengguna/(:any)', 'Pengguna_ctrl::UpdateUserMgnt/$1');
+	$routes->add('eksekusi-update-pengguna/(:any)', 'Pengguna_ctrl::EksekusiUpdateUserMgnt/$1');
 });
 // 
 $routes->get('konfigurasi', 'General\Mainpage::index');

@@ -1,25 +1,11 @@
-<style>
-	.badge {
-		padding: 0.50em;
-	}
-</style>
-<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<!-- # -->
-	<h6>Pusat Data - <?=$content['pg_title']?></h6>
-	<p style="font-size: 13px;" class="mb-15"><?=$content['pg_subtitle']?></p>
-	<hr>
-	<!--  -->
-	<?=view($content['content_menu'])?>
-	<!--  -->
-	<p style="font-size: 13px;">
-		<b>Tambah User Admin</b><br>
-		Tambahkan data user administrasi sekolah.
-	</p>
-	<hr>
-	<!-- # -->
-	<div class="mb-20">
-		<p><b>Tambah User Administrasi</b></p>
-		<form autocomplete="off" action="<?= base_url($content['pg_menu_url'] . '/eksekusi-tambah-admin') ?>" method="post" enctype="multipart/form-data">
+<div class="card-box mb-30">
+	<div class="pd-20">
+		<h6>Tambah Pengguna</h6>
+		<p style="font-size: 14px;"> Olah data user manajemen.</p>
+		<hr style="margin-bottom: 0px;">
+	</div>
+	<div class="pd-20 pt-0">
+		<form autocomplete="off" action="<?= base_url('pengguna/eksekusi-tambah-pengguna') ?>" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Nama</label>
 				<div class="col-sm-12 col-md-9">
@@ -48,9 +34,10 @@
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Hak Akses</label>
 				<div class="col-sm-12 col-md-9">
 					<select class="custom-select col-12 fh-35" name="akses" id="akses">
-						<option value="">Pilih jurusan...</option>
-						<option value="TNT_SUPERADMIN">Super Admin</option>
-						<option value="TNT_ADMIN">Admin</option>
+						<option value="">Pilih hak akses...</option>
+						<option value="MGNT_SUPERADMIN">Super Admin</option>
+						<option value="MGNT_ADMIN">Admin</option>
+						<option value="MGNT_MARKETING">Markrting</option>
 					</select>
 				</div>
 			</div>
@@ -72,19 +59,4 @@
 			</div>
 		</form>
 	</div>
-		<?php if (!empty(session()->getFlashdata('notif_akses_error'))) : ?>
-		<div class="alert alert-danger" role="alert">
-			<b>Gagal.</b>
-			<hr>
-			<?php echo session()->getFlashdata('notif_akses_error'); ?>
-		</div>
-	<?php endif; ?>
-
-	<?php if (!empty(session()->getFlashdata('success'))) : ?>
-		<div class="alert alert-success" role="alert">
-			<b>Berhasil.</b>
-			<hr>
-			<?php echo session()->getFlashdata('success'); ?>
-		</div>
-	<?php endif; ?>
 </div>

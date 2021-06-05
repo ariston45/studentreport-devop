@@ -11,6 +11,7 @@ use App\Models\StudentModel;
 
 class PusatData extends BaseController
 {
+	#
 	public function __construct()
 	{
 		$this->AuthModel = new AuthModel();
@@ -99,12 +100,13 @@ class PusatData extends BaseController
 						2 => $this->request->uri->getSegment(2)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
 					'content'	=> [
 						'content_menu' => '',
-						'content_body' => 'view_features/customers/rls_mgnt_superadmin/pg_customers'
+						'content_body' => 'view_features/pusat-data/rls_mgnt_superadmin/pg_pusat_data'
 					],
 					'data' => $schools
 				];
@@ -132,6 +134,7 @@ class PusatData extends BaseController
 						2 => $this->request->uri->getSegment(2)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -186,6 +189,7 @@ class PusatData extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -256,6 +260,7 @@ class PusatData extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -327,6 +332,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -348,9 +354,10 @@ class PusatData extends BaseController
 
 	public function EksekusiTambahSiswa($stri)
 	{
-		$file = $_FILES['file_excel']['name'];
-		$path = pathinfo($file);
-		$ext = $path['extension'];
+		$file_name = $_FILES['file_excel']['name'];
+		$file_tmp = $_FILES['file_excel']['tmp_name'];
+		$path = pathinfo($file_name);
+		$extention = $path['extension'];
 
 		$kelas = $_POST['kelas'];
 		$jurusan = $_POST['jurusan'];
@@ -368,16 +375,17 @@ class PusatData extends BaseController
 			return redirect()->back()->withInput();
 		}
 
-		if ($ext == 'xls') {
+		if ($extention == 'xls') {
 			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-		} else if ($ext == 'xlsx') {
+		} else if ($extention == 'xlsx') {
 			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 		} else {
 			session()->setFlashdata('error', 'Gagal Upload.');
 			session()->setFlashdata('notif_filetype', 'Format file tidak didukung, harap upload file sesuai template dan dan format yang sudah disediakan.');
 			return redirect()->back()->withInput();
 		}
-		$spreadsheet = $reader->load($file);
+		
+		$spreadsheet = $reader->load($file_tmp);
 		$sheet = $spreadsheet->getActiveSheet()->toArray();
 		$id_user = $this->NewUserIds();
 		$id_siswa = $this->NewSiswaIds();
@@ -391,7 +399,7 @@ class PusatData extends BaseController
 		if (isset($e['email'])) {
 			session()->setFlashdata('notif_sameemail', 'Email siswa tidak sama dengan email wali murid, mohon wali murid menggunakan alamat email yang berbeda. Email yang sama : ' . implode(', ', $cek_email));
 		}
-
+		
 		foreach ($sheet as $key => $value) {
 			if ($key != 0) {
 				$field_user[$key]['u_id'] = $id_user;
@@ -412,8 +420,8 @@ class PusatData extends BaseController
 				$field_student[$key]['stu_fullname'] = $value[2];
 				$field_student[$key]['stu_email'] = $value[3];
 				$field_student[$key]['stu_id_parents'] = $id_user;
-				$field_student[$key]['stu_birthplace'] = $value[4];
-				$field_student[$key]['stu_birthday'] = DATE('Y-m-d', strtotime($value[5]));
+				$field_student[$key]['stu_birthplace'] = $value[5];
+				$field_student[$key]['stu_birthday'] = DATE('Y-m-d', strtotime($value[4]));
 				$field_student[$key]['stu_gender'] = $value[6];
 				$field_student[$key]['stu_class'] = $kelas;
 				$id_user++;
@@ -499,6 +507,7 @@ class PusatData extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -569,6 +578,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -612,6 +622,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -674,6 +685,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -756,6 +768,7 @@ class PusatData extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -824,6 +837,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -898,6 +912,7 @@ class PusatData extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -969,6 +984,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -1025,6 +1041,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -1080,6 +1097,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],                   
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -1118,6 +1136,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -1185,6 +1204,7 @@ class PusatData extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],

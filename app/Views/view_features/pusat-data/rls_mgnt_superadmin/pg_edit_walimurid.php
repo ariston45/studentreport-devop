@@ -4,17 +4,19 @@
 	}
 </style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
-	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
+	<!-- # -->
+	<h6>Pusat Data - <?= $content['pg_title'] ?></h6>
+	<p style="font-size: 13px;" class="mb-15"><?= $content['pg_subtitle'] ?></p>
+	<hr>
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<div class="mb-10">
-		<p style="font-size: 14px;">
-			Edit Data Wali Murid.
-		</p>
-	</div>
+	<p style="font-size: 13px;">
+		<b>Perbarui data Wali Murid</b><br>
+		Edit Data Wali Murid.
+	</p>
 	<hr>
+	<!-- # -->
 	<div class="mb-20">
 		<p><b>Edit Form</b></p>
 		<form action="<?= base_url($content['pg_exe_edit'])?>" method="post" enctype="multipart/form-data">

@@ -9,6 +9,7 @@ use App\Models\TenantModel;
 use App\Models\DbModel;
 use App\Models\UserModel;
 use App\Models\StudentModel;
+use PhpParser\Node\Stmt\While_;
 
 class Akademik extends BaseController
 {
@@ -92,12 +93,13 @@ class Akademik extends BaseController
 						2 => $this->request->uri->getSegment(2)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
 					'content'	=> [
 						'content_menu' => '',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_customers'
+						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_akademik'
 					],
 					'data' => $schools
 				];
@@ -125,6 +127,7 @@ class Akademik extends BaseController
 						2 => $this->request->uri->getSegment(2)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -183,6 +186,7 @@ class Akademik extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -252,6 +256,7 @@ class Akademik extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -309,6 +314,7 @@ class Akademik extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -379,6 +385,7 @@ class Akademik extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -439,6 +446,7 @@ class Akademik extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -526,6 +534,7 @@ class Akademik extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -573,6 +582,7 @@ class Akademik extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -656,6 +666,7 @@ class Akademik extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
@@ -708,6 +719,7 @@ class Akademik extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -783,6 +795,7 @@ class Akademik extends BaseController
 						3 => $this->request->uri->getSegment(3)
 					],
 					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
 					'breadcrumb' => [
 						'customers' => 'Customers'
 					],
@@ -842,4 +855,191 @@ class Akademik extends BaseController
 		$this->AkademikModel->UpdateRumus($data);
 		return redirect()->back()->withInput();
 	}
+	######
+	public function UploadNilai($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/uploadinput/scr_javascript',
+				1 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'akademik/' . strtolower($stri),
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai'
+			],
+			'data' => [
+				'sekolah' => $school,
+				'jurusan' => $jurusan,
+				'mapel' => $semuamapel
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function UploadNilai_v2($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/uploadinput/scr_javascript',
+				1 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'akademik/' . strtolower($stri),
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai'
+			],
+			'data' => [
+				'sekolah' => $school,
+				'jurusan' => $jurusan,
+				'mapel' => $semuamapel
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiUploadNilai($stri)
+	{
+		$data = [
+			'kategori' => $_POST['kategori'],
+			'jurusan' => $_POST['kelas'],
+			'id_mapel' => $_POST['mapel']
+		];
+
+		$file_name = $_FILES['file_excel']['name'];
+		$file_tmp = $_FILES['file_excel']['tmp_name'];
+		$path = pathinfo($file_name);
+		$ext = $path['extension'];
+		
+		if ($ext == 'xls') {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+		} else if ($ext == 'xlsx') {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		} else {
+			session()->setFlashdata('error', 'Gagal Upload.');
+			session()->setFlashdata('notif_filetype', 'Format file tidak didukung, harap upload file sesuai template dan dan format yang sudah disediakan.');
+			return redirect()->back()->withInput();
+		}
+		$spreadsheet = $reader->load($file_tmp);
+		$sheet = $spreadsheet->getActiveSheet()->toArray();
+		#=============================================================
+		$a = 0;
+		foreach ($sheet as $key => $value1) {
+			if ($key == 0) {
+				$n = max(array_keys($value1));
+				for ($b=3; $b <= $n ; $b=$b+3) {
+					$sub[$a]['key_nilai'] = $b;
+					$sub[$a]['key_skor'] =$b+1;
+					$sub[$a]['key_feedback'] =$b+2;
+					$sub[$a]['val_mapel'] = $value1[$b];
+					$a++;
+				}	
+			}
+		}
+		#=============================================================
+		$school = $this->TenantModel->DataTenant($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/uploadinput/scr_javascript',
+				1 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'akademik/' . strtolower($stri),
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai'
+			],
+			'data' => [
+				'sekolah' => $school,
+				'jurusan' => $jurusan,
+				'mapel' => $semuamapel
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+		#=============================================================
+		foreach ($sub as $x => $val) {
+			foreach ($sheet as $key => $value) {
+				if ($key != 0) {
+					$multiar[$x][$key]['email'] = $value[2];
+					$multiar[$x][$key]['mapel'] = $val['val_mapel'];
+					$multiar[$x][$key]['nilai'] = $value[$val['key_nilai']];
+					$multiar[$x][$key]['skor'] = $value[$val['key_skor']];
+					$multiar[$x][$key]['feedback'] = $value[$val['key_feedback']];
+				}
+			}
+		}
+		#=============================================================
+		$p = 0;
+		foreach ($multiar as $ka => $value) {
+			foreach ($value as $ki => $subvalue) {
+				$tmp[$p] = $subvalue;
+				$p++;
+			}
+		}
+	}
+
 }

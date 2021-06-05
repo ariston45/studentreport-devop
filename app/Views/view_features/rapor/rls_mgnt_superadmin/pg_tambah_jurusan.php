@@ -11,34 +11,17 @@
 	<!--  -->
 	<div class="mb-10">
 		<p style="font-size: 14px;">
-			Tambahkan data mata pelajaran.
+			Tambahkan data jurusan.
 		</p>
 	</div>
 	<hr>
 	<div class="mb-20">
-		<p><b>Tambah Mata Pelajaran</b></p>
-		<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-tambah-pelajaran') ?>" method="post" enctype="multipart/form-data">
+		<p><b>Tambah Jurusan</b></p>
+		<form action="<?= base_url($content['pg_menu_url'].'/eksekusi-tambah-jurusan')?>" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
-				<label class="col-sm-12 col-md-3 col-form-label">Nama Mata Pelajaran</label>
+				<label class="col-sm-12 col-md-3 col-form-label">Nama Kelas</label>
 				<div class="col-sm-12 col-md-9">
 					<input type="text" name="nama" class="form-control col-12 fh-35" placeholder="Nama Kelas ..">
-				</div>
-			</div>
-			<div class="form-group row">
-				<label class="col-sm-12 col-md-3 col-form-label">Pilih Tingkatan</label>
-				<div class="col-sm-12 col-md-9">
-					<select class="custom-select col-12 fh-35" name='tingkatan' id='tingkatan'>
-						<option value="<?= false ?>">Pilih tingkatan...</option>
-						<?php
-						$a = 1;
-						while ($a <= $data['lambel']) {
-						?>
-						<option value="Tingkat_<?=$a?>">Tingkat_<?=$a?></option>
-						<?php
-						$a++;
-						}
-						?>
-					</select>
 				</div>
 			</div>
 			<div class="text-right">
@@ -51,21 +34,21 @@
 		<div class="alert alert-danger" role="alert">
 			<b>Kesalahan email.</b>
 			<hr>
-			<?php echo session()->getFlashdata('notif_email_error'); ?>
+			<?php echo session()->getFlashdata('notif_email_error');?>
 		</div>
 	<?php endif; ?>
 	<?php if (!empty(session()->getFlashdata('error'))) : ?>
 		<div class="alert alert-danger" role="alert">
 			<b>Gagal.</b>
 			<hr>
-			<?php echo session()->getFlashdata('error'); ?>
+			<?php echo session()->getFlashdata('error');?>
 		</div>
 	<?php endif; ?>
 	<?php if (!empty(session()->getFlashdata('success'))) : ?>
 		<div class="alert alert-success" role="alert">
 			<b>Berhasil.</b>
 			<hr>
-			<?php echo session()->getFlashdata('success'); ?>
+			<?php echo session()->getFlashdata('success');?>
 		</div>
 	<?php endif; ?>
 </div>

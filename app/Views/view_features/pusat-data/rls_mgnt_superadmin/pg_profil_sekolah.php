@@ -1,12 +1,17 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?=$content['pg_title']?></h4>
-	<p  style="font-size: 14px;" class="mb-20"><?=$content['pg_subtitle']?></p>
+	<!-- # -->
+	<h6>Pusat Data - <?=$content['pg_title']?></h6>
+	<p style="font-size: 13px;" class="mb-15"><?=$content['pg_subtitle']?></p>
+	<hr>
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
-	<p style="font-size: 14px;">
+	<p style="font-size: 13px;">
+		<b>Profil Sekolah</b><br>
 		Berikut profil dari sekolah <?=$content['pg_title']?>.
 	</p>
+	<hr>
+	<!-- # -->
 	<dl class="row mb-0" style="font-size: 14px;">
 		<dd class="col-sm-6 mb-0">
 			<dl class="row mb-0">
@@ -30,6 +35,5 @@
 				<dd class="col-sm-8"> </dd>
 			</dl>
 		</dd>
-	</dl>
-	<hr>	
+	</dl>	
 </div>

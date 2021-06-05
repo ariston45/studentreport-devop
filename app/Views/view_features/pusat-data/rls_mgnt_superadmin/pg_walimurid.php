@@ -1,12 +1,17 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?=$content['pg_title']?></h4>
-	<p  style="font-size: 14px;" class="mb-20"><?=$content['pg_subtitle']?></p>
+	<!-- # -->
+	<h6>Pusat Data - <?=$content['pg_title']?></h6>
+	<p style="font-size: 13px;" class="mb-15"><?=$content['pg_subtitle']?></p>
+	<hr>
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
-	<p style="font-size: 14px;">
+	<p style="font-size: 13px;">
+		<b>Wali Murid</b><br>
 		Manajemen data wali murid.
 	</p>
+	<hr>
+	<!-- # -->
 	<table class="data-table table stripe hover nowrap" id="dt">
 		<thead>
 			<tr>

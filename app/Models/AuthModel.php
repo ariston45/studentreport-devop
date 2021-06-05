@@ -37,7 +37,8 @@ class AuthModel extends Model
   public function AuthUser($data)
   {
 		$builder = $this->db->table('user');
-    $builder->select('*');
+    $builder->select('user.u_id,user.u_name,user.u_rules_access,user.u_email,tnt_school.sch_name,tnt_school.sch_id');
+    $builder->join('tnt_school','user.u_id_access = tnt_school.sch_id');
     $builder->where('u_email',$data['username']);
 		$builder->where('u_password',$data['password']);
     $query = $builder->get();

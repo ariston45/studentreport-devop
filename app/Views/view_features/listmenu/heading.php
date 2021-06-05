@@ -1,20 +1,8 @@
-<?php
-  if ($segments[1] == 'home') {
-    $title = 'Home';
-  }elseif ($segments[1] == 'exams') {
-		$title = 'Exams';
-	}
-	elseif ($segments[1] == 'customers') {
-		$title = 'Customer              ';
-	} else {
-		$title = 'No Name';
-	}
-?>
 <div class="page-header">
 	<div class="row">
 		<div class="col-md-6 col-sm-12">
 			<div class="title">
-				<h4><?=$title?></h4>
+				<h4 style="color: #1b00ff; font-weight:700;"><?=strtoupper($pgtitle) ?></h4>
 			</div>
 			<nav aria-label="breadcrumb" role="navigation">
 				<ol class="breadcrumb">

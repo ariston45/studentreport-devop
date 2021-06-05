@@ -5,34 +5,34 @@
 	<?=view($content['content_menu'])?>
 	<!--  -->
 	<p style="font-size: 14px;">
-		Manajemen data siswa.
+		Manajemen data guru.
 	</p>
 	<table class="data-table table stripe hover nowrap" id="dt">
 		<thead>
 			<tr>
 				<th class="table-plus">No</th>
-				<th>Nama Pelajaran</th>
-				<th>Tingkatan</th>
+				<th>Nama Guru</th>
+				<th>Email</th>
+				<th>No Telepon</th>
 				<th class="datatable-nosort">Action</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php
 		$no = 1;
-		foreach ($data['mapel'] as $key => $value) { ?>
+		foreach ($data['guru'] as $key => $value) { ?>
 			<tr>
 				<td class="table-plus"><?=$no?></td>
-				<td><?= $value['suc_name'] ?></td>
-				<td><?= $value['suc_level'] ?></td>
+				<td><?=$value['u_name']?></td>
+				<td><?=$value['u_email']?></td>
+				<td><?=$value['u_phone']?></td>
 				<td>
 					<div class="dropdown">
 						<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 							<i class="dw dw-more"></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-							<a class="dropdown-item" href="<?=base_url()?>"><i class="dw dw-eye"></i> View</a>
-							<a class="dropdown-item" href="<?=base_url()?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
-							<a class="dropdown-item" href="#"><i class="icon-copy dw dw-delete-3"></i> Delete</a>
+							<a class="dropdown-item" href="<?=base_url($content['pg_detail_guru_url'].'/'.$value['u_id'])?>"><i class="dw dw-eye"></i> View</a>
 						</div>
 					</div>
 				</td>
