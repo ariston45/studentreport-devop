@@ -106,9 +106,19 @@ $routes->group('akademik', function ($routes) {
 	$routes->get('(:any)/mapel', 'Akademik::MataPelajaran/$1');
 	$routes->get('(:any)/tambah-mapel', 'Akademik::TambahMapel/$1');
 	$routes->add('(:any)/eksekusi-tambah-pelajaran', 'Akademik::EksekusiTambahMapel/$1');
+	$routes->get('(:any)/update-mapel/(:any)', 'Akademik::UpdateMapel/$1/$2');
+	$routes->add('(:any)/eksekusi-update-pelajaran/(:any)', 'Akademik::EksekusiUpdateMapel/$1/$2');
 	// 
-	$routes->get('(:any)/upload-nilai', 'Akademik::UploadNilai/$1');
-	$routes->add('(:any)/eksekusi-upload-nilai', 'Akademik::EksekusiUploadNilai/$1');
+	$routes->get('(:any)/unggah-nilai', 'Akademik::UploadNilai/$1');
+	$routes->add('(:any)/eksekusi-upload-nilai-part1', 'Akademik::EksekusiUploadNilai_part1/$1');
+	$routes->add('(:any)/eksekusi-upload-nilai-part2', 'Akademik::EksekusiUploadNilai_part2/$1');
+	$routes->get('(:any)/tambah-nilai-manual', 'Akademik::TambahNilaiManual/$1');
+	$routes->add('(:any)/eksekusi-nilai-manual', 'Akademik::EksekusiNilaiManual/$1');
+	$routes->get('(:any)/perbarui-nilai', 'Akademik::PerbaruiNilai/$1');
+	$routes->add('(:any)/eksekusi-perbarui-nilai', 'Akademik::EksekusiPerbaruiNilai/$1');
+	$routes->get('(:any)/form-perbarui-nilai/(:any)', 'Akademik::FormPerbaruiNilai/$1/$2');
+	$routes->add('(:any)/eksekusi-form-perbarui-nilai/(:any)', 'Akademik::EksekusiFormPerbaruiNilai/$1/$2');
+	$routes->get('(:any)/clear-datafilter', 'Akademik::ClearDataFilter/$1');
 }); 
 //
 $routes->group('rapor-siswa', function ($routes) {

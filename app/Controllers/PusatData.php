@@ -484,6 +484,18 @@ class PusatData extends BaseController
 		echo json_encode($callback);
 	}
 	#####
+	public function KelasSiswa_json()
+	{
+		$id_kelas = $_POST['id_kelas'];
+		$kelas = $this->StudentModel->ListKelasSiswa($id_kelas);
+		$option = '<option value="' . FALSE . '">Pilih siswa ... </option>';
+		foreach ($kelas as $key => $value) {
+			$option .= '<option value="' . $value['stu_num'] . '">' . $value['stu_fullname'] . '</option>';
+		}
+		$callback = array('list_siswa' => $option);
+		echo json_encode($callback);
+	}
+	#####
 	public function Guru($stri)
 	{
 		switch ($this->session->get('u_rules_access')) {

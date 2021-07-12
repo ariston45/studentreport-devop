@@ -10,7 +10,7 @@ class StudentModel extends Model
 		parent::__construct();
 		$this->db = \Config\Database::connect();
 	}
-
+	// 
 	public function MaxIdStudent()
 	{
 		$builder = $this->db->table('tnt_student');
@@ -18,7 +18,7 @@ class StudentModel extends Model
 		$query  = $builder->get();
 		return $query->getResultArray();
 	}
-
+	// 
 	public function SiswaTenant($id)
 	{
 		$builder = $this->db->table('tnt_student');
@@ -37,7 +37,7 @@ class StudentModel extends Model
 		$query   = $builder->get();
 		return $query->getResultArray();
 	}
-
+	// 
 	public function WalimuridTenant($id)
 	{
 		$builder = $this->db->table('tnt_student');
@@ -55,7 +55,7 @@ class StudentModel extends Model
 		$query   = $builder->get();
 		return $query->getResultArray();
 	}
-
+	// 
 	public function StudentChekId($data,$stri)
 	{
 		$builder = $this->db->table('tnt_student');
@@ -64,7 +64,7 @@ class StudentModel extends Model
 		$query  = $builder->get();
 		return $query->getResultArray();
 	}
-
+	// 
 	public function DataTenantParent($id)
 	{
 		$builder = $this->db->table('user');
@@ -73,14 +73,14 @@ class StudentModel extends Model
 		$query   = $builder->get();
 		return $query->getResultArray();
 	}
-
+	// 
 	public function StoreSiswa($data)
 	{
 		$builder = $this->db->table('tnt_student');
 		$builder->insertBatch($data);
 		return TRUE;
 	}
-
+	// 
 	public function WaliMurid($id)
 	{
 		$builder = $this->db->table('user');
@@ -90,7 +90,7 @@ class StudentModel extends Model
 		$query   = $builder->get();
 		return $query->getResultArray();
 	}
-
+	// 
 	public function ListWaliMurid($id)
 	{
 		$builder = $this->db->table('user');
@@ -99,6 +99,34 @@ class StudentModel extends Model
 		$builder->where('user.u_id_access',$id);
 		$builder->where('user.u_rules_access','TNT_PARENT');
 		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function IdStudentByEmail($id,$id_class)
+	{
+		$builder = $this->db->table('tnt_student');
+		$builder->select('stu_num,stu_id,stu_fullname');
+		$builder->where('stu_email',$id);
+		$builder->where('stu_class',$id_class);
+		$query  = $builder->get();
+		return $query->getResultArray();
+	}
+	//
+	public function ShowNamaSiswa($id)
+	{
+		$builder = $this->db->table('tnt_student');
+		$builder->select('*');
+		$builder->where('stu_num',$id);
+		$query  = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function ListKelasSiswa($id)
+	{
+		$builder = $this->db->table('tnt_student');
+		$builder->select('*');
+		$builder->where('stu_class',$id);
+		$query  = $builder->get();
 		return $query->getResultArray();
 	}
 

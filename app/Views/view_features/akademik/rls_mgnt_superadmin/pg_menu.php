@@ -23,7 +23,9 @@
 				?> 
 				data-toggle="dropdown" aria-expanded="false"> Penilaian <span class="caret"></span> </button>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/upload-nilai')?>">Upload Nilai</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/unggah-nilai')?>">Unggah Nilai Dari Excel</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/tambah-nilai-manual')?>">Tambah Nilai Manual</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/perbarui-nilai')?>">Perbarui Data Nilai</a>
 				</div>
 			</div>
 			<!-- # -->

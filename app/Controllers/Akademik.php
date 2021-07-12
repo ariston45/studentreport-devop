@@ -9,6 +9,7 @@ use App\Models\TenantModel;
 use App\Models\DbModel;
 use App\Models\UserModel;
 use App\Models\StudentModel;
+use phpDocumentor\Reflection\Types\This;
 use PhpParser\Node\Stmt\While_;
 
 class Akademik extends BaseController
@@ -416,6 +417,61 @@ class Akademik extends BaseController
 			'suc_tnt_id' => strtoupper($stri)
 		];
 		$this->AkademikModel->StoreMapel($data);
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function UpdateMapel($stri,$stra)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$lambel = $this->AkademikModel->LamaBelajar($stri);
+		$mapel = $this->AkademikModel->DetMapel($stra);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+				1 => 'plugins/uploadinput/scr_javascript',
+				2 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_mapel'
+			],
+			'data' => [
+				'school' => $school,
+				'semuamapel' => $semuamapel,
+				'mapel' => $mapel[0],
+				'lambel' =>$lambel[0]['lambel']
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiUpdateMapel($stri,$stra)
+	{
+		$data = [
+			'suc_name' => $_POST['nama'],
+			'suc_level' => $_POST['tingkatan']
+		];
+		$this->AkademikModel->UpdateMapel($data,$stra);
 		return redirect()->back()->withInput();
 	}
 	#####
@@ -859,9 +915,11 @@ class Akademik extends BaseController
 	public function UploadNilai($stri)
 	{
 		$school = $this->TenantModel->DataTenant($stri);
-		$jurusan = $this->TenantModel->DataJurusan($stri);
 		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
 		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$kategori = $this->AkademikModel->KategoriEvaluasiThActive($stri);
+		$tahun = $this->AkademikModel->ThAkademik($stri);
+		$tahunaktif = $this->AkademikModel->ThAkademikActive($stri);
 		$this->partial = [
 			'title' => 'Trust Academyc Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -893,68 +951,22 @@ class Akademik extends BaseController
 			'data' => [
 				'sekolah' => $school,
 				'jurusan' => $jurusan,
-				'mapel' => $semuamapel
+				'mapel' => $semuamapel,
+				'kategori' => $kategori,
+				'tahun' => $tahun,
+				'tahunaktif' => $tahunaktif[0]
 			]
 		];
 		return view('layout/main_layout', $this->partial);
 	}
 	#####
-	public function UploadNilai_v2($stri)
+	public function EksekusiUploadNilai_part1($stri)
 	{
-		$school = $this->TenantModel->DataTenant($stri);
-		$jurusan = $this->TenantModel->DataJurusan($stri);
-		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
-		$jurusan = $this->TenantModel->DataJurusan($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/uploadinput/scr_javascript',
-				1 => 'plugins/chainselect/chain_kelas'
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai'
-			],
-			'data' => [
-				'sekolah' => $school,
-				'jurusan' => $jurusan,
-				'mapel' => $semuamapel
-			]
-		];
-		return view('layout/main_layout', $this->partial);
-	}
-	#####
-	public function EksekusiUploadNilai($stri)
-	{
-		$data = [
-			'kategori' => $_POST['kategori'],
-			'jurusan' => $_POST['kelas'],
-			'id_mapel' => $_POST['mapel']
-		];
-
+		$_SESSION['fds_aca_id'] = $_POST['thajaran'];
 		$file_name = $_FILES['file_excel']['name'];
 		$file_tmp = $_FILES['file_excel']['tmp_name'];
 		$path = pathinfo($file_name);
 		$ext = $path['extension'];
-		
 		if ($ext == 'xls') {
 			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
 		} else if ($ext == 'xlsx') {
@@ -967,24 +979,311 @@ class Akademik extends BaseController
 		$spreadsheet = $reader->load($file_tmp);
 		$sheet = $spreadsheet->getActiveSheet()->toArray();
 		#=============================================================
+		if (!$_POST['kategori'] || !$_POST['mapel'] || !$_POST['jurusan'] || !$_POST['kelas']) {
+			if (!$_POST['kategori']) {
+				session()->setFlashdata('error_kategori', 'Kategori evaluasi harus dipilih, mohon untuk memilih kategori evaluasi penilaian.');
+			}
+			if (!$_POST['mapel']) {
+				session()->setFlashdata('error_mapel', 'Mata pelajaran atau subject harus dipilih, mohon untuk memilih mata pelajaran.');
+			}
+			if (!$_POST['jurusan']) {
+				session()->setFlashdata('error_jurusan', 'Jurusan harus dipilih, mohon untuk memilih jurusan.');
+			}
+			if (!$_POST['kelas']) {
+				session()->setFlashdata('error_kelas', 'Kelas harus dipilih, mohon untuk memilih kelas.');
+			}
+			session()->setFlashdata('error', 'Unggah Gagal');
+			return redirect()->back()->withInput();
+		}
+		#=============================================================
 		$a = 0;
 		foreach ($sheet as $key => $value1) {
 			if ($key == 0) {
 				$n = max(array_keys($value1));
-				for ($b=3; $b <= $n ; $b=$b+3) {
-					$sub[$a]['key_nilai'] = $b;
-					$sub[$a]['key_skor'] =$b+1;
-					$sub[$a]['key_feedback'] =$b+2;
-					$sub[$a]['val_mapel'] = $value1[$b];
+				for ($m=3; $m <= $n ; $m=$m+3) {
+					$sub[$a]['key_nilai'] = $m;
+					$sub[$a]['key_skor'] =$m+1;
+					$sub[$a]['key_feedback'] =$m+2;
+					$sub[$a]['val_subject'] = $value1[$m];
 					$a++;
 				}	
 			}
 		}
 		#=============================================================
+		foreach ($sub as $x => $val) {
+			foreach ($sheet as $key => $value) {
+				if ($key != 0) {
+					$tmp[$x][$key]['raw_cat_id'] =  $_POST['kategori'];
+					$tmp[$x][$key]['raw_years_id'] = $_POST['thajaran'];
+					$tmp[$x][$key]['raw_class_id'] = $_POST['kelas'];
+					$tmp[$x][$key]['raw_mapel'] = $_POST['mapel'];
+					$tmp[$x][$key]['raw_stu_num'] = NULL;
+					$tmp[$x][$key]['raw_email'] = $value[2];
+					$tmp[$x][$key]['raw_title'] = $val['val_subject'];
+					$tmp[$x][$key]['raw_point'] = $value[$val['key_nilai']];
+					$tmp[$x][$key]['raw_score'] = $value[$val['key_skor']];
+					$tmp[$x][$key]['raw_feedback'] = $value[$val['key_feedback']];
+				}
+			}
+		}
+		#=============================================================
+		$p = 0;
+		foreach ($tmp as $ka => $value) {
+			foreach ($value as $ki => $subvalue) {
+				$tmpa[$p] = $subvalue;
+				$p++;
+			}
+		}
+		foreach ($tmpa as $key => $value) {
+			$id_array = $this->StudentModel->IdStudentByEmail($value['raw_email'],$value['raw_class_id']);
+			if (empty($id_array)) {
+				$data_taktersedia[$value['raw_email']]['email'] = $value['raw_email'];
+			}else {
+				$data_tersedia[$value['raw_email']] = $value['raw_email'];
+				$tmpa[$key]['raw_stu_num'] = $id_array[0]['stu_num'];
+			}
+		}
+		if (!empty($data_taktersedia)) {
+			$nt1 = 'Data siswa dengan email :<br>';
+			foreach ($data_taktersedia as $key => $value) {
+				$nt1 .= '<li>' . $key . '</li>';
+			}
+			$nt1 .= 'Tidak tersedia di kelas '.$_POST['kelas'].', mohon cek kembali data siswa yang sudah ad di sistem, apabila data tidak ada anda bisa mengunggahnya terlebih dahulu.<br>';
+			$nt1 .= 'Apabila anda ingin melanjutkan unggah nilai anda dapat menghapus data peserta didik dari file excel anda.';
+		}
+		if (!empty($data_taktersedia)) {
+			echo 1;
+			session()->setFlashdata('error_data', $nt1 );
+			session()->setFlashdata('error', 'Unggah Gagal');
+			return redirect()->back()->withInput();
+			die('Upload Eror !');
+		}
+		if (!empty($tmpa)) {
+			$_SESSION['nilai_siswa'] = $tmpa;
+		}
+		#============================================================
 		$school = $this->TenantModel->DataTenant($stri);
-		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$var = $this->AkademikModel->VariabelPenilaian($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/uploadinput/scr_javascript',
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'akademik/' . strtolower($stri),
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai_config'
+			],
+			'data' => [
+				'sekolah' => $school,
+				'subject' => $sub,
+				'variable' => $var
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiUploadNilai_part2($stri)
+	{
+		$tahun = $this->AkademikModel->ThAkademikActive($stri);
+		if (!empty($_SESSION['nilai_siswa'])) {
+			$nilai_siswa = $_SESSION['nilai_siswa'];
+			$vardata = $_POST['variable'];
+			foreach ($nilai_siswa as $key => $value) {
+				$nilai_siswa[$key]['raw_ass_id'] = $vardata[$value['raw_title']];
+			}
+		}
+		foreach ($nilai_siswa as $key => $value) {
+			${$value['raw_ass_id']}[$key] = NULL; 
+		}
+		$result = array();
+		foreach ($nilai_siswa as $key => $value) {
+			$result[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
+			$result[$value['raw_stu_num']][$value['raw_ass_id']] = $value['raw_point'];
+		}
+		foreach ($result as $key => $value) {
+			extract($value);
+			$formula = $this->AkademikModel->FormulaEvaluasi($fds_cat_id);
+			$fo = $formula[0]['cat_formula_asses'];
+			eval('$poin = '.$fo.';');
+			$nilai[$key] = $poin;
+		};
+		$maxid = $this->AkademikModel->MaxIdFixNilai($stri);
+		$num = $maxid[0]['id'] + 1;
+		foreach ($nilai_siswa as $key => $value) {
+			$datafix[$value['raw_stu_num']]['fds_id'] = 'fds.'.$num;
+			$datafix[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
+			$datafix[$value['raw_stu_num']]['fds_aca_id'] =	$_SESSION['fds_aca_id'];
+			$datafix[$value['raw_stu_num']]['fds_class'] = $value['raw_class_id'];
+			$datafix[$value['raw_stu_num']]['fds_std_number'] = $value['raw_stu_num'] ;
+			$datafix[$value['raw_stu_num']]['fds_subject_id'] = $value['raw_mapel'] ;
+			$datafix[$value['raw_stu_num']]['fds_score'] = $nilai[$value['raw_stu_num']];
+			$num++;
+		}
+		$store_fixnilai = $this->AkademikModel->StoreFixNilai($datafix);
+		$store_nilai = $this->AkademikModel->StoreNilai($nilai_siswa);
+		$_SESSION['nilai_siswa'] = NULL;
+		$_SESSION['fds_aca_id'] = NULL;
+		return redirect()->to(base_url('/akademik'.'/'.$stri.'/unggah-nilai'));
+	}
+	#####
+	public function TambahNilaiManual($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
 		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
 		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$kategori = $this->AkademikModel->KategoriEvaluasiThActive($stri);
+		$tahun = $this->AkademikModel->ThAkademik($stri);
+		$tahunaktif = $this->AkademikModel->ThAkademikActive($stri);
+		$var = $this->AkademikModel->VariabelPenilaian($stri);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/uploadinput/scr_javascript',
+				1 => 'plugins/chainselect/chain_kelas_siswa',
+				2 => 'plugins/customformhide/customformhide'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'akademik/' . strtolower($stri),
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_nilai_manual'
+			],
+			'data' => [
+				'sekolah' => $school,
+				'jurusan' => $jurusan,
+				'mapel' => $semuamapel,
+				'kategori' => $kategori,
+				'tahun' => $tahun,
+				'tahunaktif' => $tahunaktif[0],
+				'variabel' => $var
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiNilaiManual($stri)
+	{
+		$data_siswa = [
+			'tahun' => $_POST['thajaran'],
+			'evaluasi' => $_POST['kategori'],
+			'mapel' => $_POST['mapel'],
+			'jurusan' => $_POST['jurusan'],
+			'kelas' => $_POST['kelas'],
+			'siswa' => $_POST['siswa']
+		];
+		foreach ($_POST['kriteria'] as $key => $value) {
+			$data_nilai[$key]['kriteria'] = $value;
+			$data_nilai[$key]['variabel'] = $_POST['variabel'][$key];
+			$data_nilai[$key]['nilai'] = $_POST['nilai'][$key];
+			$data_nilai[$key]['skor'] = $_POST['skor'][$key];
+			$data_nilai[$key]['feedback'] = $_POST['feedback'][$key];
+		}
+		// ==============================================================================================
+		if (!$_POST['kategori'] || !$_POST['mapel'] || !$_POST['jurusan'] || !$_POST['kelas'] || !$_POST['siswa']) {
+			if (!$_POST['kategori']) {
+				session()->setFlashdata('error_evaluasi', 'Kategori evaluasi harus dipilih, mohon untuk memilih kategori evaluasi penilaian.');
+			}
+			if (!$_POST['mapel']) {
+				session()->setFlashdata('error_mapel', 'Mata pelajaran atau subject harus dipilih, mohon untuk memilih mata pelajaran.');
+			}
+			if (!$_POST['jurusan']) {
+				session()->setFlashdata('error_jurusan', 'Jurusan harus dipilih, mohon untuk memilih jurusan.');
+			}
+			if (!$_POST['kelas']) {
+				session()->setFlashdata('error_kelas', 'Kelas harus dipilih, mohon untuk memilih kelas.');
+			}
+			if (!$_POST['siswa']) {
+				session()->setFlashdata('error_siswa', 'Siswa harus dipilih, mohon untuk memilih nama siswa.');
+			}
+			session()->setFlashdata('error', 'Unggah Gagal');
+			return redirect()->back()->withInput();
+		}
+		// =============================================================================================
+		$siswa = $this->StudentModel->ShowNamaSiswa($data_siswa['siswa']);
+	
+		foreach ($data_nilai as $key => $value) {
+			$tmp[$key]['raw_cat_id'] =  $data_siswa['evaluasi'];
+			$tmp[$key]['raw_years_id'] = $data_siswa['tahun'];
+			$tmp[$key]['raw_class_id'] = $data_siswa['kelas'];
+			$tmp[$key]['raw_mapel'] = $data_siswa['mapel'];
+			$tmp[$key]['raw_stu_num'] = $data_siswa['siswa'];
+			$tmp[$key]['raw_email'] = $siswa[0]['stu_email'];
+			$tmp[$key]['raw_title'] = $value['kriteria'];
+			$tmp[$key]['raw_point'] = $value['nilai'];
+			$tmp[$key]['raw_score'] = $value['skor'];
+			$tmp[$key]['raw_feedback'] = $value['feedback'];
+			$tmp[$key]['raw_ass_id'] = $data_siswa['evaluasi'];
+		}
+		foreach ($data_nilai as $key => $value) {
+			$result[$data_siswa['siswa']]['fds_cat_id'] = $data_siswa['evaluasi'];
+			$result[$data_siswa['siswa']][$value['variabel']] = $value['nilai'];
+		}
+		foreach ($result as $key => $value) {
+			extract($value);
+			$formula = $this->AkademikModel->FormulaEvaluasi($fds_cat_id);
+			$fo = $formula[0]['cat_formula_asses'];
+			eval('$poin = '.$fo.';');
+			$nilai[$key] = $poin;
+		};
+		$maxid = $this->AkademikModel->MaxIdFixNilai($stri);
+		$num = $maxid[0]['id'] + 1;
+		foreach ($tmp as $key => $value) {
+			$datafix[$value['raw_stu_num']]['fds_id'] = 'fds.'.$num;
+			$datafix[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
+			$datafix[$value['raw_stu_num']]['fds_aca_id'] =	$value['raw_years_id'];
+			$datafix[$value['raw_stu_num']]['fds_class'] = $value['raw_class_id'];
+			$datafix[$value['raw_stu_num']]['fds_std_number'] = $value['raw_stu_num'] ;
+			$datafix[$value['raw_stu_num']]['fds_subject_id'] = $value['raw_mapel'] ;
+			$datafix[$value['raw_stu_num']]['fds_score'] = $nilai[$value['raw_stu_num']];
+			$num++;
+		}
+		$store_fixnilai = $this->AkademikModel->StoreFixNilai($datafix);
+		$store_nilai = $this->AkademikModel->StoreNilai($tmp);
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function PerbaruiNilai($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
+		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$kategori = $this->AkademikModel->KategoriEvaluasiThActive($stri);
+		$tahun = $this->AkademikModel->ThAkademik($stri);
+		$tahunaktif = $this->AkademikModel->ThAkademikActive($stri);
 		$this->partial = [
 			'title' => 'Trust Academyc Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -1011,35 +1310,182 @@ class Akademik extends BaseController
 				'pg_title' => $school[0]['sch_name'],
 				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai'
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_perbarui_nilai'
 			],
 			'data' => [
 				'sekolah' => $school,
 				'jurusan' => $jurusan,
-				'mapel' => $semuamapel
+				'mapel' => $semuamapel,
+				'kategori' => $kategori,
+				'tahun' => $tahun,
+				'tahunaktif' => $tahunaktif[0]
 			]
 		];
 		return view('layout/main_layout', $this->partial);
-		#=============================================================
-		foreach ($sub as $x => $val) {
-			foreach ($sheet as $key => $value) {
-				if ($key != 0) {
-					$multiar[$x][$key]['email'] = $value[2];
-					$multiar[$x][$key]['mapel'] = $val['val_mapel'];
-					$multiar[$x][$key]['nilai'] = $value[$val['key_nilai']];
-					$multiar[$x][$key]['skor'] = $value[$val['key_skor']];
-					$multiar[$x][$key]['feedback'] = $value[$val['key_feedback']];
-				}
-			}
-		}
-		#=============================================================
-		$p = 0;
-		foreach ($multiar as $ka => $value) {
-			foreach ($value as $ki => $subvalue) {
-				$tmp[$p] = $subvalue;
-				$p++;
-			}
-		}
 	}
-
+	#####
+	public function EksekusiPerbaruiNilai($stri)
+	{
+		$data =[
+			'tahun' => $_POST['thajaran'],
+			'evaluasi' => $_POST['kategori'],
+			'mapel' => $_POST['mapel'],
+			'jurusan' => $_POST['jurusan'],
+			'kelas' =>$_POST['kelas']
+		];
+		$kelas = $this->AkademikModel->DetailKelas($data['kelas']);
+		$tahun = $this->AkademikModel->DetailTahun($data['tahun']);
+		$evaluasi = $this->AkademikModel->DetailEvaluasi($data['evaluasi']);
+		$_SESSION['filtertitle'] = [
+			'evaluasi' => $evaluasi[0]['cat_category_name'],
+			'kelas' => $kelas[0]['cls_name'],
+			'tahun' => $tahun[0]['ach_years']
+		];
+		$filterdata = $this->AkademikModel->FiltrasiRawData($data);
+		if (empty($filterdata)) {
+			$_SESSION['filterdatanilai'] = NULL;
+			return redirect()->back()->withInput();
+		}
+		$_SESSION['filterparameter'] = $data;
+		$result = array();
+		foreach ($filterdata as $key => $value) {
+			$result[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
+			$result[$value['raw_stu_num']][$value['raw_ass_id']] = $value['raw_point'];
+		}
+		foreach ($result as $key => $value) {
+			extract($value);
+			$formula = $this->AkademikModel->FormulaEvaluasi($fds_cat_id);
+			$fo = $formula[0]['cat_formula_asses'];
+			eval('$poin = '.$fo.';');
+			$nilai[$key] = $poin;
+		};
+		$n = 0  ;
+		foreach ($filterdata as $key => $value) {
+			$result1[$value['raw_stu_num']][] = $value;
+		}
+		foreach ($result1 as $key => $value) {
+			$i = 0 ;
+			foreach ($value as $key => $subvalue) {
+				$subitem[$i]['raw_title'] = $subvalue['raw_title'];
+				$subitem[$i]['raw_point'] = $subvalue['raw_point'];
+				$subitem[$i]['raw_score'] = $subvalue['raw_score'];
+				$subitem[$i]['raw_feedback'] = $subvalue['raw_feedback'];
+				$subitem_id = $subvalue['raw_id'];
+				$subitem_email =  $subvalue['raw_email'];
+				$subitem_kelas = $subvalue['raw_class_id'];
+				$subitem_evaluasi = $subvalue['raw_cat_id'];
+				$subitem_idsiswa = $subvalue['raw_stu_num'];
+				$i++;
+			}
+			$item_nama = $this->StudentModel->ShowNamaSiswa($subitem_idsiswa);
+			// $item_kelas = $this->TenantModel->ShowNamaKelasJurusan($subitem_kelas);
+			$item[$n]['idraw'] = $subitem_id;
+			$item[$n]['idsiswa'] = $subitem_idsiswa;
+			$item[$n]['nama'] = $item_nama[0]['stu_fullname'];
+			$item[$n]['email'] = $subitem_email;
+			$item[$n]['kelas'] = $data['kelas'];
+			$item[$n]['jurusan'] = $data['jurusan'];
+			$item[$n]['evaluasi'] = $subitem_evaluasi;
+			$item[$n]['nilai'] = $subitem;
+			$item[$n]['nilaiakhir'] = $nilai[$subitem_idsiswa];
+			$n++;
+		}
+		$_SESSION['filterdatanilai'] = $item;
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function FormPerbaruiNilai($stri,$stra)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$param = $_SESSION['filterparameter'];
+		$filterdata = $this->AkademikModel->FiltrasiRawDataSiswa($param,$stra);
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/uploadinput/scr_javascript',
+				1 => 'plugins/chainselect/chain_kelas'
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'akademik/' . strtolower($stri),
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_form_perbarui_nilai'
+			],
+			'data' => [
+				'id' => $stra,
+				'sekolah' => $school,
+				'filterdata' => $filterdata
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function EksekusiFormPerbaruiNilai($stri,$stra)
+	{
+		$nilai = $_POST['nilai'];
+		$feedback = $_POST['feedback'];
+		foreach ($nilai as $key => $value) {
+			$val['raw_point'] = $value;
+			$val['raw_feedback'] = $feedback[$key];
+			$this->AkademikModel->PerbaruiRawNilai($key,$val);
+		}
+		$param = $_SESSION['filterparameter'];
+		$nilai_siswa = $this->AkademikModel->FiltrasiRawDataSiswa($param,$stra);
+		$result = array();
+		foreach ($nilai_siswa as $key => $value) {
+			$result[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
+			$result[$value['raw_stu_num']][$value['raw_ass_id']] = $value['raw_point'];
+		}
+		foreach ($result as $key => $value) {
+			extract($value);
+			$formula = $this->AkademikModel->FormulaEvaluasi($fds_cat_id);
+			$fo = $formula[0]['cat_formula_asses'];
+			eval('$poin = ' . $fo . ';');
+			$nilai[$key] = $poin;
+		};
+		foreach ($nilai_siswa as $key => $value) {
+			$dataid[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
+			$dataid[$value['raw_stu_num']]['fds_aca_id'] =	$value['raw_years_id'];
+			$dataid[$value['raw_stu_num']]['fds_class'] = $value['raw_class_id'];
+			$dataid[$value['raw_stu_num']]['fds_std_number'] = $value['raw_stu_num'];
+			$dataid[$value['raw_stu_num']]['fds_subject_id'] = $value['raw_mapel'];
+			$datafix[$value['raw_stu_num']]['fds_score'] = $nilai[$value['raw_stu_num']];
+		}
+		foreach ($dataid as $key => $value) {
+			$ids = $value;
+		}
+		foreach ($datafix as $key => $value) {
+			$data = $value;
+		}
+		$this->AkademikModel->UpdateFixNilai($ids,$data);
+		$_SESSION['filterdatanilai'] = NULL;
+		$_SESSION['filterparameter'] = NULL;
+		$_SESSION['filterdatanilai'] = NULL;
+		return redirect()->to(base_url("/"."akademik/".$stri."/perbarui-nilai")); 
+		// print_r($sd);
+	}
+	#####
+	public function ClearDataFilter($stri)
+	{
+		$_SESSION['filterdatanilai'] = NULL;
+		$_SESSION['filterparameter'] = NULL;
+		$_SESSION['filterdatanilai'] = NULL;
+		return redirect()->to(base_url("/"."akademik/".$stri."/perbarui-nilai"));
+	}
 }

@@ -87,5 +87,4 @@
 			<?php echo session()->getFlashdata('success'); ?>
 		</div>
 	<?php endif; ?>
-	<hr>
 </div>

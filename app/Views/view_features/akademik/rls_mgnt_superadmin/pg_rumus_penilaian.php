@@ -1,34 +1,42 @@
 <style>
-	.tb-info{
+	.tb-info {
 		color: white;
 	}
-	.tb-info td, .tb-info th{
+
+	.tb-info td,
+	.tb-info th {
 		border-top: 0px;
 	}
-	.tb-info td{
+
+	.tb-info td {
 		vertical-align: top;
 	}
-	.btn-custom{
-		font-size: 12px; 
+
+	.btn-custom {
+		font-size: 12px;
 		height: 30px;
 		padding-top: 0px;
 		padding-bottom: 0px;
 	}
-	
 </style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
+	<h6>Akademik - <?= $content['pg_title'] ?></h6>
 	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
+	<hr>
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
+	<p style="font-size: 14px;">
+		<b>Set Rumus</b><br>
+		Ana
+	</p>
 	<hr>
 	<div class="row clearfix">
 		<div class="col-sm-6">
 			<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-rumus') ?>" method="post" enctype="multipart/form-data">
 				<input name="idcat" type="hidden" value="<?= $data['idcat'] ?>">
 				<div class="text-right">
-					<a href="<?=base_url($content['pg_menu_url'].'/rumus-penilaian') ?>">
+					<a href="<?= base_url($content['pg_menu_url'] . '/rumus-penilaian') ?>">
 						<button type="button" class="btn btn-sm btn-outline-secondary"><i class="icon-copy dw dw-cancel"></i> Batal</button>
 					</a>
 					<button type="submit" class="btn btn-sm btn-primary"><i class="icon-copy dw dw-diskette1"></i> Simpan</button>
@@ -71,7 +79,7 @@
 						foreach ($data['variable'] as $key => $value) { ?>
 							<tr>
 								<td scope="row"><?= $no ?></td>
-								<td> <button id="<?= $value['var_code'] ?>" class="btn btn-sm btn-primary btn-custom" >$<?= $value['var_code'] ?></button></td>
+								<td> <button id="<?= $value['var_code'] ?>" class="btn btn-sm btn-primary btn-custom">$<?= $value['var_code'] ?></button></td>
 								<td><?= $value['var_name'] ?></td>
 							</tr>
 						<?php

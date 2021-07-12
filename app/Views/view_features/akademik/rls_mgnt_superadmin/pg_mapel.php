@@ -31,7 +31,7 @@
 						</a>
 						<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 							<a class="dropdown-item" href="<?=base_url()?>"><i class="dw dw-eye"></i> View</a>
-							<a class="dropdown-item" href="<?=base_url()?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
+							<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/update-mapel'.'/'.$value['suc_subject_id'])?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
 							<a class="dropdown-item" href="#"><i class="icon-copy dw dw-delete-3"></i> Delete</a>
 						</div>
 					</div>

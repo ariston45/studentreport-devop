@@ -1,11 +1,13 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?=$content['pg_title']?></h4>
+	<!-- # -->
+	<h6>Akademik - <?=$content['pg_title']?></h6>
 	<p  style="font-size: 14px;" class="mb-20"><?=$content['pg_subtitle']?></p>
+	<hr>
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
-	<hr>
 	<p style="font-size: 14px;">
+		<b>Tahun Akademik</b><br>
 		Tahun akademik tidak dapat dihapus, apabila terjadi salah penamaan pada waktu penginputan anda dapat mengeditnya. Untuk mengaktifkan tahun akademik silakan klik pilihan di kolom opsi, kemudiak klik menu aktif. 
 	</p>
 	<hr>

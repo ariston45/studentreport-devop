@@ -207,4 +207,14 @@ class TenantModel extends Model
 		return $query->getResultArray();
 	}
 
+	public function ShowNamaKelasJurusan($id)
+	{
+		$builder = $this->db->table('tnt_class');
+		$builder->select('cls_name,mo_name');
+		$builder->join('tnt_majors','tnt_class.cls_id_major = tnt_majors.mo_id');
+		$builder->where('tnt_class.cls_id',$id);
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
+
 }

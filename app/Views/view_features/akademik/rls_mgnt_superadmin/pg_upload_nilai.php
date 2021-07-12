@@ -22,38 +22,30 @@
 	<hr>
 	<!-- # -->
 	<div class="col-sm-12 mb-20 pd-0">
-		<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-upload-nilai') ?>" method="post" enctype="multipart/form-data">
+		<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-upload-nilai-part1') ?>" method="post" enctype="multipart/form-data">
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih Tahun Ajaran</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='thajaran' id='thajaran'>
+						<option value="<?=$data['tahunaktif']['aca_id']?>"><?=$data['tahunaktif']['ach_years']?></option>
+						<?php
+						foreach ($data['tahun'] as $key => $value) {
+							echo '<option value="' . $value['aca_id'] . '">' . $value['ach_years'] . '</option>';
+						}
+						?>
+					</select>
+				</div>
+			</div>
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Kategori Evaluasi</label>
 				<div class="col-sm-12 col-md-9">
 					<select class="custom-select col-12 fh-35" name='kategori' id='kategori'>
-						<option value="<?= false ?>">Pilih mata pelajaran...</option>
-						<?php
-						foreach ($data['mapel'] as $key => $value) {
-							echo '<option value="' . $value['suc_subject_id'] . '">' . $value['suc_name'] . '</option>';
-						}
-						?>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label class="col-sm-12 col-md-3 col-form-label">Pilih Jurusan</label>
-				<div class="col-sm-12 col-md-9">
-					<select class="custom-select col-12 fh-35" name='jurusan' id='jurusan'>
 						<option value="<?= false ?>">Pilih kategori evaluasi...</option>
 						<?php
-						foreach ($data['jurusan'] as $key => $value) {
-							echo '<option value="' . $value['mo_id'] . '">' . $value['mo_name'] . '</option>';
+						foreach ($data['kategori'] as $key => $value) {
+							echo '<option value="' . $value['cat_id'] . '">' . $value['cat_category_name'] . '</option>';
 						}
 						?>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label class="col-sm-12 col-md-3 col-form-label">Pilih Kelas</label>
-				<div class="col-sm-12 col-md-9">
-					<select class="custom-select col-12 fh-35" name='kelas' id='kelas'>
-						<option value="<?= false ?>">Pilih kelas...</option>
 					</select>
 				</div>
 			</div>
@@ -71,10 +63,31 @@
 				</div>
 			</div>
 			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih Jurusan</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='jurusan' id='jurusan'>
+						<option value="<?= false ?>">Pilih jurusan...</option>
+						<?php
+						foreach ($data['jurusan'] as $key => $value) {
+							echo '<option value="' . $value['mo_id'] . '">' . $value['mo_name'] . '</option>';
+						}
+						?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih Kelas</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='kelas' id='kelas'>
+						<option value="<?= false ?>">Pilih kelas...</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Unggah File Excel</label>
 				<div class="col-sm-12 col-md-9">
 					<input type="file" class="custom-file-input" id="file_excel" name="file_excel" accept=".xls,.xlsx" required>
-					<label class="custom-file-label" for="customFile">Choose file</label>
+					<label class="custom-file-label" for="customFile">Pilih berkas...</label>
 				</div>
 			</div>
 			<div class="text-right">
@@ -86,21 +99,21 @@
 
 	<?php if (!empty(session()->getFlashdata('error'))) : ?>
 		<div class="alert alert-danger" role="alert">
-			<b>Upload Gagal</b>
+			<b>Unggah Nilai Gagal</b>
 			<hr>
 			<?php
-			$notif[0] = session()->getFlashdata('notif_dup_nis');
-			$notif[1] = session()->getFlashdata('notif_dup_email');
-			$notif[2] = session()->getFlashdata('notif_id_exist');
-			$notif[3] = session()->getFlashdata('notif_email_exist');
-			$notif[4] = session()->getFlashdata('notif_jurusan');
-			$notif[5] = session()->getFlashdata('notif_kelas');
-			$notif[6] = session()->getFlashdata('notif_file');
-			$notif[6] = session()->getFlashdata('notif_sameemail');
-			$notif[6] = session()->getFlashdata('notif_filetype');
+			$notif[0] = session()->getFlashdata('error_kategori');
+			$notif[1] = session()->getFlashdata('error_mapel');
+			$notif[2] = session()->getFlashdata('error_jurusan');
+			$notif[3] = session()->getFlashdata('error_kelas');
+			$notif[4] = session()->getFlashdata('error_data');
 			foreach ($notif as $key => $value) {
 				if (!empty($value)) {
-					echo '<li>' . $value . '</li>';
+					if ($key == 4) {
+						echo $value;
+					}else {
+						echo '<li>' . $value . '</li>';
+					}
 				}
 			}
 			?>
