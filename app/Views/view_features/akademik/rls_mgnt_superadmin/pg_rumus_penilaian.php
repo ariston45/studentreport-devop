@@ -26,9 +26,10 @@
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<p style="font-size: 14px;">
+	<p style="font-size: 13px;">
 		<b>Set Rumus</b><br>
-		Ana
+		Untuk menghasilkan nilai akhir dari setiap evaluasi, nilai-nilai dari penugasan ataupun quiz (ulangan harian) dapat di proses menggunakan rumus. 
+		Rumus dapat berbeda dari masing-masing evaluasi.
 	</p>
 	<hr>
 	<div class="row clearfix">

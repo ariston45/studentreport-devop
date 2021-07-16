@@ -1,13 +1,16 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
+	<h6>Akademik - <?= $content['pg_title'] ?></h6>
 	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
+	<hr>
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<hr>
-	<p style="font-size: 14px;">
-		Variabel penilaian digunakan untuk mengelompokan kreteria penilaian.
+	<p style="font-size: 13px;">
+	<b>Variabel Penilaian</b> <br>
+		Variabel penilaian merupakan variabel yang mewakili penilaian nari setiap tugas atau quiz dan juga penilaian lainnya. 
+		Dari setiap variabel yang sudah ditentukan oleh tiap-tiap penilaian, diproses oleh rumus penilaian yang sebelumnya disusun.
 	</p>
+	<hr>
 	<button class="btn btn-sm btn-dark mb-20" data-toggle="modal" data-target="#Medium-modal"><i class="icon-copy dw dw-add"></i> Tambah variabel</button>
 	<div class="col-sm-8 pl-0">
 		<table class="data-table table stripe hover nowrap" id="dt">

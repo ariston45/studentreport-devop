@@ -10,6 +10,7 @@ use App\Models\DbModel;
 use App\Models\UserModel;
 use App\Models\StudentModel;
 use phpDocumentor\Reflection\Types\This;
+use PhpParser\Node\Stmt\Echo_;
 use PhpParser\Node\Stmt\While_;
 
 class Akademik extends BaseController
@@ -165,9 +166,6 @@ class Akademik extends BaseController
 	{
 		$school = $this->TenantModel->DataTenant($stri);
 		$akad = $this->AkademikModel->ThAkademik($stri);
-		// $thaktif = $this->AkademikModel->ThAkademikActive($stri);
-		// print_r($thaktif);
-		// die();
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
 				$this->partial = [
@@ -194,7 +192,7 @@ class Akademik extends BaseController
 					'content'	=> [
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
-						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_th_akademik'
 					],
@@ -236,6 +234,119 @@ class Akademik extends BaseController
 		}
 	}
 	#####
+	public function TambahTahunAkademik($stri)
+	{
+		$school = $this->TenantModel->DataTenant($stri);
+		$akad = $this->AkademikModel->ThAkademik($stri);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_tambah_thajaran'
+					],
+					'data' => [
+						'school' => $school,
+						'akademik' =>$akad
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				# code...
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+	}
+	#####
+	public function EksekusiTambahTahunAkademik($stri)
+	{
+		$data_tahun = [
+			'awal' => $_POST['awal'],
+			'akhir' => $_POST['akhir']
+		];
+		$data_evaluasi = [
+			'evaluasi' => $_POST['evaluasi'],
+			'bentuk_nilai' => $_POST['bentuk_nilai']
+		];
+		foreach ($data_evaluasi as $key1 => $value) {
+			$n = 0 ;
+			foreach ($value as $key2 => $subvalue) {
+				$list_evaluasi[$n][$key1] = $subvalue;
+				$n++;
+			}
+		}
+		$exp_awal = explode(' ',$data_tahun['awal']);
+		$exp_akhir = explode(' ',$data_tahun['akhir']);
+		$maxid = $this->AkademikModel->MaxAcaId();
+		$num = $maxid[0]['maxid'] + 1;
+		$newid = 'a.'.$num;
+		$thajaran = [
+			'aca_id' => $newid,
+			'aca_tnt_id' => strtoupper($stri),
+			'ach_years' => 'Tahun Ajaran '.$exp_awal[1].'/'.$exp_akhir[1],
+			'ach_status' => 'NONAKTIF'
+		];
+		foreach ($list_evaluasi as $key => $value) {
+			$evaluasi[$key]['cat_acad_id'] = $newid;
+			$evaluasi[$key]['cat_category_name'] = $value['evaluasi'];
+			$evaluasi[$key]['cat_formula_asses'] = NULL;
+			$evaluasi[$key]['cat_value_form'] = $value['bentuk_nilai'];
+			$evaluasi[$key]['cat_month_start'] = $data_tahun['awal'];
+			$evaluasi[$key]['cat_month_end'] = $data_tahun['akhir'];
+		}
+		$this->AkademikModel->StoreTahunAkademik($thajaran);
+		$this->AkademikModel->StoreThAsessment($evaluasi);
+		return redirect()->back()->withInput();
+	}
+	#####
 	public function UpdateTahunAkad($stri,$stra)
 	{
 		$akad = $this->AkademikModel->TahunAkademikDet($stri,$stra);
@@ -264,7 +375,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_th_akad'
 			],
@@ -322,7 +433,7 @@ class Akademik extends BaseController
 					'content'	=> [
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
-						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_mapel'
 					],
@@ -393,7 +504,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_tambah_mapel'
 			],
@@ -451,7 +562,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_mapel'
 			],
@@ -509,7 +620,7 @@ class Akademik extends BaseController
 					'content'	=> [
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
-						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_kategori_penilaian'
 					],
@@ -597,7 +708,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_kategori'
 			],
@@ -645,7 +756,7 @@ class Akademik extends BaseController
 					'content'	=> [
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
-						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_variable'
 					],
@@ -729,7 +840,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_variable'
 			],
@@ -782,7 +893,7 @@ class Akademik extends BaseController
 					'content'	=> [
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
-						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_setrumus_penilaian'
 					],
@@ -858,7 +969,7 @@ class Akademik extends BaseController
 					'content'	=> [
 						'pg_menu_url' => 'akademik/' . strtolower($school[0]['sch_id']),
 						'pg_title' => $school[0]['sch_name'],
-						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_rumus_penilaian'
 					],
@@ -944,7 +1055,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai'
 			],
@@ -1087,7 +1198,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai_config'
 			],
@@ -1178,7 +1289,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_nilai_manual'
 			],
@@ -1246,7 +1357,7 @@ class Akademik extends BaseController
 			$tmp[$key]['raw_point'] = $value['nilai'];
 			$tmp[$key]['raw_score'] = $value['skor'];
 			$tmp[$key]['raw_feedback'] = $value['feedback'];
-			$tmp[$key]['raw_ass_id'] = $data_siswa['evaluasi'];
+			$tmp[$key]['raw_ass_id'] = $data_siswa['variabel'];
 		}
 		foreach ($data_nilai as $key => $value) {
 			$result[$data_siswa['siswa']]['fds_cat_id'] = $data_siswa['evaluasi'];
@@ -1301,14 +1412,14 @@ class Akademik extends BaseController
 				3 => $this->request->uri->getSegment(3)
 			],
 			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
+			'pgtitle' => $this->session->get('sch_name'),
 			'breadcrumb' => [
 				'customers' => 'Customers'
 			],
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_perbarui_nilai'
 			],
@@ -1423,7 +1534,7 @@ class Akademik extends BaseController
 			'content'	=> [
 				'pg_menu_url' => 'akademik/' . strtolower($stri),
 				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_form_perbarui_nilai'
 			],

@@ -6,7 +6,7 @@
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
-	<p style="font-size: 14px;">
+	<p style="font-size: 13px;">
 		<b>Tahun Akademik</b><br>
 		Tahun akademik tidak dapat dihapus, apabila terjadi salah penamaan pada waktu penginputan anda dapat mengeditnya. Untuk mengaktifkan tahun akademik silakan klik pilihan di kolom opsi, kemudiak klik menu aktif. 
 	</p>

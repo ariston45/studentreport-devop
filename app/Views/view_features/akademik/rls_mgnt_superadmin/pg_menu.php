@@ -1,16 +1,21 @@
 <div class="row" >
 	<div class="col-sm-12 mb-10">
 		<div class="btn-group">
-			<a href="<?=base_url($content['pg_menu_url'].'/tahun-akademik')?>" type="button"
+			<div class="btn-group dropdown">
+				<button type="button" 
 				<?php
 					if ($segments[3] == 'profil-sekolah') {
-						echo 'class="btn btn-outline-primary btn-sm"';
+						echo 'class="btn btn-outline-primary btn-sm dropdown-toggle waves-effect"';
 					}else {
-						echo 'class="btn btn-outline-primary btn-sm"';
+						echo 'class="btn btn-outline-primary btn-sm dropdown-toggle waves-effect"';
 					}
-				?>>
-					Tahun Akademik
-			</a>
+				?> 
+				data-toggle="dropdown" aria-expanded="false"> Tahun Akademik <span class="caret"></span> </button>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/tahun-akademik')?>">Tahun Akademik</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/tambah-tahun-akademik')?>">Tambah Tahun Akademik</a>
+				</div>
+			</div>
 			<!-- # -->
 			<div class="btn-group dropdown">
 				<button type="button" 

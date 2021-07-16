@@ -1,11 +1,11 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h6>Akademik - <?=$content['pg_title']?></h6>
-	<p  style="font-size: 14px;" class="mb-20"><?=$content['pg_subtitle']?></p>
+	<h6>Akademik - <?= $content['pg_title'] ?></h6>
+	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
 	<hr>
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<p style="font-size: 14px;">
+	<p style="font-size: 13px;">
 		<b>Rumus Penilaian</b><br>
 		Berikut ini adalah tabel rumus penilaian dari kategori penilaian (Tengah Semester Satu, Semester Satu, Tengah Semester Dua, Semester Dua). 
 		Untuk membuat rumus penilaian dari masing-masing kategori penilain, silakan klik tombol "Set Rumus" pada kolom Opsi.

@@ -1,7 +1,7 @@
 <div class="card-box mb-30">
 	<div class="pd-20">
 		<h6>Rapor Siswa</h6>
-		<p style="font-size: 14px;">Laporan hasil evaluasi siswa yang meliputi evaluasi tengah semester satu maupun dua serta evaluasi akhir semester satu dan dua (ganjil/genap).</p>
+		<p style="font-size: 13px;">Laporan hasil evaluasi siswa yang meliputi evaluasi tengah semester satu maupun dua serta evaluasi akhir semester satu dan dua (ganjil/genap).</p>
 		<hr style="margin-bottom: 0px;">
 	</div>
 	<div class="pb-20">

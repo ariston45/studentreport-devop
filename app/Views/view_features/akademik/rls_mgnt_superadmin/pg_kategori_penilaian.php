@@ -1,11 +1,12 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
+	<h6>Akademik - <?= $content['pg_title'] ?></h6>
 	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
+	<hr>
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<hr class="mb-5 mt-10">
 	<p style="font-size: 13px;">
+		<b>Kategori Evaluasi</b><br>
 		Berikut adalah data kategori evaluasi secara default, anda dapat menambahkan kategori evaluasi baru, mengedit nama kategori, maupun menghapus data.
 	</p>
 	<hr style="margin-top:5px">

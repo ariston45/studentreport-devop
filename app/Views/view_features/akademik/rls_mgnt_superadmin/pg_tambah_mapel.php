@@ -4,19 +4,20 @@
 	}
 </style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
+	<h6>Akademik - <?= $content['pg_title'] ?></h6>
 	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
+	<hr>
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
 	<div class="mb-10">
-		<p style="font-size: 14px;">
+		<p style="font-size: 13px;">
+			<b>Tambah Mata Pelajaran</b><br>
 			Tambahkan data mata pelajaran.
 		</p>
 	</div>
 	<hr>
 	<div class="mb-20">
-		<p><b>Tambah Mata Pelajaran</b></p>
 		<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-tambah-pelajaran') ?>" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Nama Mata Pelajaran</label>

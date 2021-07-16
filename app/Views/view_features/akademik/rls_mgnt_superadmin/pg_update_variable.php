@@ -1,13 +1,15 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?= $content['pg_title'] ?></h4>
+	<h6>Akademik - <?= $content['pg_title'] ?></h6>
 	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
+	<hr>
 	<!--  -->
 	<?= view($content['content_menu']) ?>
 	<!--  -->
-	<hr>
-	<p style="font-size: 14px;">
-		Update variabel penilaian.
+	<p style="font-size: 13px;">
+		<b>Update Variabel</b><br>
+		Update nama variabel penilaian.
 	</p>
+	<hr>
 	<div class="col-sm-8 pl-0">
 		<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-update-variable' . '/' . $data['variable']['var_id']) ?>" method="POST">
 			<div class="form-group">

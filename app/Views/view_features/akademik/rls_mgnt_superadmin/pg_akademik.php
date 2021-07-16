@@ -1,7 +1,7 @@
 <div class="card-box mb-30">
 	<div class="pd-20">
 		<h6>Akademik</h6>
-		<p style="font-size: 14px;">Olah data akademik sekolah meliputi upload nilai, data kelas dan jurusan, tahun ajaran, mata pelajran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.</p>
+		<p style="font-size: 14px;">Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.</p>
 		<hr style="margin-bottom: 0px;">
 	</div>
 	<div class="pb-20">

@@ -8,6 +8,8 @@ use App\Models\TenantModel;
 use App\Models\DbModel;
 use App\Models\UserModel;
 use App\Models\StudentModel;
+use App\Models\RaporModel;
+use App\Models\AkademikModel;
 
 class RaporSiswa extends BaseController
 {
@@ -18,6 +20,8 @@ class RaporSiswa extends BaseController
 		$this->DbModel = new DbModel();
 		$this->UserModel = new UserModel();
 		$this->StudentModel = new StudentModel();
+		$this->RaporModel = new RaporModel();
+		$this->AkademikModel = new AkademikModel();
 		$this->session = \Config\Services::session();
 		$this->logged_in = $this->session->get('logged_in');
 		$this->id_access = $this->session->get('u_id');
@@ -87,7 +91,9 @@ class RaporSiswa extends BaseController
 					],
 					'content'	=> [
 						'content_menu' => '',
-						'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_rapor'
+						'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_rapor',
+						'pg_title' => $schools[0]['sch_name'],
+						'pg_subtitle' => 'Laporan hasil evaluasi siswa yang meliputi evaluasi tengah semester satu maupun dua serta evaluasi akhir semester satu dan dua (ganjil/genap).',
 					],
 					'data' => $schools
 				];
@@ -178,8 +184,9 @@ class RaporSiswa extends BaseController
 						'pg_menu_url' => 'pusat-data/' . strtolower($school[0]['sch_id']),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+						'pg_link' => base_url('rapor-siswa/'.$stri),
 						'content_menu' => 'view_features/rapor/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_profil_sekolah'
+						'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_cari_siswa'
 					],
 					'data' => [
 						'school' => $school,
@@ -216,5 +223,74 @@ class RaporSiswa extends BaseController
 				# code...
 				break;
 		}
+	}
+	#####
+	public function EksekusiCariRapor($stri)
+	{
+		$data = [
+			'keywords' => $_POST['keywords'],
+			'param' => $stri
+		];
+		$ara['nama'] = $this->RaporModel->CariNama($data);
+		$ara['nis'] = $this->RaporModel->CariNis($data);
+		$ara['email'] = $this->RaporModel->CariEmail($data);
+		$new_ara = array_merge($ara['nama'],$ara['nis'],$ara['email']);
+		$new_ara = array_map("unserialize", array_unique(array_map("serialize", $new_ara)));
+		foreach ($new_ara as $key => $value) {
+			$li[$key]['stu_num'] = $value['stu_num'];
+			$li[$key]['stu_id'] = $value['stu_id'];
+			$li[$key]['nama'] = $value['stu_fullname'];
+			$li[$key]['email'] = $value['stu_email'];
+		}
+		$_SESSION['data_siswa'] = $li;
+		return redirect()->back()->withInput();
+	}
+	#####
+	public function ListRaporSiswa($stri,$id)
+	{
+		$th_ajaran = $this->AkademikModel->ThAkademik($stri);
+		// print_r($th_ajaran);  
+		// $fixnilai = $this->RaporSiswa->NilaiEvaluasi();
+		// die();
+		$school = $this->TenantModel->DataTenant($stri);
+		foreach ($th_ajaran as $key => $value) {
+			# code...
+		}
+		die();
+		$this->partial = [
+			'title' => 'Trust Academic Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+				1 => 'plugins/uploadinput/scr_javascript',
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/' . strtolower($school[0]['sch_id']),
+				'pg_title' => $school[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_link' => base_url('rapor-siswa/' . $stri),
+				'content_menu' => 'view_features/rapor/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_list_rapor_siswa'
+			],
+			'data' => [
+				'school' => $school,
+				'thajaran' => $th_ajaran
+			]
+		];
+		return view('layout/main_layout', $this->partial);
 	}
 }

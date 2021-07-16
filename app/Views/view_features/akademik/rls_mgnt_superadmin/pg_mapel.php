@@ -1,12 +1,15 @@
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-	<h4 class="text-blue h4"><?=$content['pg_title']?></h4>
-	<p  style="font-size: 14px;" class="mb-20"><?=$content['pg_subtitle']?></p>
+	<h6>Akademik - <?= $content['pg_title'] ?></h6>
+	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
+	<hr>
 	<!--  -->
 	<?=view($content['content_menu'])?>
 	<!--  -->
-	<p style="font-size: 14px;">
-		Manajemen data siswa.
+	<p style="font-size: 13px;">
+		<b>Data Mata Pelajaran</b><br>
+		Berikut ini data dari semua mata pelajaran, mata pelajaran dapat dikelompokan berdasarkan tingkatan.
 	</p>
+	<hr>
 	<table class="data-table table stripe hover nowrap" id="dt">
 		<thead>
 			<tr>

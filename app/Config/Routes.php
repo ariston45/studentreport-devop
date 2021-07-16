@@ -84,6 +84,8 @@ $routes->group('akademik', function ($routes) {
 	$routes->get('/', 'Akademik::index');
 	// 
 	$routes->get('(:any)/tahun-akademik', 'Akademik::TahunAkademik/$1');
+	$routes->get('(:any)/tambah-tahun-akademik', 'Akademik::TambahTahunAkademik/$1');
+	$routes->add('(:any)/eksekusi-tambah-tahun-akademik', 'Akademik::EksekusiTambahTahunAkademik/$1');
 	$routes->get('(:any)/th-set-active/(:any)', 'Akademik::ThSetAktive/$1/$2');
 	$routes->get('(:any)/update-th-akad/(:any)', 'Akademik::UpdateTahunAkad/$1/$2');
 	$routes->add('(:any)/eksekusi-update-thakad/(:any)', 'Akademik::EksekusiUpdateThakad/$1/$2');
@@ -124,8 +126,11 @@ $routes->group('akademik', function ($routes) {
 $routes->group('rapor-siswa', function ($routes) {
 	$routes->get('/', 'RaporSiswa::index');
 	$routes->get('(:any)/cari-rapor-siswa', 'RaporSiswa::CariRapor/$1');
-	$routes->get('audit-kenaikan-kelas', 'RaporSiswa::index');
-	$routes->get('peringkatisasi-siswa', 'RaporSiswa::index');
+	$routes->add('(:any)/eksekusi-cari-rapor-siswa', 'RaporSiswa::EksekusiCariRapor/$1');
+	$routes->add('(:any)/list-rapor-siswa/(:num)', 'RaporSiswa::ListRaporSiswa/$1/$2');
+	$routes->get('audit-kenaikan-kelas', 'AuditKenaikan::index');
+	$routes->get('peringkatisasi-siswa', 'PeringkatSiswa::index');
+	
 });
 // 
 $routes->group('pengguna', function ($routes) {
