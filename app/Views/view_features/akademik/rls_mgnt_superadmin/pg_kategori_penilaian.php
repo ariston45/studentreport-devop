@@ -1,3 +1,12 @@
+<style>
+	.table thead th{
+		font-size: 12px;
+		padding: 2px;
+	}
+	.table td{
+		padding: 2px;
+	}
+</style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
 	<h6>Akademik - <?= $content['pg_title'] ?></h6>
 	<p style="font-size: 14px;" class="mb-20"><?= $content['pg_subtitle'] ?></p>
@@ -7,16 +16,20 @@
 	<!--  -->
 	<p style="font-size: 13px;">
 		<b>Kategori Evaluasi</b><br>
-		Berikut adalah data kategori evaluasi secara default, anda dapat menambahkan kategori evaluasi baru, mengedit nama kategori, maupun menghapus data.
+		Berikut adalah data kategori evaluasi, anda dapat menambahkan kategori evaluasi baru, mengedit nama kategori, maupun menghapus data.
 	</p>
 	<hr style="margin-top:5px">
 	<button class="btn btn-sm btn-dark mb-20" data-toggle="modal" data-target="#Medium-modal"><i class="icon-copy dw dw-add"></i> Tambah Kategori Evaluasi</button>
-	<div class="col-sm-8 pl-0">
+	<div class="col-sm-12 pl-0">
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th colspan="3">Kategori Evaluasi <?= $data['nmaktif'] ?></th>
+						<th style="width: 4%px; text-align:center; ">No</th>
+						<th style="width: 26%;">Kategori Evaluasi</th>
+						<th style="width: 30%;">Rumus Penilaian</th>
+						<th style="width: 10%;">Bentuk Nilai</th>
+						<th style="width: 30%;">Opsi</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -24,14 +37,29 @@
 					$no = 1;
 					foreach ($data['kategori'] as $key => $value) { ?>
 						<tr>
-							<td style="width: 5px;"><?= $no ?></td>
+							<td style="text-align:center;"><?= $no ?></td>
 							<td scope="row"><?= $value['cat_category_name'] ?></td>
-							<td style="text-align: right;">
+							<td scope="row">
+								<?php
+								if (isset($value['cat_formula_asses'])) {
+									echo $value['cat_formula_asses'];
+								}else {
+									echo '.unset.';
+								}
+								?>
+							</td>
+							<td>
+								<?=$value['cat_value_form']?>
+							</td>
+							<td>
+								<a href="<?= base_url($content['pg_menu_url'] . '/membuat-rumus' . '/' . $value['cat_id']) ?>">
+									<span class="badge badge-primary"><i class="icon-copy dw dw-settings1"></i> Konfigurasi Rumus Penilaian</span>
+								</a>
 								<a href="<?= base_url($content['pg_menu_url'] . '/update-kategori' . '/' . $value['cat_id']) ?>">
-									<span class="badge badge-secondary">Ubah Nama</span>
+									<span class="badge badge-primary"><i class="icon-copy dw dw-pencil"></i> Ubah Data</span>
 								</a>
 								<a href="" class="kategori" data-toggle="modal" data-target="#confirmation-modal" data-id="<?= $value['cat_id'] ?>">
-									<span class="badge badge-secondary">Hapus</span>
+									<span class="badge badge-danger"><i class="icon-copy dw dw-delete-2"></i> Hapus</span>
 								</a>
 							</td>
 						</tr>
@@ -71,14 +99,13 @@
 		<div class="modal-content">
 			<div class="modal-body text-center font-18">
 				<h4 class="padding-top-30 mb-30 weight-500">Anda akan menghapus data kategori evaluasi ini, apakah anda yakin ingin melanjutkan ?</h4>
-
 				<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
 					<div class="col-6">
 						<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
 						TIDAK
 					</div>
 					<div class="col-6">
-						<form action="<?= base_url($content['pg_menu_url'] . '/hapus-kategori') ?>" method="POST">
+						<form action="<?= base_url($content['pg_menu_url'] . '/hapus-kategori'.'/'.$data['tahun'][0]['aca_id']) ?>" method="POST">
 							<input name="id" type="hidden" id="idkategori">
 							<button type="submit" class="btn btn-danger border-radius-100 btn-block confirmation-btn"><i class="fa fa-check"></i></button>
 						</form>

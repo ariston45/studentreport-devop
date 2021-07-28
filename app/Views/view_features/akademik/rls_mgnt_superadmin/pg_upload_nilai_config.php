@@ -2,6 +2,9 @@
 	.badge {
 		padding: 0.50em;
 	}
+	p {
+		font-size: 13px;
+	}
 </style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
 	<!-- # -->
@@ -21,6 +24,18 @@
 	</p>
 	<hr>
 	<!-- # -->
+	<p>
+		<b><i>Instruksi:</i></b><br>
+		<button type="button" class="btn btn-outline-dark" style="text-align: left; font-size:13px; margin-bottom: 5px; margin-top: 5px;">Rumus Penilaian: <br> R = <?=$data['rumus'][0]['cat_formula_asses']?></button> <br>
+		<?php
+		if (isset($data['rumus'][0]['cat_formula_asses'])) {
+			echo 'Pilihlah variabel pada form di bawah sesuai dengan variabel rumus penilaian diatas.';
+		}else {
+			echo 'Mohon maaf rumus penilaian kategori evaluasi '.$data['tahun']['nama'].' belum diatur, mohon mengaturnya terlebih dahulu melalui tautan berikut. 
+			<a href="'.base_url('/akademik'.'/'.$data['sekolah'][0]['sch_id'].'/kategori-penilaian-detail'.'/'.$data['tahun']['id']).'" target="_blank"><b>Atur Rumus</b></a>';
+		}
+		?>
+	</p>
 	<div class="col-sm-12 mb-20 pd-0">
 		<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-upload-nilai-part2') ?>" method="POST">
 			<div class="table-responsive">
@@ -37,7 +52,7 @@
 										<option value="<?= False ?>">Pilih variabel...</option>
 										<?php
 										foreach ($data['variable'] as $e => $val) { ?>
-											<option value="<?= $val['var_code'] ?>">( <?= $val['var_code'] ?> ) - <?= $val['var_name'] ?></option>
+											<option value="<?= $val['var_code'] ?>">($<?= $val['var_code'] ?>) - <?= $val['var_name'] ?></option>
 										<?php }
 										?>
 									</select>

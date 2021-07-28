@@ -7,6 +7,9 @@
   .table-responsive {
     margin-top: 20px;
   }
+  p {
+    font-size: 13px;
+  }
 </style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
   <!-- # -->
@@ -36,7 +39,9 @@
   <?php
   if (!empty($_SESSION['data_siswa'])) { 
     $list = $_SESSION['data_siswa'];
-    ?>  
+    ?>
+    <p> <i>Berikut ini data dari hasil pencarian: "<?=$_SESSION['keywords']?>" </i> </p>
+    <button type="button" class="btn btn-sm btn-light" style="font-size: 13px;"><i class="icon-copy dw dw-delete-3" style="color: red;"></i> Bersihkan Data</button>  
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -73,5 +78,9 @@
         </tbody>
       </table>
     </div>
+  <?php }elseif (!empty($_SESSION['keywords'])) { ?>
+   <p> <i>Mohon maaf data dari hasil pecarian "<?=$_SESSION['keywords']?>" tidak tersedia.</i> </p>
+  <?php }else { ?>
+    <p><i>*/Inputkan keyword pada form diatas.</i></p>
   <?php } ?>
 </div>

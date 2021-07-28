@@ -45,9 +45,9 @@
 				?>  
 				data-toggle="dropdown" aria-expanded="false">Pengaturan Penilaian<span class="caret"></span> </button>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/rumus-penilaian')?>">Rumus Penilaian</a>
-					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/kategori-penilaian')?>">Kategori Evaluasi</a>
-					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/variable-penilaian')?>">Variabel Penilaian</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/kategori-penilaian')?>">Konfigurasi Kategori Evaluasi</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/variable-penilaian')?>">Konfigurasi Variabel Penilaian</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/variable-penilaian')?>">Konfigurasi Bentuk Penilaian Huruf</a>
 				</div>
 			</div>
 			<!-- # -->

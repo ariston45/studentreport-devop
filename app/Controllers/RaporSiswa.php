@@ -156,7 +156,7 @@ class RaporSiswa extends BaseController
 	#####
 	public function CariRapor($stri)
 	{
-		$school = $this->TenantModel->DataTenant($stri);
+		$sekolah = $this->TenantModel->DataTenant($stri);
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
 				$this->partial = [
@@ -181,15 +181,15 @@ class RaporSiswa extends BaseController
 						'customers' => 'Customers'
 					],
 					'content'	=> [
-						'pg_menu_url' => 'pusat-data/' . strtolower($school[0]['sch_id']),
-						'pg_title' => $school[0]['sch_name'],
+						'pg_menu_url' => 'pusat-data/' . strtolower($sekolah[0]['sch_id']),
+						'pg_title' => $sekolah[0]['sch_name'],
 						'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
 						'pg_link' => base_url('rapor-siswa/'.$stri),
 						'content_menu' => 'view_features/rapor/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_cari_siswa'
 					],
 					'data' => [
-						'school' => $school,
+						'sekolah' => $sekolah,
 					]
 				];
 				return view('layout/main_layout', $this->partial);
@@ -236,26 +236,43 @@ class RaporSiswa extends BaseController
 		$ara['email'] = $this->RaporModel->CariEmail($data);
 		$new_ara = array_merge($ara['nama'],$ara['nis'],$ara['email']);
 		$new_ara = array_map("unserialize", array_unique(array_map("serialize", $new_ara)));
-		foreach ($new_ara as $key => $value) {
-			$li[$key]['stu_num'] = $value['stu_num'];
-			$li[$key]['stu_id'] = $value['stu_id'];
-			$li[$key]['nama'] = $value['stu_fullname'];
-			$li[$key]['email'] = $value['stu_email'];
+		if (!empty($new_ara)) {
+			foreach ($new_ara as $key => $value) {
+				$li[$key]['stu_num'] = $value['stu_num'];
+				$li[$key]['stu_id'] = $value['stu_id'];
+				$li[$key]['nama'] = $value['stu_fullname'];
+				$li[$key]['email'] = $value['stu_email'];
+			}
+			$_SESSION['data_siswa'] = $li;
+		}else {
+			$_SESSION['data_siswa'] = NULL;
 		}
-		$_SESSION['data_siswa'] = $li;
+		$_SESSION['keywords'] = $_POST['keywords'];
 		return redirect()->back()->withInput();
 	}
 	#####
 	public function ListRaporSiswa($stri,$id)
 	{
-		$th_ajaran = $this->AkademikModel->ThAkademik($stri);
-		// print_r($th_ajaran);  
-		// $fixnilai = $this->RaporSiswa->NilaiEvaluasi();
-		// die();
 		$school = $this->TenantModel->DataTenant($stri);
-		foreach ($th_ajaran as $key => $value) {
-			# code...
+		$th_ajaran = $this->RaporModel->ThAkademikSiswa($id);
+		$fixnilai = $this->RaporModel->FixNilaiAkademik($id);
+		foreach ($fixnilai as $key => $value) {
+			$id_tahun[$key] = $value['fds_aca_id'];
 		}
+		$id_tahun_uniq = array_unique($id_tahun);
+		rsort($id_tahun_uniq);
+		print_r($id_tahun_uniq);
+		foreach ($id_tahun_uniq as $key => $value) {
+			$eva = $this->RaporModel->ThAkademikEvaluasi($value);
+			print_r($eva);
+			$evaluasi[$key]['tahun'] = $value;
+			foreach ($eva as $subkey => $subvalue) {
+				$evaluasi[$key][$subkey]['id'] = $subvalue['cat_id'];
+				$evaluasi[$key][$subkey]['nama'] = $subvalue['cat_category_name'];
+			}
+		} 
+
+		print_r($evaluasi);
 		die();
 		$this->partial = [
 			'title' => 'Trust Academic Solution | ',
@@ -264,6 +281,8 @@ class RaporSiswa extends BaseController
 				0 => 'plugins/datatables/scr_style',
 			],
 			'javascript' => [
+
+				
 				0 => 'plugins/datatables/scr_javascript',
 				1 => 'plugins/uploadinput/scr_javascript',
 			],

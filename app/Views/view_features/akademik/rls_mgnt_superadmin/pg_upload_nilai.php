@@ -26,8 +26,8 @@
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Tahun Ajaran</label>
 				<div class="col-sm-12 col-md-9">
-					<select class="custom-select col-12 fh-35" name='thajaran' id='thajaran'>
-						<option value="<?=$data['tahunaktif']['aca_id']?>"><?=$data['tahunaktif']['ach_years']?></option>
+					<select class="custom-select col-12 fh-35" name='thajaran' id='tahun'>
+						<option value="<?= false ?>">Pilih tahun ajaran...</option>
 						<?php
 						foreach ($data['tahun'] as $key => $value) {
 							echo '<option value="' . $value['aca_id'] . '">' . $value['ach_years'] . '</option>';
@@ -39,13 +39,8 @@
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Kategori Evaluasi</label>
 				<div class="col-sm-12 col-md-9">
-					<select class="custom-select col-12 fh-35" name='kategori' id='kategori'>
-						<option value="<?= false ?>">Pilih kategori evaluasi...</option>
-						<?php
-						foreach ($data['kategori'] as $key => $value) {
-							echo '<option value="' . $value['cat_id'] . '">' . $value['cat_category_name'] . '</option>';
-						}
-						?>
+					<select class="custom-select col-12 fh-35" name='kategori' id='evaluasi'>
+						<option value="<?= false ?>">Pilih evaluasi...</option>
 					</select>
 				</div>
 			</div>

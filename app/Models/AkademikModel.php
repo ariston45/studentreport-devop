@@ -79,6 +79,24 @@ class AkademikModel extends Model
 		return $query->getResultArray();
 	}
 	// 
+	public function ThAkademikDetail($id)
+	{
+		$builder = $this->db->table('tnt_acad_years');
+		$builder->select('*');
+		$builder->where('aca_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function ThAkademikEvaluasi($id)
+	{
+		$builder = $this->db->table('tnt_assesment_category');
+		$builder->select('*');
+		$builder->where('cat_acad_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
 	public function KategoriEvaluasiThActive($id)
 	{
 		$builder = $this->db->table('tnt_acad_years');
@@ -113,6 +131,14 @@ class AkademikModel extends Model
 		$builder = $this->db->table('tnt_assesment_category');
 		$builder->select('*');
 		$builder->where('cat_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function MaxIDCategory()
+	{
+		$builder = $this->db->table('tnt_assesment_category');
+		$builder->select('MAX(cat_id) as maxid');
 		$query   = $builder->get();
 		return $query->getResultArray();
 	}

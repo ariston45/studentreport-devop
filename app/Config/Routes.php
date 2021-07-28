@@ -91,8 +91,9 @@ $routes->group('akademik', function ($routes) {
 	$routes->add('(:any)/eksekusi-update-thakad/(:any)', 'Akademik::EksekusiUpdateThakad/$1/$2');
 	// 
 	$routes->get('(:any)/kategori-penilaian', 'Akademik::KategoriPenilaian/$1');
+	$routes->get('(:any)/kategori-penilaian-detail/(:any)', 'Akademik::DetailKategoriPenilaian/$1/$2');
 	$routes->add('(:any)/eksekusi-tambah-kategori', 'Akademik::EksekusiTambahKategori/$1');
-	$routes->add('(:any)/hapus-kategori', 'Akademik::HapusKategori/$1');
+	$routes->add('(:any)/hapus-kategori/(:any)', 'Akademik::HapusKategori/$1/$2');
 	$routes->get('(:any)/update-kategori/(:any)', 'Akademik::UpdateKategori/$1/$2');
 	$routes->add('(:any)/eksekusi-update-kategori/(:any)', 'Akademik::EksekusiUpdateKategori/$1/$2');
 	//
@@ -103,7 +104,7 @@ $routes->group('akademik', function ($routes) {
 	//
 	$routes->get('(:any)/membuat-rumus/(:num)', 'Akademik::MembuatRumus/$1/$2');
 	$routes->get('(:any)/rumus-penilaian', 'Akademik::RumusPenilaian/$1');
-	$routes->add('(:any)/eksekusi-rumus', 'Akademik::EksekusiRumus/$1');
+	$routes->add('(:any)/eksekusi-rumus/(:any)', 'Akademik::EksekusiRumus/$1/$2');
 	// 
 	$routes->get('(:any)/mapel', 'Akademik::MataPelajaran/$1');
 	$routes->get('(:any)/tambah-mapel', 'Akademik::TambahMapel/$1');

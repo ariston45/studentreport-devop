@@ -34,11 +34,11 @@
 	<hr>
 	<div class="row clearfix">
 		<div class="col-sm-6">
-			<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-rumus') ?>" method="post" enctype="multipart/form-data">
+			<form action="<?= base_url($content['pg_menu_url'] . '/eksekusi-rumus'.'/'.$data['kategori'][0]['cat_acad_id']) ?>" method="post" enctype="multipart/form-data">
 				<input name="idcat" type="hidden" value="<?= $data['idcat'] ?>">
 				<div class="text-right">
-					<a href="<?= base_url($content['pg_menu_url'] . '/rumus-penilaian') ?>">
-						<button type="button" class="btn btn-sm btn-outline-secondary"><i class="icon-copy dw dw-cancel"></i> Batal</button>
+					<a href="<?= base_url($content['pg_menu_url'] . '/kategori-penilaian-detail'.'/'.$data['kategori'][0]['cat_acad_id']) ?>">
+						<button type="button" class="btn btn-sm btn-outline-secondary"><i class="icon-copy dw dw-cancel"></i> Kembali</button>
 					</a>
 					<button type="submit" class="btn btn-sm btn-primary"><i class="icon-copy dw dw-diskette1"></i> Simpan</button>
 				</div>
@@ -63,8 +63,8 @@
 			<button id="multiply" class="btn btn-sm btn-primary mb-20">*</button>
 			<button id="left-parenthesis" class="btn btn-sm btn-primary mb-20">(</button>
 			<button id="right-parenthesis" class="btn btn-sm btn-primary mb-20">)</button>
-			<button id="clear" class="btn btn-sm btn-primary mb-20">Clear</button>
-			<button id="backspace" class="btn btn-sm btn-primary mb-20">Deletion</button>
+			<button id="clear" class="btn btn-sm btn-primary mb-20"><i class="icon-copy dw dw-delete-3"></i> Clear</button>
+			<button id="backspace" class="btn btn-sm btn-primary mb-20"> <i class="icon-copy dw dw-delete-1"></i> Deletion</button>
 			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>

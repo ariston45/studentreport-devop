@@ -328,6 +328,8 @@ class Akademik extends BaseController
 		$maxid = $this->AkademikModel->MaxAcaId();
 		$num = $maxid[0]['maxid'] + 1;
 		$newid = 'a.'.$num;
+		$idcat = $this->AkademikModel->MaxIDCategory();
+		$new_idcat = 1 + $idcat[0]['maxid'];
 		$thajaran = [
 			'aca_id' => $newid,
 			'aca_tnt_id' => strtoupper($stri),
@@ -335,12 +337,14 @@ class Akademik extends BaseController
 			'ach_status' => 'NONAKTIF'
 		];
 		foreach ($list_evaluasi as $key => $value) {
+			$evaluasi[$key]['cat_id'] = $new_idcat;
 			$evaluasi[$key]['cat_acad_id'] = $newid;
 			$evaluasi[$key]['cat_category_name'] = $value['evaluasi'];
 			$evaluasi[$key]['cat_formula_asses'] = NULL;
 			$evaluasi[$key]['cat_value_form'] = $value['bentuk_nilai'];
 			$evaluasi[$key]['cat_month_start'] = $data_tahun['awal'];
-			$evaluasi[$key]['cat_month_end'] = $data_tahun['akhir'];
+			$evaluasi[$key]['cat_month_end'] = $data_tahun['akhir']; 
+			$new_idcat++;
 		}
 		$this->AkademikModel->StoreTahunAkademik($thajaran);
 		$this->AkademikModel->StoreThAsessment($evaluasi);
@@ -588,6 +592,7 @@ class Akademik extends BaseController
 	#####
 	public function KategoriPenilaian($stri)
 	{
+		$akad = $this->AkademikModel->ThAkademik($stri);
 		$thaktif = $this->AkademikModel->ThAkademikActive($stri);
 		$idaktif = $thaktif[0]['aca_id'];
 		$nmactif = $thaktif[0]['ach_years'];
@@ -622,9 +627,87 @@ class Akademik extends BaseController
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
 						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
+						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_th_akademik_kat_evaluasi'
+					],
+					'data' => [
+						'akademik' => $akad,
+						'kategori' => $kategori,
+						'nmaktif' => $nmactif
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				# code...
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+	}
+	#####
+	public function DetailKategoriPenilaian($stri,$stra)
+	{
+		$evaluasi = $this->AkademikModel->ThAkademikEvaluasi($stra);
+		$tahun = $this->AkademikModel->ThAkademikDetail($stra);
+		$idaktif = $tahun[0]['aca_id'];
+		$nmactif = $tahun[0]['ach_years'];
+		$kategori = $this->AkademikModel->KategoriNilai($idaktif);
+		$school = $this->TenantModel->DataTenant($stri);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/Modal_id_kategori/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
 						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_kategori_penilaian'
 					],
 					'data' => [
+						'tahun' => $tahun,
 						'kategori' => $kategori,
 						'nmaktif' => $nmactif
 					]
@@ -673,11 +756,11 @@ class Akademik extends BaseController
 		return redirect()->back()->withInput();
 	}
 	#####
-	public function HapusKategori($stri)
+	public function HapusKategori($stri,$stra)
 	{
 		$id = $_POST['id'];
 		$this->AkademikModel->DeleteKategori($id);
-		return redirect()->back()->withInput();
+		return redirect()->to(base_url('/akademik'.'/'.$stri.'/kategori-penilaian-detail'.'/'.$stra));
 	}
 	#####
 	public function UpdateKategori($stri,$stra)
@@ -713,7 +796,7 @@ class Akademik extends BaseController
 				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_kategori'
 			],
 			'data' => [
-				'kategori' => $cat[0],
+				'kategori' => $cat[0]
 			]
 		];
 		return view('layout/main_layout', $this->partial);
@@ -721,9 +804,10 @@ class Akademik extends BaseController
 	public function EksekusiUpdateKategori($stri,$stra)
 	{
 		$data['cat_category_name'] = $_POST['nama'];
-		$id = $stra;
+		$data['cat_value_form'] = $_POST['bentuk_nilai'];
+		$id = $_POST['id'];
 		$this->AkademikModel->UpdateKategoriModel($data,$id);
-		return redirect()->back()->withInput();
+		return redirect()->to(base_url('/akademik'.'/'.$stri.'/kategori-penilaian-detail'.'/'.$stra));
 	}
 	#####
 	public function VariablePenilaian($stri)
@@ -1013,14 +1097,26 @@ class Akademik extends BaseController
 		}
 	}
 	#####
-	public function EksekusiRumus($stri)
+	public function EksekusiRumus($stri,$stra)
 	{
 		$data = [
 			'cat_id' => $_POST['idcat'],
 			'cat_formula_asses' => $_POST['rumus']
 		] ;
 		$this->AkademikModel->UpdateRumus($data);
-		return redirect()->back()->withInput();
+		return redirect()->to(base_url('/akademik'.'/'.$stri.'/kategori-penilaian-detail'.'/'.$stra));
+	}
+	######
+	public function Evaluasi_json()
+	{
+		$id_tahun = $_POST['id_tahun'];
+		$kelas = $this->AkademikModel->ThAkademikEvaluasi($id_tahun);
+		$option = '<option value="' . FALSE . '">Pilih evaluasi...</option>';
+		foreach ($kelas as $key => $value) {
+			$option .= '<option value="' . $value['cat_id'] . '">' . $value['cat_category_name'] . '</option>';
+		}
+		$callback = array('list_evaluasi' => $option);
+		echo json_encode($callback);
 	}
 	######
 	public function UploadNilai($stri)
@@ -1028,9 +1124,7 @@ class Akademik extends BaseController
 		$school = $this->TenantModel->DataTenant($stri);
 		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
 		$jurusan = $this->TenantModel->DataJurusan($stri);
-		$kategori = $this->AkademikModel->KategoriEvaluasiThActive($stri);
 		$tahun = $this->AkademikModel->ThAkademik($stri);
-		$tahunaktif = $this->AkademikModel->ThAkademikActive($stri);
 		$this->partial = [
 			'title' => 'Trust Academyc Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -1039,7 +1133,8 @@ class Akademik extends BaseController
 			],
 			'javascript' => [
 				0 => 'plugins/uploadinput/scr_javascript',
-				1 => 'plugins/chainselect/chain_kelas'
+				1 => 'plugins/chainselect/chain_kelas',
+				2 => 'plugins/chainselect/chain_evaluasi'
 			],
 			'linkmap' => 'view_features/listmenu/LinksMap',
 			'segments' => [
@@ -1063,9 +1158,7 @@ class Akademik extends BaseController
 				'sekolah' => $school,
 				'jurusan' => $jurusan,
 				'mapel' => $semuamapel,
-				'kategori' => $kategori,
 				'tahun' => $tahun,
-				'tahunaktif' => $tahunaktif[0]
 			]
 		];
 		return view('layout/main_layout', $this->partial);
@@ -1173,6 +1266,8 @@ class Akademik extends BaseController
 			$_SESSION['nilai_siswa'] = $tmpa;
 		}
 		#============================================================
+		$rumus = $this->AkademikModel->FormulaEvaluasi($_POST['kategori']);
+		$tahun = $this->AkademikModel->DetailTahun($_POST['thajaran']);
 		$school = $this->TenantModel->DataTenant($stri);
 		$var = $this->AkademikModel->VariabelPenilaian($stri);
 		$this->partial = [
@@ -1205,7 +1300,12 @@ class Akademik extends BaseController
 			'data' => [
 				'sekolah' => $school,
 				'subject' => $sub,
-				'variable' => $var
+				'variable' => $var,
+				'rumus' => $rumus,
+				'tahun' => [
+					'id' => $tahun[0]['aca_id'],
+					'nama' => $tahun[0]['ach_years']
+				]
 			]
 		];
 		return view('layout/main_layout', $this->partial);
@@ -1213,7 +1313,6 @@ class Akademik extends BaseController
 	#####
 	public function EksekusiUploadNilai_part2($stri)
 	{
-		$tahun = $this->AkademikModel->ThAkademikActive($stri);
 		if (!empty($_SESSION['nilai_siswa'])) {
 			$nilai_siswa = $_SESSION['nilai_siswa'];
 			$vardata = $_POST['variable'];
@@ -1229,24 +1328,36 @@ class Akademik extends BaseController
 			$result[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
 			$result[$value['raw_stu_num']][$value['raw_ass_id']] = $value['raw_point'];
 		}
-		foreach ($result as $key => $value) {
-			extract($value);
-			$formula = $this->AkademikModel->FormulaEvaluasi($fds_cat_id);
-			$fo = $formula[0]['cat_formula_asses'];
-			eval('$poin = '.$fo.';');
-			$nilai[$key] = $poin;
-		};
-		$maxid = $this->AkademikModel->MaxIdFixNilai($stri);
-		$num = $maxid[0]['id'] + 1;
-		foreach ($nilai_siswa as $key => $value) {
-			$datafix[$value['raw_stu_num']]['fds_id'] = 'fds.'.$num;
-			$datafix[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
-			$datafix[$value['raw_stu_num']]['fds_aca_id'] =	$_SESSION['fds_aca_id'];
-			$datafix[$value['raw_stu_num']]['fds_class'] = $value['raw_class_id'];
-			$datafix[$value['raw_stu_num']]['fds_std_number'] = $value['raw_stu_num'] ;
-			$datafix[$value['raw_stu_num']]['fds_subject_id'] = $value['raw_mapel'] ;
-			$datafix[$value['raw_stu_num']]['fds_score'] = $nilai[$value['raw_stu_num']];
-			$num++;
+
+		try {
+			foreach ($result as $key => $value) {
+				extract($value);
+				$formula = $this->AkademikModel->FormulaEvaluasi($fds_cat_id);
+				$fo = $formula[0]['cat_formula_asses'];
+				if (isset($fo)) {
+					eval('$poin = '.$fo.';');
+					$nilai[$key] = $poin;
+				}
+			};
+		} catch (\Exception $e) {
+			echo 'Mengunggah nilai gagal, variabel yang anda gunakan tidak sesuai rumus penilaian tertera, mohon untuk mengulangi unggah nilai.';
+		}
+
+		if (!empty($nilai)) {
+			$maxid = $this->AkademikModel->MaxIdFixNilai($stri);
+			$num = $maxid[0]['id'] + 1;
+			foreach ($nilai_siswa as $key => $value) {
+				$datafix[$value['raw_stu_num']]['fds_id'] = 'fds.' . $num;
+				$datafix[$value['raw_stu_num']]['fds_cat_id'] = $value['raw_cat_id'];
+				$datafix[$value['raw_stu_num']]['fds_aca_id'] =	$_SESSION['fds_aca_id'];
+				$datafix[$value['raw_stu_num']]['fds_class'] = $value['raw_class_id'];
+				$datafix[$value['raw_stu_num']]['fds_std_number'] = $value['raw_stu_num'];
+				$datafix[$value['raw_stu_num']]['fds_subject_id'] = $value['raw_mapel'];
+				$datafix[$value['raw_stu_num']]['fds_score'] = $nilai[$value['raw_stu_num']];
+				$num++;
+			}
+		}else {
+			echo 'Mengunggah nilai gagal, rumus penilaian belum diatur, mohon untuk mengatur rumus penilaian terlebih dahulu.';
 		}
 		$store_fixnilai = $this->AkademikModel->StoreFixNilai($datafix);
 		$store_nilai = $this->AkademikModel->StoreNilai($nilai_siswa);
