@@ -17,7 +17,7 @@
     padding-left: 0px;
   }
 
-  .table thead th{
+  .table thead th {
     border: 0px;
     padding-left: 0px;
   }
@@ -36,41 +36,49 @@
   </p>
   <hr>
   <?php
-  if (!empty($_SESSION['data_siswa'])) {
-    $list = $_SESSION['data_siswa'];
+  if (!empty($data['group_evaluasi'])) {
+    $list = $data['group_evaluasi'];
   ?>
-    <div class="table-responsive">
-      <table class="table table-striped col-9">
-        <thead>
-          <tr>
-            <th colspan="3">Tahun Ajaran : -</th>
-          </tr>
-          <tr>
-            <th colspan="3">Kelas : -</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $no = 1;
-          foreach ($list as $key => $value) { ?>
+    <?php
+    foreach ($list as $key => $value) { ?>
+      <div class="table-responsive">
+        <table class="table table-striped col-9">
+          <thead>
             <tr>
-              <td scope="col" style="width: 10px;"><?= $no?>.</td>
-              <td scope="col"><?= $value['stu_id'] ?></td>
-              <td scope="col" style="width: 10px;">
-                <div class="dropdown">
-                  <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                    <i class="dw dw-more"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                    <a class="dropdown-item" href="<?= $content['pg_link'] . '/list-rapor-siswa' . '/' . $value['stu_num'] ?>"><i class="dw dw-eye"></i> Lihat Rapor</a>
-                  </div>
-                </div>
-              </td>
+              <th colspan="4">Tahun Ajaran : <?=$value[1]['ach_years']?></th>
             </tr>
-          <?php $no++;
-          } ?>
-        </tbody>
-      </table>
-    </div>
+            <tr>
+              <th>No</th>
+              <th>Nama Evaluasi</th>
+              <th>Kelas</th>
+              <th>Opsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $no = 1;
+            foreach ($value as $i => $subvalue) { ?>
+              <tr>
+                <td scope="col" style="width: 10px;"><?= $no ?>.</td>
+                <td scope="col"><?=$subvalue['cat_category_name']?></td>
+                <td scope="col"><?=$subvalue['cls_name']?></td>
+                <td scope="col" style="width: 10px;">
+                  <div class="dropdown">
+                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                      <i class="dw dw-more"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                      <a class="dropdown-item" href="<?=$content['pg_link'].'/'.$subvalue['fds_cat_id']?>"><i class="dw dw-eye"></i> Lihat Rapor</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <?php $no++;
+            } ?>
+          </tbody>
+        </table>
+      </div>
+    <?php }
+    ?>
   <?php } ?>
 </div>

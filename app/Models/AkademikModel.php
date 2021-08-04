@@ -19,6 +19,24 @@ class AkademikModel extends Model
 		$query   = $builder->get();
 		return $query->getResultArray();
 	}
+	// 
+	function DataKelompok($id)
+	{
+		$builder = $this->db->table('tnt_subject_group');
+		$builder->select('*');
+		$builder->where('gp_tnt_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	function DataKelompokDet($id)
+	{
+		$builder = $this->db->table('tnt_subject_group');
+		$builder->select('*');
+		$builder->where('gp_id',$id);
+		$query   = $builder->get();
+		return $query->getResultArray();
+	}
 	//
 	public function LamaBelajar($id)
 	{
@@ -48,6 +66,7 @@ class AkademikModel extends Model
 	{
 		$builder = $this->db->table('tnt_subject');
 		$builder->select('*');
+		$builder->join('tnt_subject_group','tnt_subject.suc_group = tnt_subject_group.gp_id');
 		$builder->where('suc_subject_id',$id);
 		$query = $builder->get();
 		return $query->getResultArray();
@@ -59,7 +78,21 @@ class AkademikModel extends Model
 		$builder->where('suc_subject_id',$id);
 		$builder->update($data);
 	}
-	//
+	// 
+	public function StoreKelompok($data)
+	{
+		$builder = $this->db->table('tnt_subject_group');
+		$builder->insert($data);
+		return TRUE;
+	}
+	// 
+	public function UpdateKelompokMapel($data,$id)
+	{
+		$builder = $this->db->table('tnt_subject_group');
+		$builder->where('gp_id',$id);
+		$builder->update($data);
+	}
+	// 
 	public function ThAkademik($id)
 	{
 		$builder = $this->db->table('tnt_acad_years');
@@ -75,7 +108,7 @@ class AkademikModel extends Model
 		$builder->select('*');
 		$builder->where('aca_tnt_id',$id);
 		$builder->where('ach_status', 'AKTIF');
-		$query   = $builder->get();
+		$query   = $builder->get();   
 		return $query->getResultArray();
 	}
 	// 

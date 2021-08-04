@@ -260,20 +260,15 @@ class RaporSiswa extends BaseController
 			$id_tahun[$key] = $value['fds_aca_id'];
 		}
 		$id_tahun_uniq = array_unique($id_tahun);
-		rsort($id_tahun_uniq);
-		print_r($id_tahun_uniq);
-		foreach ($id_tahun_uniq as $key => $value) {
-			$eva = $this->RaporModel->ThAkademikEvaluasi($value);
-			print_r($eva);
-			$evaluasi[$key]['tahun'] = $value;
-			foreach ($eva as $subkey => $subvalue) {
-				$evaluasi[$key][$subkey]['id'] = $subvalue['cat_id'];
-				$evaluasi[$key][$subkey]['nama'] = $subvalue['cat_category_name'];
+		sort($id_tahun_uniq, SORT_NUMERIC);
+		foreach ($id_tahun_uniq as $i => $value) {
+			$kelasAkademik = $this->RaporModel->KelasEvaluasi($id,$value);
+			$j = 1 ;
+			foreach ($kelasAkademik as $key => $subvalue) {
+				$idk[$i][$j] = $subvalue;
+				$j++;
 			}
-		} 
-
-		print_r($evaluasi);
-		die();
+		}
 		$this->partial = [
 			'title' => 'Trust Academic Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -281,8 +276,6 @@ class RaporSiswa extends BaseController
 				0 => 'plugins/datatables/scr_style',
 			],
 			'javascript' => [
-
-				
 				0 => 'plugins/datatables/scr_javascript',
 				1 => 'plugins/uploadinput/scr_javascript',
 			],
@@ -301,13 +294,67 @@ class RaporSiswa extends BaseController
 				'pg_menu_url' => 'pusat-data/' . strtolower($school[0]['sch_id']),
 				'pg_title' => $school[0]['sch_name'],
 				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
-				'pg_link' => base_url('rapor-siswa/' . $stri),
+				'pg_link' => base_url('rapor-siswa/'.$stri.'/detail-rapor-siswa'.'/'.$id),
 				'content_menu' => 'view_features/rapor/rls_mgnt_superadmin/pg_menu',
 				'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_list_rapor_siswa'
 			],
 			'data' => [
 				'school' => $school,
-				'thajaran' => $th_ajaran
+				'thajaran' => $th_ajaran,
+				'group_evaluasi' => $idk
+			]
+		];
+		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function DetailRaporSiswa($stri,$stra,$stre)
+	{
+		$sekolah = $this->TenantModel->DataTenant($stri);
+		$siswa = $this->StudentModel->ShowNamaSiswa($stra);
+		$evaluasi = $this->RaporModel->RaporEvaluasi($stre);
+		$kelas = $this->RaporModel->KelasEvaluasi($stra,$evaluasi[0]['cat_acad_id']);
+		$nilai = $this->RaporModel->NilaiEvaluasi($stri);
+		die();
+		// print_r($evaluasi);
+		// print_r($siswa);
+		// $th_ajaran = $this->RaporModel->ThAkademikSiswa($stra);
+		// $fixnilai = $this->RaporModel->FixNilaiAkademik($stra);
+		// die();
+		$this->partial = [
+			'title' => 'Trust Academyc Solution | ',
+			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+			'style' => [
+				0 => 'plugins/datatables/scr_style',
+			],
+			'javascript' => [
+				0 => 'plugins/datatables/scr_javascript',
+				1 => 'plugins/uploadinput/scr_javascript',
+			],
+			'linkmap' => 'view_features/listmenu/LinksMap',
+			'segments' => [
+				1 => $this->request->uri->getSegment(1),
+				2 => $this->request->uri->getSegment(2),
+				3 => $this->request->uri->getSegment(3)
+			],
+			'heading' => 'view_features/listmenu/heading',
+			'pgtitle' => $this->session->get('sch_name'),
+			'breadcrumb' => [
+				'customers' => 'Customers'
+			],
+			'content'	=> [
+				'pg_menu_url' => 'pusat-data/' . strtolower($sekolah[0]['sch_id']),
+				'pg_title' => $sekolah[0]['sch_name'],
+				'pg_subtitle' => 'Pusat pengolahan data siswa, guru, wali murid, dan user administrasi sekolah.',
+				'pg_link' => base_url('rapor-siswa/' . $stri),
+				'content_menu' => 'view_features/rapor/rls_mgnt_superadmin/pg_menu',
+				'content_body' => 'view_features/rapor/rls_mgnt_superadmin/pg_rapor_siswa'
+			],
+			'data' => [
+				'sekolah' => $sekolah,
+				'siswa' => $siswa[0],
+				'evaluasi' => $evaluasi[0],
+				'kelas' => $kelas[0],
+				'nilai' => $nilai
 			]
 		];
 		return view('layout/main_layout', $this->partial);

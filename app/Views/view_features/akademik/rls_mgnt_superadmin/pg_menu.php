@@ -63,7 +63,9 @@
 				data-toggle="dropdown" aria-expanded="false"> Mata Pelajaran <span class="caret"></span> </button>
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/mapel')?>">Data Mata Pelajaran</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/kelompok-mapel')?>">Data Kelompok Mata Pelajaran</a>
 					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/tambah-mapel')?>">Tambah Mata Pelajaran</a>
+					<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/tambah-kelompok-mapel')?>">Tambah Kelompok Mata Pelajaran</a>
 				</div>
 			</div>
 			<!-- # -->

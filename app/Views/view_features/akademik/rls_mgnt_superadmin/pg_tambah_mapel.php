@@ -34,10 +34,29 @@
 						$a = 1;
 						while ($a <= $data['lambel']) {
 						?>
-						<option value="Tingkat_<?=$a?>">Tingkat_<?=$a?></option>
+						<option value="Tingkat_<?=$a?>">Tingkat.<?=$a?></option>
 						<?php
 						$a++;
 						}
+						?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Kriteria Ketutasan Minimal (KKM)</label>
+				<div class="col-sm-12 col-md-9">
+					<input type="text" name="kkm" class="form-control col-12 fh-35" placeholder="Kriteria Ketutasan Minimal ..">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih Kelompok Mata Pelajaran</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='kelompok' id='kelompok'>
+						<option value="<?= false ?>">Pilih kelompok...</option>
+						<?php
+						foreach ($data['kelompok'] as $key => $value) { ?>
+							<option value="<?= $value['gp_id'] ?>"><?= $value['gp_name']?></option>
+						<?php }
 						?>
 					</select>
 				</div>

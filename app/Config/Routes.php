@@ -108,9 +108,14 @@ $routes->group('akademik', function ($routes) {
 	// 
 	$routes->get('(:any)/mapel', 'Akademik::MataPelajaran/$1');
 	$routes->get('(:any)/tambah-mapel', 'Akademik::TambahMapel/$1');
+	$routes->get('(:any)/kelompok-mapel', 'Akademik::KelompokMataPelajaran/$1');
+	$routes->get('(:any)/tambah-kelompok-mapel', 'Akademik::TambahKelompokMataPelajaran/$1');
 	$routes->add('(:any)/eksekusi-tambah-pelajaran', 'Akademik::EksekusiTambahMapel/$1');
+	$routes->add('(:any)/eksekusi-tambah-kelompok-pelajaran', 'Akademik::EksekusiTambahKelompokMapel/$1');
 	$routes->get('(:any)/update-mapel/(:any)', 'Akademik::UpdateMapel/$1/$2');
+	$routes->get('(:any)/update-kelompok-mapel/(:any)', 'Akademik::UpdateKelompokMapel/$1/$2');
 	$routes->add('(:any)/eksekusi-update-pelajaran/(:any)', 'Akademik::EksekusiUpdateMapel/$1/$2');
+	$routes->add('(:any)/eksekusi-update-kelompok-pelajaran/(:any)', 'Akademik::EksekusiUpdateKelompokMapel/$1/$2');
 	// 
 	$routes->get('(:any)/unggah-nilai', 'Akademik::UploadNilai/$1');
 	$routes->add('(:any)/eksekusi-upload-nilai-part1', 'Akademik::EksekusiUploadNilai_part1/$1');
@@ -129,6 +134,7 @@ $routes->group('rapor-siswa', function ($routes) {
 	$routes->get('(:any)/cari-rapor-siswa', 'RaporSiswa::CariRapor/$1');
 	$routes->add('(:any)/eksekusi-cari-rapor-siswa', 'RaporSiswa::EksekusiCariRapor/$1');
 	$routes->add('(:any)/list-rapor-siswa/(:num)', 'RaporSiswa::ListRaporSiswa/$1/$2');
+	$routes->get('(:any)/detail-rapor-siswa/(:num)/(:num)', 'RaporSiswa::DetailRaporSiswa/$1/$2/$3');
 	$routes->get('audit-kenaikan-kelas', 'AuditKenaikan::index');
 	$routes->get('peringkatisasi-siswa', 'PeringkatSiswa::index');
 	

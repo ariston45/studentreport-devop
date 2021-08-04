@@ -75,7 +75,45 @@ class RaporModel extends Model
 		$builder = $this->db->table('tnt_assesment_category');
 		$builder->select('*');
 		$builder->where('cat_acad_id',$id);
-		$query   = $builder->get();
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function KelasEvaluasi($id_siswa,$id_tahun)
+	{
+		$builder = $this->db->table('tnt_fixdata_asses');
+		$builder->select('fds_cat_id,ach_years,cat_category_name,cls_name');
+		$builder->join('tnt_acad_years','tnt_fixdata_asses.fds_aca_id=tnt_acad_years.aca_id');
+		$builder->join('tnt_assesment_category','tnt_fixdata_asses.fds_cat_id=tnt_assesment_category.cat_id');
+		$builder->join('tnt_class','tnt_fixdata_asses.fds_class=tnt_class.cls_id');
+		$builder->where('fds_std_number',$id_siswa);
+		$builder->where('fds_aca_id',$id_tahun);
+		$builder->groupBy('fds_cat_id');
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function RaporEvaluasi($id)
+	{
+		$builder = $this->db->table('tnt_assesment_category');
+		$builder->select(
+			'tnt_assesment_category.cat_id,
+			tnt_assesment_category.cat_acad_id,
+			tnt_assesment_category.cat_category_name,
+			tnt_assesment_category.cat_value_form,
+			tnt_acad_years.ach_years'
+		);
+		$builder->join('tnt_acad_years','tnt_assesment_category.cat_acad_id = tnt_acad_years.aca_id ');
+		$builder->where('tnt_assesment_category.cat_id',$id);
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
+	//
+	public function NilaiEvaluasiSiswa()
+	{
+		$builder = $this->db->table('tnt_fixdata_asses');
+		$builder->select('');
+		$query = $builder->get();
 		return $query->getResultArray();
 	}
 }
