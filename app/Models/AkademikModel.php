@@ -14,7 +14,8 @@ class AkademikModel extends Model
 	function DataMapel($id)
 	{
 		$builder = $this->db->table('tnt_subject');
-		$builder->select('*');
+		$builder->select('suc_subject_id,suc_name,suc_level,suc_minimum_score,gp_name');
+		$builder->join('tnt_subject_group','tnt_subject.suc_group = tnt_subject_group.gp_id');
 		$builder->where('suc_tnt_id',$id);
 		$query   = $builder->get();
 		return $query->getResultArray();

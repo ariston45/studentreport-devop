@@ -109,10 +109,14 @@ class RaporModel extends Model
 		return $query->getResultArray();
 	}
 	//
-	public function NilaiEvaluasiSiswa()
+	public function NilaiEvaluasiSiswa($idsis,$idcat)
 	{
 		$builder = $this->db->table('tnt_fixdata_asses');
-		$builder->select('');
+		$builder->select('tnt_fixdata_asses.fds_id,tnt_subject.suc_name,tnt_fixdata_asses.fds_score,tnt_subject.suc_minimum_score,tnt_subject_group.gp_id,tnt_subject_group.gp_name');
+		$builder->join('tnt_subject','tnt_fixdata_asses.fds_subject_id = tnt_subject.suc_subject_id');
+		$builder->join('tnt_subject_group','tnt_subject.suc_group = tnt_subject_group.gp_id');
+		$builder->where('fds_std_number',$idsis);
+		$builder->where('fds_cat_id',$idcat);
 		$query = $builder->get();
 		return $query->getResultArray();
 	}

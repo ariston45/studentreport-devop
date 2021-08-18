@@ -413,6 +413,8 @@ class Akademik extends BaseController
 			case 'MGNT_SUPERADMIN':
 				$mapel = $this->AkademikModel->DataMapel($stri);
 				$school = $this->TenantModel->DataTenant($stri);
+				// print_r($mapel);
+				// die('stop');
 				$this->partial = [
 					'title' => 'Trust Academyc Solution | ',
 					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',

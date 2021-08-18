@@ -313,13 +313,21 @@ class RaporSiswa extends BaseController
 		$siswa = $this->StudentModel->ShowNamaSiswa($stra);
 		$evaluasi = $this->RaporModel->RaporEvaluasi($stre);
 		$kelas = $this->RaporModel->KelasEvaluasi($stra,$evaluasi[0]['cat_acad_id']);
-		$nilai = $this->RaporModel->NilaiEvaluasi($stri);
+		$nilai = $this->RaporModel->NilaiEvaluasiSiswa($stra,$stre);
+		foreach ($nilai as $key => $value) {
+			if ($value['fds_score'] >= $value['suc_minimum_score']) {
+				$nilai[$key]['keterangan'] = 'Tuntas';
+			}else {
+				$nilai[$key]['keterangan'] = 'Tidak Tuntas';
+			}
+		}
+		print_r($nilai);
 		die();
-		// print_r($evaluasi);
-		// print_r($siswa);
-		// $th_ajaran = $this->RaporModel->ThAkademikSiswa($stra);
-		// $fixnilai = $this->RaporModel->FixNilaiAkademik($stra);
-		// die();
+		foreach ($nilai as $key => $value) {
+			$group[$value['gp_name']][] = $value; 
+		}
+
+		die();
 		$this->partial = [
 			'title' => 'Trust Academyc Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -354,9 +362,15 @@ class RaporSiswa extends BaseController
 				'siswa' => $siswa[0],
 				'evaluasi' => $evaluasi[0],
 				'kelas' => $kelas[0],
-				'nilai' => $nilai
+				'group' => $group
 			]
 		];
 		return view('layout/main_layout', $this->partial);
+	}
+	#####
+	public function KonversiNilai()
+	{
+		$nilai = 85.5;
+		echo $nilai;
 	}
 }

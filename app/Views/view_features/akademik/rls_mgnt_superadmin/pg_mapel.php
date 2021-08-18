@@ -16,6 +16,8 @@
 				<th class="table-plus">No</th>
 				<th>Nama Pelajaran</th>
 				<th>Tingkatan</th>
+				<th>KKM</th>
+				<th>Kelompok Mata Pelajaran</th>
 				<th class="datatable-nosort">Action</th>
 			</tr>
 		</thead>
@@ -24,16 +26,17 @@
 		$no = 1;
 		foreach ($data['mapel'] as $key => $value) { ?>
 			<tr>
-				<td class="table-plus"><?=$no?></td>
+				<td class="table-plus" style="width: 10px;"><?=$no?></td>
 				<td><?= $value['suc_name'] ?></td>
 				<td><?= $value['suc_level'] ?></td>
+				<td><?= $value['suc_minimum_score']?></td>
+				<td><?= $value['gp_name']?></td>
 				<td>
 					<div class="dropdown">
 						<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 							<i class="dw dw-more"></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-							<a class="dropdown-item" href="<?=base_url()?>"><i class="dw dw-eye"></i> View</a>
 							<a class="dropdown-item" href="<?=base_url($content['pg_menu_url'].'/update-mapel'.'/'.$value['suc_subject_id'])?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
 							<a class="dropdown-item" href="#"><i class="icon-copy dw dw-delete-3"></i> Delete</a>
 						</div>

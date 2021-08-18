@@ -6,8 +6,8 @@
 	<?= view($content['content_menu']) ?>
 	<!--  -->
 	<p style="font-size: 13px;">
-		<b>Data Mata Pelajaran</b><br>
-		Berikut ini data dari semua mata pelajaran, mata pelajaran dapat dikelompokan berdasarkan tingkatan.
+		<b>Data Kelompok Mata Pelajaran</b><br>
+		Berikut ini data dari kelompok mata pelajaran, adapun kelompok pelajaran merupakan mata pelajaran yang dibagi menjadi beberapa kelompok berdasarkan berbagai aspek akademi.
 	</p>
 	<hr>
 	<div style="width: 70%;">
@@ -33,7 +33,7 @@
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 									<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'] . '/update-kelompok-mapel' . '/' . $value['gp_id']) ?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
-									<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'] . '/delete-kelompok-mapel' . '/' . $value['gp_id']) ?>"><i class="icon-copy dw dw-delete-3"></i> Delete</a>
+									<a class="dropdown-item" href="<?= base_url($content['pg_menu_url'] . '/delete-kelompok-mapel' . '/' . $value['gp_id']) ?>"><i class="icon-ccpy dw dw-delete-3"></i> Delete</a>
 								</div>
 							</div>
 						</td>
