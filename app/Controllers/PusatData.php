@@ -8,6 +8,7 @@ use App\Models\TenantModel;
 use App\Models\DbModel;
 use App\Models\UserModel;
 use App\Models\StudentModel;
+use App\Models\AkademikModel;
 
 class PusatData extends BaseController
 {
@@ -19,6 +20,7 @@ class PusatData extends BaseController
 		$this->DbModel = new DbModel();
 		$this->UserModel = new UserModel();
 		$this->StudentModel = new StudentModel();
+		$this->AkademikModel = new AkademikModel();
 		$this->session = \Config\Services::session();
 		$this->logged_in = $this->session->get('logged_in');
 		$this->id_access = $this->session->get('u_id');
@@ -493,6 +495,18 @@ class PusatData extends BaseController
 			$option .= '<option value="' . $value['stu_num'] . '">' . $value['stu_fullname'] . '</option>';
 		}
 		$callback = array('list_siswa' => $option);
+		echo json_encode($callback);
+	}
+	#####
+	public function Mapel_json()
+	{
+		$id_kelas = $_POST['id_kelas'];
+		$mapel = $this->TenantModel->ListMapel($id_kelas);
+		$option = '<option value="' . FALSE . '">Pilih mata pelajaran...</option>';
+		foreach ($mapel as $key => $value) {
+			$option .= '<option value="' . $value['suc_subject_id'] . '">' . $value['suc_name'] . '</option>';
+		}
+		$callback = array('list_mapel' => $option);
 		echo json_encode($callback);
 	}
 	#####
@@ -978,6 +992,7 @@ class PusatData extends BaseController
 		$school = $this->TenantModel->DataTenant($stri);
 		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
 		$jurusan = $this->TenantModel->DataJurusan($stri);
+		$lambel = $this->AkademikModel->LamaBelajar($stri);
 		$this->partial = [
 			'title' => 'Trust Academyc Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -1010,7 +1025,8 @@ class PusatData extends BaseController
 			'data' => [
 				'school' => $school,
 				'semuamapel' => $semuamapel,
-				'jurusan' => $jurusan
+				'jurusan' => $jurusan,
+				'lambel' => $lambel[0]['lambel']
 			]
 		];
 		return view('layout/main_layout', $this->partial);
@@ -1024,7 +1040,8 @@ class PusatData extends BaseController
 		$data =[
 			'cls_id' => $new_id,
 			'cls_id_major' => $_POST['jurusan'],
-			'cls_name' => $_POST['nama']
+			'cls_name' => $_POST['nama'],
+			'cls_level' => $_POST['tingkat']
 		];
 		$this->TenantModel->StoreKelas($data);
 		return redirect()->back()->withInput();

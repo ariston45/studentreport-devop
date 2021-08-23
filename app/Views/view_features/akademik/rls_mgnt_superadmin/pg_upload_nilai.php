@@ -37,27 +37,6 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-12 col-md-3 col-form-label">Pilih Kategori Evaluasi</label>
-				<div class="col-sm-12 col-md-9">
-					<select class="custom-select col-12 fh-35" name='kategori' id='evaluasi'>
-						<option value="<?= false ?>">Pilih evaluasi...</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label class="col-sm-12 col-md-3 col-form-label">Pilih Mata Pelajaran (Subject)</label>
-				<div class="col-sm-12 col-md-9">
-					<select class="custom-select col-12 fh-35" name='mapel' id='mapel'>
-						<option value="<?= false ?>">Pilih mata pelajaran...</option>
-						<?php
-						foreach ($data['mapel'] as $key => $value) {
-							echo '<option value="' . $value['suc_subject_id'] . '">' . $value['suc_name'] . '</option>';
-						}
-						?>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Jurusan</label>
 				<div class="col-sm-12 col-md-9">
 					<select class="custom-select col-12 fh-35" name='jurusan' id='jurusan'>
@@ -75,6 +54,22 @@
 				<div class="col-sm-12 col-md-9">
 					<select class="custom-select col-12 fh-35" name='kelas' id='kelas'>
 						<option value="<?= false ?>">Pilih kelas...</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih Kategori Evaluasi</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='kategori' id='evaluasi'>
+						<option value="<?= false ?>">Pilih evaluasi...</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih Mata Pelajaran (Subject)</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='mapel' id='mapel'>
+						<option value="<?= false ?>">Pilih mata pelajaran...</option>
 					</select>
 				</div>
 			</div>

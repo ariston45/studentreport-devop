@@ -26,6 +26,23 @@
 				</div>
 			</div>
 			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih tingkatan</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='tingkat' id='tingkat'>
+						<option value="<?=false?>">Pilih tingkatan...</option>
+						<?php
+						$a = 1;
+						while ($a <= $data['lambel']) {
+						?>
+						<option value="Tingkat_<?=$a?>">Tingkat.<?=$a?></option>
+						<?php
+						$a++;
+						}
+						?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Jurusan</label>
 				<div class="col-sm-12 col-md-9">
 					<select class="custom-select col-12 fh-35" name='jurusan' id='jurusan'>

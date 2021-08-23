@@ -64,6 +64,82 @@ class RaporSiswa extends BaseController
 		}
 	}
 	#####
+	public function KonversiNilai($nilai) 
+	{
+		$nilai = abs($nilai);
+		$huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+		$temp = "";
+		if ($nilai < 12) {
+			$temp = " ". $huruf[$nilai];
+		} else if ($nilai <20) {
+			$temp = $this->KonversiNilai($nilai - 10). " Belas";
+		} else if ($nilai < 100) {
+			$temp = $this->KonversiNilai($nilai/10)." Puluh". $this->KonversiNilai($nilai % 10);
+		} else if ($nilai < 200) {
+			$temp = " Seratus" . $this->KonversiNilai($nilai - 100);
+		} else if ($nilai < 1000) {
+			$temp = $this->KonversiNilai($nilai/100) . " Ratus" . $this->KonversiNilai($nilai % 100);
+		} else if ($nilai < 2000) {
+			$temp = " Seribu" . $this->KonversiNilai($nilai - 1000);
+		} else if ($nilai < 1000000) {
+			$temp = $this->KonversiNilai($nilai/1000) . " Ribu" . $this->KonversiNilai($nilai % 1000);
+		} else if ($nilai < 1000000000) {
+			$temp = $this->KonversiNilai($nilai/1000000) . " Juta" . $this->KonversiNilai($nilai % 1000000);
+		} else if ($nilai < 1000000000000) {
+			$temp = $this->KonversiNilai($nilai/1000000000) . " Milyar" . $this->KonversiNilai(fmod($nilai,1000000000));
+		} else if ($nilai < 1000000000000000) {
+			$temp = $this->KonversiNilai($nilai/1000000000000) . " Trilyun" . $this->KonversiNilai(fmod($nilai,1000000000000));
+		}     
+		return $temp;
+	}
+	#####
+	function KonversiKoma($x)
+	{
+		$str = stristr($x,".");
+		$ex = explode('.',$x);
+		$a = abs($ex[1]);
+		$string = array("Nol", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan","Sembilan","Sepuluh", "Sebelas");
+		$temp = "";
+		$a2 = $ex[1]/10;
+		$pjg = strlen($str);
+		$i =1;
+		if ($a >= 1 && $a < 12) {
+			$temp .= " " . $string[$a];
+		} else if ($a > 12 && $a < 20) {
+			$temp .= $this->KonversiNilai($a - 10) . " Belas";
+		} else if ($a > 20 && $a < 100) {
+			$temp .= $this->KonversiNilai($a / 10) . " Puluh" . $this->KonversiNilai($a % 10);
+		} else {
+			if ($a2 < 1) {
+				while ($i < $pjg) {
+					$char = substr($str, $i, 1);
+					$i++;
+					$temp .= " " . $string[$char];
+				}
+			}
+		}
+		return $temp;
+	}
+	#####
+	public function KonversiHasil($nilai) 
+	{
+		$ar_des = explode(".",$nilai);
+		if($nilai<0) {
+			$hasil = "minus ". trim($this->KonversiNilai($nilai));
+		} else {
+			if (ISSET($ar_des[1])) {
+				$poin = trim($this->KonversiKoma($nilai));
+			}
+			$hasil = trim($this->KonversiNilai($nilai));
+		}
+		if (ISSET($poin)) {
+			$hasil = $hasil." Koma ".$poin;
+		}else {
+			$hasil = $hasil;
+		}     		
+		return $hasil;
+	}	
+	#####
 	public function index()
 	{
 		$schools = $this->TenantModel->ListTenant();
@@ -320,14 +396,13 @@ class RaporSiswa extends BaseController
 			}else {
 				$nilai[$key]['keterangan'] = 'Tidak Tuntas';
 			}
+			$nilai[$key]['nilai_huruf'] = $this->KonversiHasil($value['fds_score']);
 		}
-		print_r($nilai);
-		die();
 		foreach ($nilai as $key => $value) {
 			$group[$value['gp_name']][] = $value; 
 		}
-
-		die();
+		// print_r($group);
+		// die();
 		$this->partial = [
 			'title' => 'Trust Academyc Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -368,9 +443,6 @@ class RaporSiswa extends BaseController
 		return view('layout/main_layout', $this->partial);
 	}
 	#####
-	public function KonversiNilai()
-	{
-		$nilai = 85.5;
-		echo $nilai;
-	}
+
+	
 }

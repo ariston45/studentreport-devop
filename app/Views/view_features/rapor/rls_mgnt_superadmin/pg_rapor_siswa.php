@@ -120,7 +120,41 @@
       </tr>
     </thead>
     <tbody>
-      
+      <?php
+      $no = 1 ;
+      foreach ($data['group'] as $key => $value) { ?>
+        <tr>
+          <td colspan="6"><b><?=$key?></b></td>
+        </tr>
+        <?php
+        $i = 1 ; 
+        foreach ($value as $subkey => $subvalue) { ?>
+          <tr>
+            <td><?= $i ?></td>
+            <td><?= $subvalue['suc_name']?></td>
+            <td><?= $subvalue['suc_minimum_score']?></td>
+            <td><?= $subvalue['fds_score']?></td>
+            <td><?= $subvalue['nilai_huruf']?></td>
+            <td><?= $subvalue['keterangan']?></td>
+          </tr>
+        <?php $i++; }
+        ?>
+      <?php }
+      ?>
+      <tr>
+        <td colspan="3" style="text-align: center;"> <b>Jumlah</b> </td>
+        <td> - </td>
+        <td colspan="2"> </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center;"> <b>Rata-rata</b> </td>
+        <td> - </td>
+        <td colspan="2"> </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center;"> <b>Peringkat</b> </td>
+        <td colspan="3"> </td>
+      </tr>
     </tbody>
   </table>
 </div>

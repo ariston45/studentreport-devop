@@ -64,6 +64,16 @@ class TenantModel extends Model
 		return $query->getResultArray();
 	}
 
+	public function ListMapel($id)
+	{
+		$builder = $this->db->table('tnt_class');
+		$builder->select('tnt_subject.suc_subject_id,tnt_subject.suc_name');
+		$builder->join('tnt_subject','tnt_class.cls_level = tnt_subject.suc_level');
+		$builder->where('tnt_class.cls_id',$id);
+		$query  = $builder->get();
+		return $query->getResultArray();
+	}
+
 	public function MaxIdClass()
 	{
 		$builder = $this->db->table('tnt_class');
@@ -118,7 +128,7 @@ class TenantModel extends Model
 		$builder->join('tnt_majors','tnt_class.cls_id_major = tnt_majors.mo_id');
 		$builder->where('tnt_teach_detail.ted_tch_id',$ids);
 		$builder->where('tnt_subject.suc_tnt_id',$ida);
-		$query   = $builder->get();
+		$query = $builder->get();
 		return $query->getResultArray();
 	}
 

@@ -1380,7 +1380,8 @@ class Akademik extends BaseController
 			'javascript' => [
 				0 => 'plugins/uploadinput/scr_javascript',
 				1 => 'plugins/chainselect/chain_kelas',
-				2 => 'plugins/chainselect/chain_evaluasi'
+				2 => 'plugins/chainselect/chain_evaluasi',
+				3 => 'plugins/chainselect/chain_mapel'
 			],
 			'linkmap' => 'view_features/listmenu/LinksMap',
 			'segments' => [
@@ -1404,9 +1405,10 @@ class Akademik extends BaseController
 				'sekolah' => $school,
 				'jurusan' => $jurusan,
 				'mapel' => $semuamapel,
-				'tahun' => $tahun,
+				'tahun' => $tahun
 			]
 		];
+		// print_r($school);die();
 		return view('layout/main_layout', $this->partial);
 	}
 	#####
