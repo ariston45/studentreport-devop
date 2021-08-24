@@ -58,7 +58,7 @@
 								<label class="col-form-label">Tampilan Nilai</label>
 								<select class="custom-select col-12 fh-35" name='bentuk_nilai[]'>
 									<option value="ANGKA">ANGKA</option>
-									<option value="HURUF">HURUF</option>
+									<option value="PREDIKAT">PREDIKAT</option>
 								</select>
 							</div>
 						</div>
@@ -75,7 +75,7 @@
 								<label class="col-form-label">Tampilan Nilai</label>
 								<select class="custom-select col-12 fh-35" name='bentuk_nilai[]' id='variabel'>
 									<option value="ANGKA">ANGKA</option>
-									<option value="HURUF">HURUF</option>
+									<option value="PREDIKAT">PREDIKAT</option>
 								</select>
 							</div>
 						</div>
@@ -92,7 +92,7 @@
 								<label class="col-form-label">Tampilan Nilai</label>
 								<select class="custom-select col-12 fh-35" name='bentuk_nilai[]' >
 									<option value="ANGKA">ANGKA</option>
-									<option value="HURUF">HURUF</option>
+									<option value="PREDIKAT">PREDIKAT</option>
 								</select>
 							</div>
 						</div>
@@ -109,7 +109,7 @@
 								<label class="col-form-label">Tampilan Nilai</label>
 								<select class="custom-select col-12 fh-35" name='bentuk_nilai[]'>
 									<option value="ANGKA">ANGKA</option>
-									<option value="HURUF">HURUF</option>
+									<option value="PREDIKAT">PREDIKAT</option>
 								</select>
 							</div>
 						</div>
@@ -159,7 +159,7 @@
 				<label class="col-form-label">Tampilan Nilai</label>
 				<select class="custom-select col-12 fh-35" name='bentuk_nilai[]' id='variabel'>
 					<option value="ANGKA">ANGKA</option>
-					<option value="HURUF">HURUF</option>
+					<option value="PREDIKAT">PREDIKAT</option>
 				</select>
 			</div>
 		</div>

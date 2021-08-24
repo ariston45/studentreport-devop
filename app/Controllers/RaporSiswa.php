@@ -401,8 +401,6 @@ class RaporSiswa extends BaseController
 		foreach ($nilai as $key => $value) {
 			$group[$value['gp_name']][] = $value; 
 		}
-		// print_r($group);
-		// die();
 		$this->partial = [
 			'title' => 'Trust Academyc Solution | ',
 			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',

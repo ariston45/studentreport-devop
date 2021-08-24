@@ -27,7 +27,7 @@
 			<div class="dropdown">
 				<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 					<span class="user-icon">
-						<img src="/vendors/images/photo1.jpg" alt="">
+						<img src="<?=base_url('public')?>/vendors/images/photo1.jpg" alt="">
 					</span>
 					<span class="user-name"><?= $this->renderSection('username') ?></span>
 				</a>
@@ -45,8 +45,8 @@
 <?= $this->section('logo') ?>
 	<div class="brand-logo">
 		<a href="<?=base_url()?>">
-			<img src="/vendors/images/deskapp-logo.svg" alt="" class="dark-logo">
-			<img src="/vendors/images/deskapp-logo-white.svg" alt="" class="light-logo">
+			<img src="<?=base_url('public')?>/vendors/images/deskapp-logo.svg" alt="" class="dark-logo">
+			<img src="<?=base_url('public')?>/vendors/images/deskapp-logo-white.svg" alt="" class="light-logo">
 		</a>
 		<div class="close-sidebar" data-toggle="left-sidebar-close">
 			<i class="ion-close-round"></i>
