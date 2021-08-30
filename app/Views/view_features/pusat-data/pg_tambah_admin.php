@@ -48,7 +48,7 @@
 				<label class="col-sm-12 col-md-3 col-form-label">Pilih Hak Akses</label>
 				<div class="col-sm-12 col-md-9">
 					<select class="custom-select col-12 fh-35" name="akses" id="akses">
-						<option value="">Pilih jurusan...</option>
+						<option value="">Pilih hak akses...</option>
 						<option value="TNT_SUPERADMIN">Super Admin</option>
 						<option value="TNT_ADMIN">Admin</option>
 					</select>

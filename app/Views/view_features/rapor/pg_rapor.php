@@ -1,14 +1,14 @@
 <div class="card-box mb-30">
 	<div class="pd-20">
-		<h6>Akademik</h6>
-		<p style="font-size: 14px;">Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.</p>
-		<hr style="margin-bottom: 0px;">
+		<h6>Rapor Siswa</h6>
+		<p style="font-size: 13px;">Laporan hasil evaluasi siswa yang meliputi evaluasi tengah semester satu maupun dua serta evaluasi akhir semester satu dan dua (ganjil/genap).</p>
+		<!-- <hr style="margin-bottom: 0px;"> -->
 	</div>
 	<div class="pb-20">
 		<table class="data-table table stripe hover nowrap" id="dt">
 			<thead>
 				<tr>
-					<th class="table-plus">No</th>
+					<th class="table-plus" style="width: 20px;">No</th>
 					<th>Nama Sekolah</th>
 					<th class="datatable-nosort">Action</th>
 				</tr>
@@ -26,7 +26,7 @@
 									<i class="dw dw-more"></i>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-									<a class="dropdown-item" href="<?= base_url('akademik/' . strtolower($value['sch_id']) . '/tahun-akademik') ?>"><i class="dw dw-eye"></i> View</a>
+									<a class="dropdown-item" href="<?= base_url('rapor-siswa/' . strtolower($value['sch_id']) . '/cari-rapor-siswa') ?>"><i class="dw dw-eye"></i> View</a>
 								</div>
 							</div>
 						</td>

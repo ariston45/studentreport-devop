@@ -1,3 +1,16 @@
+<style>
+  .table thead th {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .table-responsive {
+    margin-top: 20px;
+  }
+  p {
+    font-size: 13px;
+  }
+</style>
 <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
 	<!-- # -->
 	<h6>Akademik - <?=$content['pg_title']?></h6>
@@ -16,7 +29,6 @@
 			<tr>
 				<th class="table-plus">No</th>
 				<th>Tahun Akademik</th>
-				<th>Status</th>
 				<th class="datatable-nosort">Opsi</th>
 			</tr>
 		</thead>
@@ -27,7 +39,6 @@
 			<tr>
 				<td class="table-plus"><?=$no?></td>
 				<td><?= $value['ach_years'] ?></td>
-				<td><?= $value['ach_status'] ?></td>
 				<td>
 					<div class="dropdown">
 						<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

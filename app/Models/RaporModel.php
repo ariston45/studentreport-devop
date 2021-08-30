@@ -82,7 +82,7 @@ class RaporModel extends Model
 	public function KelasEvaluasi($id_siswa,$id_tahun)
 	{
 		$builder = $this->db->table('tnt_fixdata_asses');
-		$builder->select('fds_cat_id,ach_years,cat_category_name,cls_name');
+		$builder->select('fds_cat_id,ach_years,cat_category_name,cls_id,cls_name');
 		$builder->join('tnt_acad_years','tnt_fixdata_asses.fds_aca_id=tnt_acad_years.aca_id');
 		$builder->join('tnt_assesment_category','tnt_fixdata_asses.fds_cat_id=tnt_assesment_category.cat_id');
 		$builder->join('tnt_class','tnt_fixdata_asses.fds_class=tnt_class.cls_id');
@@ -112,11 +112,30 @@ class RaporModel extends Model
 	public function NilaiEvaluasiSiswa($idsis,$idcat)
 	{
 		$builder = $this->db->table('tnt_fixdata_asses');
-		$builder->select('tnt_fixdata_asses.fds_id,tnt_subject.suc_name,tnt_fixdata_asses.fds_score,tnt_subject.suc_minimum_score,tnt_subject_group.gp_id,tnt_subject_group.gp_name');
+		$builder->select(
+			'tnt_fixdata_asses.fds_id,
+			tnt_fixdata_asses.fds_class,
+			tnt_subject.suc_name,
+			tnt_fixdata_asses.fds_score,
+			tnt_subject.suc_minimum_score,
+			tnt_subject_group.gp_id,
+			tnt_subject_group.gp_name'
+		);
 		$builder->join('tnt_subject','tnt_fixdata_asses.fds_subject_id = tnt_subject.suc_subject_id');
 		$builder->join('tnt_subject_group','tnt_subject.suc_group = tnt_subject_group.gp_id');
 		$builder->where('fds_std_number',$idsis);
 		$builder->where('fds_cat_id',$idcat);
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
+	// 
+	public function NilaiEvaluasiKelasSiswa($ids)
+	{
+		$builder = $this->db->table('tnt_fixdata_asses');
+		$builder->select('*');
+		$builder->where('fds_cat_id',$ids['evaluasi']);
+		$builder->where('fds_aca_id',$ids['tahun']);
+		$builder->where('fds_class',$ids['kelas']);
 		$query = $builder->get();
 		return $query->getResultArray();
 	}

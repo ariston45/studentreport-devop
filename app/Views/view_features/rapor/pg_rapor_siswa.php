@@ -143,17 +143,17 @@
       ?>
       <tr>
         <td colspan="3" style="text-align: center;"> <b>Jumlah</b> </td>
-        <td> - </td>
+        <td> <?=$data['jumlah'] ?> </td>
         <td colspan="2"> </td>
       </tr>
       <tr>
         <td colspan="3" style="text-align: center;"> <b>Rata-rata</b> </td>
-        <td> - </td>
+        <td> <?=$data['rata-rata']?> </td>
         <td colspan="2"> </td>
       </tr>
       <tr>
         <td colspan="3" style="text-align: center;"> <b>Peringkat</b> </td>
-        <td colspan="3"> </td>
+        <td colspan="3"> <?=$data['peringkat']?> </td>
       </tr>
     </tbody>
   </table>

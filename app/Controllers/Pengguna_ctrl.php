@@ -86,7 +86,7 @@ class Pengguna_ctrl extends BaseController
 					],
 					'content'	=> [
 						'content_menu' => '',
-						'content_body' => 'view_features/pengguna/rls_mgnt_superadmin/pg_pengguna'
+						'content_body' => 'view_features/pengguna/pg_pengguna'
 					],
 					'data' => [
 						"pengguna" => $pengguna
@@ -147,7 +147,7 @@ class Pengguna_ctrl extends BaseController
 			],
 			'content'	=> [
 				'content_menu' => '',
-				'content_body' => 'view_features/pengguna/rls_mgnt_superadmin/pg_tambah_pengguna'
+				'content_body' => 'view_features/pengguna/pg_tambah_pengguna'
 			],
 			'data' => [
 				"pengguna" => $pengguna
@@ -220,7 +220,7 @@ class Pengguna_ctrl extends BaseController
 			],
 			'content'	=> [
 				'content_menu' => '',
-				'content_body' => 'view_features/pengguna/rls_mgnt_superadmin/pg_update_pengguna'
+				'content_body' => 'view_features/pengguna/pg_update_pengguna'
 			],
 			'data' => [
 				'pengguna' => $pengguna,

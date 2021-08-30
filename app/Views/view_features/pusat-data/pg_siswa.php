@@ -10,7 +10,7 @@
 		<b>Siswa</b><br>
 		Manajemen data siswa.
 	</p>
-	<hr>
+	<!-- <hr> -->
 	<!-- # -->
 	<table class="data-table table stripe hover nowrap" id="dt">
 		<thead>
@@ -47,7 +47,7 @@
 						<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 							<a class="dropdown-item" href="<?=base_url()?>"><i class="dw dw-eye"></i> View</a>
 							<a class="dropdown-item" href="<?=base_url()?>"><i class="icon-copy dw dw-edit2"></i> Edit</a>
-							<a class="dropdown-item" href="#"><i class="icon-copy dw dw-delete-3"></i> Delete</a>
+							<!-- <a class="dropdown-item" href="#"><i class="icon-copy dw dw-delete-3"></i> Delete</a> -->
 						</div>
 					</div>
 				</td>

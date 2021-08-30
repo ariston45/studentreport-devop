@@ -66,7 +66,9 @@ $routes->group('pusat-data', function($routes){
 	// 
 	$routes->get('(:any)/kelas', 'PusatData::Kelas/$1');
 	$routes->get('(:any)/tambah-kelas', 'PusatData::TambahKelas/$1');
+	$routes->get('(:any)/edit-kelas/(:any)', 'PusatData::EditKelas/$1/$2');
 	$routes->add('(:any)/eksekusi-tambah-kelas', 'PusatData::EksekusiTambahKelas/$1');
+	$routes->add('(:any)/eksekusi-edit-kelas', 'PusatData::EksekusiEditKelas/$1');
 	// 
 	$routes->get('(:any)/jurusan', 'PusatData::Jurusan/$1');
 	$routes->get('(:any)/tambah-jurusan', 'PusatData::TambahJurusan/$1');
@@ -148,8 +150,10 @@ $routes->group('pengguna', function ($routes) {
 	$routes->add('eksekusi-update-pengguna/(:any)', 'Pengguna_ctrl::EksekusiUpdateUserMgnt/$1');
 });
 // 
-$routes->get('konfigurasi', 'General\Mainpage::index');
 
+$routes->group('kofigurasi', function ($routes) {
+	$routes->get('/', 'Konfigurasi::index');
+});
 // ====================================================================
 
 /*

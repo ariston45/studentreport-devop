@@ -109,11 +109,11 @@
 			?>
 		</div>
 	<?php endif; ?>
-	<?php if (!empty(session()->getFlashdata('success'))) : ?>
+	<?php if (!empty(session()->getFlashdata('success_upload'))) : ?>
 		<div class="alert alert-success" role="alert">
 			<b>Upload Berhasil</b>
 			<hr>
-			<?php echo session()->getFlashdata('success'); ?>
+			<?php echo session()->getFlashdata('success_upload'); ?>
 		</div>
 	<?php endif; ?>
 </div>

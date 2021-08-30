@@ -12,17 +12,47 @@
 	<?=view($content['content_menu'])?>
 	<!--  -->
 	<p style="font-size: 13px;">
-		<b>Tambah Data Jurusan</b><br>
-		Tambahkan data jurusan.
+		<b>Tambah Kelas</b><br>
+		Tambahkan data kelas.
 	</p>
 	<hr>
 	<!-- # -->
 	<div class="mb-20">
-		<form action="<?= base_url($content['pg_menu_url'].'/eksekusi-tambah-jurusan')?>" method="post" enctype="multipart/form-data">
+		<form action="<?= base_url($content['pg_menu_url'].'/eksekusi-tambah-kelas')?>" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-12 col-md-3 col-form-label">Nama Kelas</label>
 				<div class="col-sm-12 col-md-9">
 					<input type="text" name="nama" class="form-control col-12 fh-35" placeholder="Nama Kelas ..">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih tingkatan</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='tingkat' id='tingkat'>
+						<option value="<?=false?>">Pilih tingkatan...</option>
+						<?php
+						$a = 1;
+						while ($a <= $data['lambel']) {
+						?>
+						<option value="Tingkat.<?=$a?>">Tingkat.<?=$a?></option>
+						<?php
+						$a++;
+						}
+						?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-12 col-md-3 col-form-label">Pilih Jurusan</label>
+				<div class="col-sm-12 col-md-9">
+					<select class="custom-select col-12 fh-35" name='jurusan' id='jurusan'>
+						<option value="<?=false?>">Pilih jurusan...</option>
+						<?php
+							foreach ($data['jurusan'] as $key => $value) {
+								echo '<option value="'.$value['mo_id'].'">'.$value['mo_name'].'</option>';
+							}
+						?>
+					</select>
 				</div>
 			</div>
 			<div class="text-right">

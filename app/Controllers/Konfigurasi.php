@@ -8,6 +8,6 @@ class Konfigurasi extends BaseController
 {
 	public function index()
 	{
-		//
+		return redirect()->back()->withInput();
 	}
 }

@@ -78,7 +78,7 @@ class Beranda extends BaseController
 
 			case 'TNT_SUPERADMIN':
 				$this->partial = array(	
-					'title' => 'helo',
+					'title' => 'Dashboard',
 					'style' => FALSE,
 					'javascript' => FALSE,
 					'segments' => [
@@ -90,10 +90,10 @@ class Beranda extends BaseController
 					'breadcrumb' => [
 						'home' => 'Home'
 					],
-					'menu' => 'view_features/listmenu/menus_ex_admin',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
 					'content'	=> [
 						'content_menu' => '',
-						'content_body' => 'view_features/dashboard/rls_ex_admin/main_content'
+						'content_body' => 'view_features/dashboard/rls_tnt_superadmin/main_content'
 					],
 					'data' => []
 				);

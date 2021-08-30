@@ -64,6 +64,23 @@ class TenantModel extends Model
 		return $query->getResultArray();
 	}
 
+	public function DetailKelas($id)
+	{
+		$builder = $this->db->table('tnt_class');
+		$builder->select('*');
+		$builder->join('tnt_majors','tnt_class.cls_id_major = tnt_majors.mo_id');
+		$builder->where('cls_id',$id);
+		$query  = $builder->get();
+		return $query->getResultArray();
+	}
+
+	public function UpdateKelas($id,$data)
+	{
+		$builder = $this->db->table('tnt_class');
+		$builder->where('cls_id',$id);
+		$builder->update($data);
+	}
+
 	public function ListMapel($id)
 	{
 		$builder = $this->db->table('tnt_class');

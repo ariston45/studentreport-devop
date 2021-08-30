@@ -101,7 +101,7 @@ class Akademik extends BaseController
 					],
 					'content'	=> [
 						'content_menu' => '',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_akademik'
+						'content_body' => 'view_features/akademik/pg_akademik'
 					],
 					'data' => $schools
 				];
@@ -193,8 +193,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_th_akademik'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_th_akademik'
 					],
 					'data' => [
 						'school' => $school,
@@ -213,7 +213,40 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_th_akademik'
+					],
+					'data' => [
+						'school' => $school,
+						'akademik' =>$akad
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -265,8 +298,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_tambah_thajaran'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_tambah_thajaran'
 					],
 					'data' => [
 						'school' => $school,
@@ -285,7 +318,40 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_tambah_thajaran'
+					],
+					'data' => [
+						'school' => $school,
+						'akademik' =>$akad
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -355,39 +421,72 @@ class Akademik extends BaseController
 	{
 		$akad = $this->AkademikModel->TahunAkademikDet($stri,$stra);
 		$school = $this->TenantModel->DataTenant($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/datatables/scr_javascript',
-				1 => 'plugins/uploadinput/scr_javascript',
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_th_akad'
-			],
-			'data' => [
-				'akad' => $akad,
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_th_akad'
+					],
+					'data' => [
+						'akad' => $akad,
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				# code...
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+		
 	}
 	#####
 	public function EksekusiUpdateThakad($stri,$stra)
@@ -409,12 +508,10 @@ class Akademik extends BaseController
 	#####
 	public function MataPelajaran($stri)
 	{
+		$mapel = $this->AkademikModel->DataMapel($stri);
+		$school = $this->TenantModel->DataTenant($stri);
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
-				$mapel = $this->AkademikModel->DataMapel($stri);
-				$school = $this->TenantModel->DataTenant($stri);
-				// print_r($mapel);
-				// die('stop');
 				$this->partial = [
 					'title' => 'Trust Academyc Solution | ',
 					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -440,8 +537,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_mapel'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_mapel'
 					],
 					'data' => [
 						'mapel' => $mapel,
@@ -459,7 +556,39 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_mapel'
+					],
+					'data' => [
+						'mapel' => $mapel,
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -482,10 +611,10 @@ class Akademik extends BaseController
 	#####
 	public function KelompokMataPelajaran($stri)
 	{
+		$kelompok = $this->AkademikModel->DataKelompok($stri);
+		$school = $this->TenantModel->DataTenant($stri);
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
-				$kelompok = $this->AkademikModel->DataKelompok($stri);
-				$school = $this->TenantModel->DataTenant($stri);
 				$this->partial = [
 					'title' => 'Trust Academyc Solution | ',
 					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -511,8 +640,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_kelompok_mapel'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_kelompok_mapel'
 					],
 					'data' => [
 						'kelompok' => $kelompok,
@@ -530,7 +659,39 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_kelompok_mapel'
+					],
+					'data' => [
+						'kelompok' => $kelompok,
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -553,10 +714,10 @@ class Akademik extends BaseController
 	#####
 	public function TambahKelompokMataPelajaran($stri)
 	{
+		$kelompok = $this->AkademikModel->DataKelompok($stri);
+		$school = $this->TenantModel->DataTenant($stri);
 		switch ($this->session->get('u_rules_access')) {
-			case 'MGNT_SUPERADMIN':
-				$kelompok = $this->AkademikModel->DataKelompok($stri);
-				$school = $this->TenantModel->DataTenant($stri);
+			case 'MGNT_SUPERADMIN':		
 				$this->partial = [
 					'title' => 'Trust Academyc Solution | ',
 					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -582,8 +743,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_tambah_kelompok_mapel'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_tambah_kelompok_mapel'
 					],
 					'data' => [
 						'kelompok' => $kelompok,
@@ -601,7 +762,39 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_tambah_kelompok_mapel'
+					],
+					'data' => [
+						'kelompok' => $kelompok,
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -634,11 +827,10 @@ class Akademik extends BaseController
 	#####
 	public function UpdateKelompokMapel($stri,$stra)
 	{
+		$kelompok = $this->AkademikModel->DataKelompokDet($stra);
+		$school = $this->TenantModel->DataTenant($stri);
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
-				$kelompok = $this->AkademikModel->DataKelompokDet($stra);
-				$school = $this->TenantModel->DataTenant($stri);
-
 				$this->partial = [
 					'title' => 'Trust Academyc Solution | ',
 					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -664,8 +856,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_kelompok_mapel'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_kelompok_mapel'
 					],
 					'data' => [
 						'kelompok' => $kelompok[0],
@@ -683,7 +875,39 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_kelompok_mapel'
+					],
+					'data' => [
+						'kelompok' => $kelompok[0],
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -722,44 +946,113 @@ class Akademik extends BaseController
 		$jurusan = $this->TenantModel->DataJurusan($stri);
 		$lambel = $this->AkademikModel->LamaBelajar($stri);
 		$kelompok = $this->AkademikModel->DataKelompok($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/datatables/scr_javascript',
-				1 => 'plugins/uploadinput/scr_javascript',
-				2 => 'plugins/chainselect/chain_kelas'
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_tambah_mapel'
-			],
-			'data' => [
-				'school' => $school,
-				'semuamapel' => $semuamapel,
-				'jurusan' => $jurusan,
-				'lambel' =>$lambel[0]['lambel'],
-				'kelompok' => $kelompok
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+						2 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_tambah_mapel'
+					],
+					'data' => [
+						'school' => $school,
+						'semuamapel' => $semuamapel,
+						'jurusan' => $jurusan,
+						'lambel' =>$lambel[0]['lambel'],
+						'kelompok' => $kelompok
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+						2 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_tambah_mapel'
+					],
+					'data' => [
+						'school' => $school,
+						'semuamapel' => $semuamapel,
+						'jurusan' => $jurusan,
+						'lambel' =>$lambel[0]['lambel'],
+						'kelompok' => $kelompok
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 	#####
 	public function EksekusiTambahMapel($stri)
@@ -784,44 +1077,114 @@ class Akademik extends BaseController
 		$lambel = $this->AkademikModel->LamaBelajar($stri);
 		$mapel = $this->AkademikModel->DetMapel($stra);
 		$kelompok = $this->AkademikModel->DataKelompok($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/datatables/scr_javascript',
-				1 => 'plugins/uploadinput/scr_javascript',
-				2 => 'plugins/chainselect/chain_kelas'
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_mapel'
-			],
-			'data' => [
-				'school' => $school,
-				'semuamapel' => $semuamapel,
-				'mapel' => $mapel[0],
-				'lambel' =>$lambel[0]['lambel'],
-				'kelompok' => $kelompok
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+						2 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_mapel'
+					],
+					'data' => [
+						'school' => $school,
+						'semuamapel' => $semuamapel,
+						'mapel' => $mapel[0],
+						'lambel' =>$lambel[0]['lambel'],
+						'kelompok' => $kelompok
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+						2 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/'.strtolower($stri).'/',
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_mapel'
+					],
+					'data' => [
+						'school' => $school,
+						'semuamapel' => $semuamapel,
+						'mapel' => $mapel[0],
+						'lambel' =>$lambel[0]['lambel'],
+						'kelompok' => $kelompok
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+	
 	}
 	#####
 	public function EksekusiUpdateMapel($stri,$stra)
@@ -839,10 +1202,6 @@ class Akademik extends BaseController
 	public function KategoriPenilaian($stri)
 	{
 		$akad = $this->AkademikModel->ThAkademik($stri);
-		$thaktif = $this->AkademikModel->ThAkademikActive($stri);
-		$idaktif = $thaktif[0]['aca_id'];
-		$nmactif = $thaktif[0]['ach_years'];
-		$kategori = $this->AkademikModel->KategoriNilai($idaktif);
 		$school = $this->TenantModel->DataTenant($stri);
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
@@ -872,13 +1231,12 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_th_akademik_kat_evaluasi'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_th_akademik_kat_evaluasi'
 					],
 					'data' => [
 						'akademik' => $akad,
-						'kategori' => $kategori,
-						'nmaktif' => $nmactif
+						'sekolah' => $school
 					]
 				];
 				return view('layout/main_layout', $this->partial);
@@ -893,7 +1251,40 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/Modal_id_kategori/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_th_akademik_kat_evaluasi'
+					],
+					'data' => [
+						'akademik' => $akad,
+						'sekolah' => $school
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -949,8 +1340,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_kategori_penilaian'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_kategori_penilaian'
 					],
 					'data' => [
 						'tahun' => $tahun,
@@ -970,7 +1361,41 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/Modal_id_kategori/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_kategori_penilaian'
+					],
+					'data' => [
+						'tahun' => $tahun,
+						'kategori' => $kategori,
+						'nmaktif' => $nmactif
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -1013,39 +1438,103 @@ class Akademik extends BaseController
 	{
 		$cat = $this->AkademikModel->DetailCategory($stra);
 		$school = $this->TenantModel->DataTenant($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/datatables/scr_javascript',
-				1 => 'plugins/uploadinput/scr_javascript',
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_kategori'
-			],
-			'data' => [
-				'kategori' => $cat[0]
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_kategori'
+					],
+					'data' => [
+						'kategori' => $cat[0]
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_kategori'
+					],
+					'data' => [
+						'kategori' => $cat[0]
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 	public function EksekusiUpdateKategori($stri,$stra)
 	{
@@ -1058,10 +1547,10 @@ class Akademik extends BaseController
 	#####
 	public function VariablePenilaian($stri)
 	{
+		$var = $this->AkademikModel->VariabelPenilaian($stri);
+		$school = $this->TenantModel->DataTenant($stri);
 		switch ($this->session->get('u_rules_access')) {
 			case 'MGNT_SUPERADMIN':
-				$var = $this->AkademikModel->VariabelPenilaian($stri);
-				$school = $this->TenantModel->DataTenant($stri);
 				$this->partial = [
 					'title' => 'Trust Academyc Solution | ',
 					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
@@ -1087,8 +1576,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_variable'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_variable'
 					],
 					'data' => [
 						'variable' => $var,
@@ -1106,7 +1595,39 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_variable'
+					],
+					'data' => [
+						'variable' => $var,
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -1146,39 +1667,103 @@ class Akademik extends BaseController
 	{
 		$var = $this->AkademikModel->VariabelPenilaianA($stra);
 		$school = $this->TenantModel->DataTenant($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/datatables/scr_javascript',
-				1 => 'plugins/uploadinput/scr_javascript',
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_update_variable'
-			],
-			'data' => [
-				'variable' => $var[0],
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_variable'
+					],
+					'data' => [
+						'variable' => $var[0],
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_update_variable'
+					],
+					'data' => [
+						'variable' => $var[0],
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 	#####
 	public function EksekusiUpdateVariable($stri,$stra)
@@ -1224,8 +1809,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($stri),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_setrumus_penilaian'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_setrumus_penilaian'
 					],
 					'data' => [
 						'kategori' => $kategori,
@@ -1244,7 +1829,40 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_setrumus_penilaian'
+					],
+					'data' => [
+						'kategori' => $kategori,
+						'nmaktif' => $nmactif
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -1300,8 +1918,8 @@ class Akademik extends BaseController
 						'pg_menu_url' => 'akademik/' . strtolower($school[0]['sch_id']),
 						'pg_title' => $school[0]['sch_name'],
 						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-						'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-						'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_rumus_penilaian'
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_rumus_penilaian'
 					],
 					'data' => [
 						'school' => $school,
@@ -1322,7 +1940,45 @@ class Akademik extends BaseController
 				break;
 
 			case 'TNT_SUPERADMIN':
-				# code...
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+						1 => 'plugins/taginput/scr_style'
+					],
+					'javascript' => [
+						0 => 'plugins/datatables/scr_javascript',
+						1 => 'plugins/uploadinput/scr_javascript',
+						2 => 'plugins/taginput/scr_javascript',
+						3 => 'plugins/CalculationInput/scr_javascript'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($school[0]['sch_id']),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_rumus_penilaian'
+					],
+					'data' => [
+						'school' => $school,
+						'variable' => $var,
+						'idcat' => $stra,
+						'kategori' => $kategori
+					]
+				];
+				return view('layout/main_layout', $this->partial);
 				break;
 
 			case 'TNT_ADMIN':
@@ -1371,45 +2027,115 @@ class Akademik extends BaseController
 		$semuamapel = $this->TenantModel->DataTenantMapel($stri);
 		$jurusan = $this->TenantModel->DataJurusan($stri);
 		$tahun = $this->AkademikModel->ThAkademik($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/uploadinput/scr_javascript',
-				1 => 'plugins/chainselect/chain_kelas',
-				2 => 'plugins/chainselect/chain_evaluasi',
-				3 => 'plugins/chainselect/chain_mapel'
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai'
-			],
-			'data' => [
-				'sekolah' => $school,
-				'jurusan' => $jurusan,
-				'mapel' => $semuamapel,
-				'tahun' => $tahun
-			]
-		];
-		// print_r($school);die();
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas',
+						2 => 'plugins/chainselect/chain_evaluasi',
+						3 => 'plugins/chainselect/chain_mapel'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_upload_nilai'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'jurusan' => $jurusan,
+						'mapel' => $semuamapel,
+						'tahun' => $tahun
+					]
+				];
+				// print_r($school);die();
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas',
+						2 => 'plugins/chainselect/chain_evaluasi',
+						3 => 'plugins/chainselect/chain_mapel'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_upload_nilai'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'jurusan' => $jurusan,
+						'mapel' => $semuamapel,
+						'tahun' => $tahun
+					]
+				];
+				// print_r($school);die();
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 	#####
 	public function EksekusiUploadNilai_part1($stri)
@@ -1518,45 +2244,116 @@ class Akademik extends BaseController
 		$tahun = $this->AkademikModel->DetailTahun($_POST['thajaran']);
 		$school = $this->TenantModel->DataTenant($stri);
 		$var = $this->AkademikModel->VariabelPenilaian($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/uploadinput/scr_javascript',
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_upload_nilai_config'
-			],
-			'data' => [
-				'sekolah' => $school,
-				'subject' => $sub,
-				'variable' => $var,
-				'rumus' => $rumus,
-				'tahun' => [
-					'id' => $tahun[0]['aca_id'],
-					'nama' => $tahun[0]['ach_years']
-				]
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_upload_nilai_config'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'subject' => $sub,
+						'variable' => $var,
+						'rumus' => $rumus,
+						'tahun' => [
+							'id' => $tahun[0]['aca_id'],
+							'nama' => $tahun[0]['ach_years']
+						]
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_upload_nilai_config'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'subject' => $sub,
+						'variable' => $var,
+						'rumus' => $rumus,
+						'tahun' => [
+							'id' => $tahun[0]['aca_id'],
+							'nama' => $tahun[0]['ach_years']
+						]
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 	#####
 	public function EksekusiUploadNilai_part2($stri)
@@ -1611,6 +2408,9 @@ class Akademik extends BaseController
 		$store_nilai = $this->AkademikModel->StoreNilai($nilai_siswa);
 		$_SESSION['nilai_siswa'] = NULL;
 		$_SESSION['fds_aca_id'] = NULL;
+		if ($store_fixnilai == 1 AND $store_nilai == 1) {
+			session()->setFlashdata('success_upload', 'Data nilai sudah berhasil diupload.');
+		}
 		return redirect()->to(base_url('/akademik'.'/'.$stri.'/unggah-nilai'));
 	}
 	#####
@@ -1621,48 +2421,123 @@ class Akademik extends BaseController
 		$jurusan = $this->TenantModel->DataJurusan($stri);
 		$kategori = $this->AkademikModel->KategoriEvaluasiThActive($stri);
 		$tahun = $this->AkademikModel->ThAkademik($stri);
-		$tahunaktif = $this->AkademikModel->ThAkademikActive($stri);
 		$var = $this->AkademikModel->VariabelPenilaian($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/uploadinput/scr_javascript',
-				1 => 'plugins/chainselect/chain_kelas_siswa',
-				2 => 'plugins/customformhide/customformhide'
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-					'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_nilai_manual'
-			],
-			'data' => [
-				'sekolah' => $school,
-				'jurusan' => $jurusan,
-				'mapel' => $semuamapel,
-				'kategori' => $kategori,
-				'tahun' => $tahun,
-				'tahunaktif' => $tahunaktif[0],
-				'variabel' => $var
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		// die();
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas_siswa',
+						2 => 'plugins/customformhide/customformhide',
+						3 => 'plugins/chainselect/chain_evaluasi',
+						4 => 'plugins/chainselect/chain_mapel'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_nilai_manual'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'jurusan' => $jurusan,
+						'mapel' => $semuamapel,
+						'kategori' => $kategori,
+						'tahun' => $tahun,
+						// 'tahunaktif' => $tahunaktif[0],
+						'variabel' => $var
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas_siswa',
+						2 => 'plugins/customformhide/customformhide',
+						3 => 'plugins/chainselect/chain_evaluasi',
+						4 => 'plugins/chainselect/chain_mapel'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+							'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_nilai_manual'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'jurusan' => $jurusan,
+						'mapel' => $semuamapel,
+						'kategori' => $kategori,
+						'tahun' => $tahun,
+						// 'tahunaktif' => $tahunaktif[0],
+						'variabel' => $var
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 	#####
 	public function EksekusiNilaiManual($stri)
@@ -1754,44 +2629,113 @@ class Akademik extends BaseController
 		$kategori = $this->AkademikModel->KategoriEvaluasiThActive($stri);
 		$tahun = $this->AkademikModel->ThAkademik($stri);
 		$tahunaktif = $this->AkademikModel->ThAkademikActive($stri);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/uploadinput/scr_javascript',
-				1 => 'plugins/chainselect/chain_kelas'
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-			'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_perbarui_nilai'
-			],
-			'data' => [
-				'sekolah' => $school,
-				'jurusan' => $jurusan,
-				'mapel' => $semuamapel,
-				'kategori' => $kategori,
-				'tahun' => $tahun,
-				'tahunaktif' => $tahunaktif[0]
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_perbarui_nilai'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'jurusan' => $jurusan,
+						'mapel' => $semuamapel,
+						'kategori' => $kategori,
+						'tahun' => $tahun,
+						'tahunaktif' => $tahunaktif[0]
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_perbarui_nilai'
+					],
+					'data' => [
+						'sekolah' => $school,
+						'jurusan' => $jurusan,
+						'mapel' => $semuamapel,
+						'kategori' => $kategori,
+						'tahun' => $tahun,
+						'tahunaktif' => $tahunaktif[0]
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 	#####
 	public function EksekusiPerbaruiNilai($stri)
@@ -1869,41 +2813,108 @@ class Akademik extends BaseController
 		$school = $this->TenantModel->DataTenant($stri);
 		$param = $_SESSION['filterparameter'];
 		$filterdata = $this->AkademikModel->FiltrasiRawDataSiswa($param,$stra);
-		$this->partial = [
-			'title' => 'Trust Academyc Solution | ',
-			'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
-			'style' => [
-				0 => 'plugins/datatables/scr_style',
-			],
-			'javascript' => [
-				0 => 'plugins/uploadinput/scr_javascript',
-				1 => 'plugins/chainselect/chain_kelas'
-			],
-			'linkmap' => 'view_features/listmenu/LinksMap',
-			'segments' => [
-				1 => $this->request->uri->getSegment(1),
-				2 => $this->request->uri->getSegment(2),
-				3 => $this->request->uri->getSegment(3)
-			],
-			'heading' => 'view_features/listmenu/heading',
-			'pgtitle' => $this->session->get('sch_name'),
-			'breadcrumb' => [
-				'customers' => 'Customers'
-			],
-			'content'	=> [
-				'pg_menu_url' => 'akademik/' . strtolower($stri),
-				'pg_title' => $school[0]['sch_name'],
-				'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
-				'content_menu' => 'view_features/akademik/rls_mgnt_superadmin/pg_menu',
-				'content_body' => 'view_features/akademik/rls_mgnt_superadmin/pg_form_perbarui_nilai'
-			],
-			'data' => [
-				'id' => $stra,
-				'sekolah' => $school,
-				'filterdata' => $filterdata
-			]
-		];
-		return view('layout/main_layout', $this->partial);
+		switch ($this->session->get('u_rules_access')) {
+			case 'MGNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_mgnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_form_perbarui_nilai'
+					],
+					'data' => [
+						'id' => $stra,
+						'sekolah' => $school,
+						'filterdata' => $filterdata
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'MGNT_ADMIN':
+				# code...
+				break;
+
+			case 'MGNT_MARKETING':
+				# code...
+				break;
+
+			case 'TNT_SUPERADMIN':
+				$this->partial = [
+					'title' => 'Trust Academyc Solution | ',
+					'menu' => 'view_features/listmenu/menus_tnt_superadmin',
+					'style' => [
+						0 => 'plugins/datatables/scr_style',
+					],
+					'javascript' => [
+						0 => 'plugins/uploadinput/scr_javascript',
+						1 => 'plugins/chainselect/chain_kelas'
+					],
+					'linkmap' => 'view_features/listmenu/LinksMap',
+					'segments' => [
+						1 => $this->request->uri->getSegment(1),
+						2 => $this->request->uri->getSegment(2),
+						3 => $this->request->uri->getSegment(3)
+					],
+					'heading' => 'view_features/listmenu/heading',
+					'pgtitle' => $this->session->get('sch_name'),
+					'breadcrumb' => [
+						'customers' => 'Customers'
+					],
+					'content'	=> [
+						'pg_menu_url' => 'akademik/' . strtolower($stri),
+						'pg_title' => $school[0]['sch_name'],
+						'pg_subtitle' => 'Olah data akademik sekolah meliputi upload nilai, tahun ajaran, mata pelajaran, serta menentukan rumus atau formula penilaian pada masing-masing evaluasi hasil belajar dalam satu tahun akademik.',
+						'content_menu' => 'view_features/akademik/pg_menu',
+						'content_body' => 'view_features/akademik/pg_form_perbarui_nilai'
+					],
+					'data' => [
+						'id' => $stra,
+						'sekolah' => $school,
+						'filterdata' => $filterdata
+					]
+				];
+				return view('layout/main_layout', $this->partial);
+				break;
+
+			case 'TNT_ADMIN':
+				# code...
+				break;
+
+			case 'TNT_TEACHER':
+				# code...
+				break;
+
+			case 'TNT_PARENT':
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+		
 	}
 	#####
 	public function EksekusiFormPerbaruiNilai($stri,$stra)
